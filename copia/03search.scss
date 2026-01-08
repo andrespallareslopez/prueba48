@@ -1,0 +1,122 @@
+@import "../../shared/scss/variables";
+
+
+.form-search{
+    position:relative;
+    display:block;
+    box-sizing: border-box;
+    border-bottom: 0px solid $c50;
+    width:65px;
+    height:45px;
+   
+    top:0px;
+    left:0px;
+   
+    overflow: hidden;
+    padding:0px;
+    margin: 0px;
+    z-index:50;
+}
+.btn-progress{
+    position:absolute;
+    display:block;
+    box-sizing: border-box;
+    border-bottom: 0px solid $c50;
+    width:65px;
+    height:45px;
+    visibility: hidden;
+    top:0px;
+    left:0px;
+   
+    overflow: hidden;
+    padding:0px;
+    margin: 0px;
+    z-index:50;
+}
+.btn-search{
+     display:inline-block;
+     box-sizing: border-box;
+     position:relative;
+     background:transparent;
+     cursor:pointer;
+     color:$c50;
+     border:0px;
+     margin:0px;
+     padding:0px;
+     top:0px;
+     right:0px;
+     bottom:0px;
+     left:0px;
+     
+     transition: all 0s ease-in-out;
+}
+.btn-spin-progress{
+    display:inline-block;
+    visibility: hidden;
+     box-sizing: border-box;
+     position:relative;
+     background:transparent;
+     cursor:pointer;
+     color:$c50;
+     border:0px;
+     margin:0px;
+     padding:0px;
+     top:0px;
+     right:0px;
+     bottom:0px;
+     left:0px;
+     margin-left:-35px;
+    
+}
+.open-progress .btn-spin-progress{
+    visibility: visible;
+}
+.input-search{
+    display: inline-block;
+    position: relative;
+    padding:0;
+    margin:0;
+    padding-top: 0px;
+    background-color: transparent;
+    border:none;
+    border-bottom: 0px solid $c50;
+    color: $c50;
+    width:0px;
+    font-size:16px;
+    right:0px;
+    top:0px;
+  
+    vertical-align:top;  /*importante en un input */
+    height: 38px;
+    transform: translateX(150%);
+    transition: all .3s ease-in-out,width 0.2s ease-in-out;           
+}
+ .btn-search-close{
+    margin-left:-10px;
+    opacity: 0;
+}
+.form-search.open-search{
+    /*right:67px;*/
+    //min-width:115px;
+    width:100%;
+    max-width:285px;
+}
+.open-search  .input-search{
+   transform: translateX(0%);
+   width:calc(100% - 70px);
+   //min-width:45px;
+   max-width:135px;
+   border-bottom: 2px solid $c50;
+}
+.fa-18x{
+    font-size:1.7em;
+}
+.open-search .btn-search{
+   left:0px;
+}
+.open-search .btn-search-close{
+   opacity:1; 
+}
+
+
+

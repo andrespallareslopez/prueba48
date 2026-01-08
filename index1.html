@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+</head>
+<body class="bg-slate-100 text-slate-900">
+    <div class="min-h-screen flex flex-col">
+        <header class="bg-white shadow-sm border-b border-slate-200"></header>
+        
+         <div class="flex flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 gap-4">
+            <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Proyectos</h2>
+                    <button id="btn-new-project" class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+                        data-bind="click: btnNewProject">
+                        + Nuevo
+                    </button>
+                </div>
+            
+                <!-- Grid de proyectos (KO) -->
+                <div id="projects-grid" class="grid grid-cols-1 gap-2 overflow-y-auto text-xs" data-bind="foreach: projects">
+                    <div
+                        class="project-card text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 transition">
+                        <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">Proyecto
+                            <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                    style="scale:1.3" data-bind="click: $root.editProject">
+            
+            
+                                </p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                    data-bind="click: $root.deleteProject">
+            
+                                </p>
+                            </div>
+                        </div>
+                        <button data-bind="click: $root.selectProject">
+                            <div style="text-align: left;" class="font-semibold text-slate-800 text-sm" data-bind="text: name">
+                            </div>
+                            <div class="mt-1 text-[11px] text-slate-500" style="text-align: left;">
+                                <span data-bind="text: $root.getProjectMemberCount(id)"></span> miembros ·
+                                <span data-bind="text: $root.getProjectRagCount(id)"></span> bases RAG
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </aside>
+            
+
+         </div>
+    </div>
+    <script>
+    // ------- TABS SUPERIORES (igual que antes) -------
+    addEventListener("DOMContentLoaded", (event) => {
+        function removeIfExists (selector) {
+          var x = document.querySelector(selector)
+          if (x) x.remove()
+        }
+        
+
+        removeIfExists('nav.navbar.navbar-expand');
+        removeIfExists('ul.sidebar.navbar-nav');
+        removeIfExists('footer.sticky-footer');
+      
+        
+    //--------------------------------------------------------------------
+    
+        const tabs = document.querySelectorAll('.top-tab');
+        const sections = {
+            miembros: document.getElementById('view-miembros'),
+            chat: document.getElementById('view-chat'),
+            detalle: document.getElementById('view-detalle'),
+        };
+
+        function setActiveTab(view) {
+            tabs.forEach((tab) => {
+                const isActive = tab.dataset.view === view;
+                tab.classList.toggle('bg-slate-900', isActive);
+                tab.classList.toggle('text-white', isActive);
+                tab.classList.toggle('border-slate-900', isActive);
+                tab.classList.toggle('hover:bg-slate-100', !isActive);
+            });
+
+            Object.entries(sections).forEach(([key, section]) => {
+                if (key === view) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+        }
+
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => {
+                setActiveTab(tab.dataset.view);
+            });
+        });
+
+        setActiveTab('miembros');
+        
+
+         const iconSVGBack = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+                    <path d="M15 18l-6-6 6-6" />
+                </svg> <span>Volver Atrás</span>
+                `.trim();
+        const btnBackMembers = document.getElementById('btn-back-members');
+        btnBackMembers.innerHTML = iconSVGBack;
+
+        btnBackMembers.addEventListener('click',()=>{
+            setActiveTab('miembros');  
+        });
+        
+        
+        // ------- DATOS MOCK (proyectos, miembros, RAGs, tools) -------
+
+        let mockProjects = [
+            {
+                id: 1,
+                name: 'RAG Asistentes IA',
+                description: 'Asistentes internos para soporte a equipos.',
+            },
+            {
+                id: 2,
+                name: 'Portal MirrorMind',
+                description: 'Portal maestro para gestión de miembros y proyectos.',
+            },
+            {
+                id: 3,
+                name: 'Analítica Conversacional',
+                description: 'KPIs y reporting conversacional.',
+            },
+            {
+                id: 4,
+                name: 'Onboarding RAG',
+                description: 'Flujos de onboarding con IA y RAG.',
+            },
+        ];
+         
+        let mockMembers = [
+            {
+                id: 1,
+                projectId: 1,
+                name: 'Andrés Pallares',
+                email: 'andres@mirrormind.ai',
+                role: 'Admin',
+                status: 'Activo',
+                ragDatabases: [
+                    {id:1,memberId:1, name: 'Documentación Interna', type: 'Vectorial', lastUpdate: '2025-10-12' },
+                    {id:2,memberId:1, name: 'FAQs Cliente A', type: 'Vectorial', lastUpdate: '2025-09-03' },
+                    {id:3,memberId:1, name: 'Conocimiento Producto X', type: 'Mixto', lastUpdate: '2025-08-25' },
+                ],
+                tools: [
+                    {id:1,memberId:1, name: 'Conector Jira', type: 'API', permission: 'Lectura / Escritura' },
+                    {id:2,memberId:1, name: 'Conector Confluence', type: 'API', permission: 'Solo lectura' },
+                    {id:3,memberId:1, name: 'SQL Runner', type: 'Tool', permission: 'Restringido' },
+                ],
+            },
+            {
+                id: 2,
+                projectId: 1,
+                name: 'María García',
+                email: 'maria.g@mirrormind.ai',
+                role: 'Editor',
+                status: 'Activo',
+                ragDatabases: [
+                    {id:4,memberId:2,name: 'FAQs Cliente B', type: 'Vectorial', lastUpdate: '2025-07-10' },
+                    {id:5,memberId:2,name: 'Guías de uso', type: 'Vectorial', lastUpdate: '2025-06-18' },
+                ],
+                tools: [
+                    {id:4,memberId:2, name: 'Conector CRM', type: 'API', permission: 'Lectura / Escritura' },
+                    {id:5,memberId:2, name: 'Slack Bot', type: 'Tool', permission: 'Solo lectura' },
+                ],
+            },
+            {
+                id: 3,
+                projectId: 2,
+                name: 'Juan López',
+                email: 'juan.lopez@mirrormind.ai',
+                role: 'Viewer',
+                status: 'Deshabilitado',
+                ragDatabases: [
+                    {id:6,memberId:3,name: 'Manual Portal', type: 'Mixto', lastUpdate: '2025-05-02' },
+                ],
+                tools: [
+                    {id:6,memberId:3, name: 'Panel Analytics', type: 'Tool', permission: 'Restringido' },
+                ],
+            },
+            {
+                id: 4,
+                projectId: 3,
+                name: 'Laura Sánchez',
+                email: 'laura.s@mirrormind.ai',
+                role: 'Editor',
+                status: 'Activo',
+                ragDatabases: [
+                    {id:7,memberId:4, name: 'Logs Conversacionales', type: 'Vectorial', lastUpdate: '2025-09-21' },
+                    {id:8,memberId:4, name: 'Dashboards KPIs', type: 'Mixto', lastUpdate: '2025-09-30' },
+                ],
+                tools: [
+                    {id:7,memberId:4, name: 'Looker Studio', type: 'Tool', permission: 'Lectura / Escritura' },
+                    {id:8,memberId:4, name: 'Conector BigQuery', type: 'API', permission: 'Lectura / Escritura' },
+                ],
+            },
+            {
+                id: 5,
+                projectId: 4,
+                name: 'Pedro Ruiz',
+                email: 'pedro.ruiz@mirrormind.ai',
+                role: 'Admin',
+                status: 'Activo',
+                ragDatabases: [
+                    { name: 'Playbooks Onboarding', type: 'Vectorial', lastUpdate: '2025-10-01' },
+                ],
+                tools: [
+                    { name: 'Orquestador Flujos', type: 'Tool', permission: 'Lectura / Escritura' },
+                ],
+            },
+        ];
+        
+    // ------- MODAL NUEVO PROYECTO -------
+    const modalProject = document.getElementById('modal-project');
+    const btnNewProject = document.getElementById('btn-new-project');
+    const formProject = document.getElementById('form-project');
+    //const projectGrid = document.getElementById('projects-grid');
+
+    const inputNameProject = formProject.querySelector('input[name="projectName"]');
+    const inputDescriptionProject = formProject.querySelector('textarea[name="projectDescription"]');
+    //console.log(inputDescriptionProject);
+
+    function openProjectModal() {
+      modalProject.classList.remove('hidden');
+    }
+    
+    function closeProjectModal() {
+      modalProject.classList.add('hidden');
+      formProject.reset();
+    }
+    /*
+    btnNewProject.addEventListener('click',(e) =>{
+       openProjectModal()
+    });
+    */
+    modalProject.querySelectorAll('[data-close-project]').forEach((btn) => {
+      btn.addEventListener('click', closeProjectModal);
+    });
+     
+    modalProject.addEventListener('click', (e) => {
+      if (e.target === modalProject) closeProjectModal();
+    });
+    
+    // ------- MODAL NUEVO MIEMBRO -------
+    const modalMember = document.getElementById('modal-member');
+    //const btnNewMember = document.getElementById('btn-new-member');
+    const formMember = document.getElementById('form-member');
+    const membersTbody = document.getElementById('members-tbody');
+    
+    const inputMemberName = formMember.querySelector('input[name="memberName"]');
+    const inputMemberEmail = formMember.querySelector('input[name="memberEmail"]');
+    const selectMemberRole = formMember.querySelector('select[name="memberRole"]');
+    const selectMemberStatus = formMember.querySelector('select[name="memberStatus"]');
+    
+    
+    function openMemberModal() {
+      modalMember.classList.remove('hidden');
+    }
+    
+    function closeMemberModal() {
+      modalMember.classList.add('hidden');
+      formMember.reset();
+    }
+     
+    //btnNewMember.addEventListener('click', openMemberModal);
+    
+    modalMember.querySelectorAll('[data-close-member]').forEach((btn) => {
+      btn.addEventListener('click', closeMemberModal);
+    });
+    
+    modalMember.addEventListener('click', (e) => {
+      if (e.target === modalMember) closeMemberModal();
+    });
+    
+    //------------MODAL NUEVA BASE DE DATOS RAG-----------------------
+              
+    const modalRag = document.getElementById('modal-rag');
+    
+    const formRag = document.getElementById('form-rag');
+    
+    const inputRagName = formRag.querySelector('input[name="ragName"]');
+    const selecttRagType = formRag.querySelector('select[name="ragType"]');
+    const inputRagLastUpdate = formRag.querySelector('input[name="ragLastUpdate"]');
+    
+    
+
+    function closeRagModal(){
+        modalRag.classList.add('hidden');
+    }
+    
+    modalRag.querySelectorAll('[data-close-rag]').forEach((btn) => {
+      btn.addEventListener('click', closeRagModal);
+    });
+    
+    modalRag.addEventListener('click',(e) =>{
+         if (e.target === modalRag) closeRagModal();
+    });
+    
+    //--------------- MODAL NUEVO TOOL -----------------------------------
+    const modalTool = document.getElementById('modal-tool');       
+    
+    const formTool = document.getElementById('form-tool')
+    
+    const inputToolName = formTool.querySelector('input[name="toolName"]');
+    const inputToolType = formTool.querySelector('input[name="toolType"]');
+    const inputSelectToolPermission = formTool.querySelector('select[name="toolPermission"]');
+    
+    function closeToolModal(){
+        modalTool.classList.add('hidden');
+    }
+    
+    modalTool.querySelectorAll('[data-close-tool]').forEach((btn) => {
+      btn.addEventListener('click', closeToolModal);
+    });
+    
+    modalTool.addEventListener('click',(e) =>{
+         if (e.target === modalTool) closeToolModal();
+    });
+    
+    //------------------ MODAL CUADRO DIALOGO BORRAR -------------------------
+    
+    const modalBorrar = document.getElementById('modal-borrar');
+    
+    function openBorrarModal(){
+        modalBorrar.classList.remove('hidden');
+    }
+    
+    function closeBorrarModal(){
+      modalBorrar.classList.add('hidden');
+    }
+
+    
+    modalBorrar.querySelectorAll('[data-close-borrar]').forEach((btn) => {
+      btn.addEventListener('click', closeBorrarModal);
+    });
+    
+    modalBorrar.addEventListener('click',(e) =>{
+         if (e.target === modalTool) closeBorrarModal();
+    });
+    
+    
+    function getInitials(name) {
+      if (!name) return '';
+      return name
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((n) => n[0].toUpperCase())
+        .join('');
+    }
+
+    
+         
+        
+        // ------- VIEWMODEL KO -------
+
+        function AppViewModel() {
+            const self = this;
+            
+            self.nameProject= ko.observable("");
+            self.descriptionProject= ko.observable("");
+            
+           
+            
+            self.projects = ko.observableArray(mockProjects);
+            self.members = ko.observableArray(mockMembers);
+            
+            //console.log(self.projects.length);
+            
+            self.actionProject = ko.observable("");
+            self.actionMember = ko.observable("");
+            self.actionRag = ko.observable("");
+            self.actionTool = ko.observable("");
+            self.actionBorrar = ko.observable("");
+            
+            self.selectedProject = ko.observable();
+            self.selectedMember = ko.observable();
+            self.selectedRag = ko.observable();
+            self.selectedTool = ko.observable();
+            
+
+            self.nameMember = ko.observable("");
+            self.emailMember = ko.observable("");
+            self.roleMember = ko.observable("");
+            self.estadoMember = ko.observable("");
+
+            self.nameRag = ko.observable("");
+            self.tipoRag = ko.observable("");
+            self.fechaRag = ko.observable("");
+
+            self.nameTool = ko.observable("");
+            self.tipoTool = ko.observable("");
+            self.permisoTool = ko.observable("");
+            
+            
+            self.selectProject = function (project) {
+                setActiveTab('miembros');
+                self.selectedProject(project);
+                const firstMember = self.members().find((m) => m.projectId === project.id);
+                self.selectedMember(firstMember || null);
+                //console.log(project);
+            };
+            
+            self.selectMember = function (member) {
+                self.selectedMember(member);
+                // opcional: cambiar a pestaña "Detalle" automáticamente
+                setActiveTab('detalle');
+            };
+            self.selectRag = function(rag){
+              self.selectedRag(rag);
+
+            }
+            self.selectTool = function(tool){
+              self.selectedTool(tool);
+            }
+            self.filteredMembers = ko.computed(function () {
+                //console.log("estoy en filtered")
+                const project = self.selectedProject();
+                if (!project) return self.members();
+                //console.log(self.members().filter((m) => m.projectId === project.id));
+                return self.members().filter((m) => m.projectId === project.id);
+            });
+            
+            self.getProjectMemberCount = function (projectId) {
+                return self.members().filter((m) => m.projectId === projectId).length;
+            };
+             
+            self.getProjectRagCount = function (projectId) {
+                return self.members()
+                    .filter((m) => m.projectId === projectId)
+                    .reduce((acc, m) => acc + (m.ragDatabases ? m.ragDatabases.length : 0), 0);
+            };
+            
+            self.getInitials = function (name) {
+                if (!name) return '';
+                return name
+                    .split(' ')
+                    .filter(Boolean)
+                    .slice(0, 2)
+                    .map((n) => n[0].toUpperCase())
+                    .join('');
+            };
+            
+            self.btnNewMember = function(){
+                self.actionMember("new");
+                modalMember.classList.remove('hidden');
+                self.nameMember("");
+                self.emailMember("");
+                self.roleMember("")
+                self.estadoMember("");
+            }
+            self.btnNewRag= function(){
+               //console.log("estoy en click RAG");
+               self.actionRag("new");
+               modalRag.classList.remove('hidden');
+               self.nameRag("");
+               self.tipoRag("");
+               self.fechaRag("");
+            }
+            
+            self.btnNewTool = function(){
+              //console.log("opentoolmodal");
+                self.actionTool("new");
+                modalTool.classList.remove('hidden');
+                self.nameTool("");
+                self.tipoTool("");
+                self.permisoTool("");
+            }
+             
+            self.btnNewProject = function(){
+                modalProject.classList.remove('hidden');
+                self.actionProject("new");
+                self.nameProject("");
+                self.descriptionProject("");
+            }
+            self.saveProject = function(model,e){
+              //console.log(self.actionProject());
+              if (self.actionProject()==="new"){
+                  self.addProject(model,e);
+              }else if (self.actionProject()==="update"){
+                  self.updateProject(model,e);
+              }
+            }
+            self.addProject = function(model,e){
+                //console.log(model);
+                 inputNameProject.reportValidity(); 
+                //console.log(inputNameProject.validity.valid);
+                if (inputNameProject.validity.valid){
+                    self.projects.push({
+                    id:uuid.v4(),
+                    name: model.nameProject(),
+                    description: model.descriptionProject()
+                });
+                    closeProjectModal();
+                }else{
+                   
+                }
+            }
+            self.updateProject = function(model,e){
+               //let project = model
+               const oldproject = self.selectedProject();
+               //console.log(project);
+               //console.log(oldproject);
+               let newProjects = [];
+               self.projects().forEach((el,i)=>{
+                    if (el.name === oldproject.name){
+                      self.projects()[i]= {id: oldproject.id,name: model.nameProject(),description: model.descriptionProject()};
+                    }
+                    newProjects.push(self.projects()[i]);
+               })
+               //console.log(self.projects());
+               self.projects(newProjects);
+               closeProjectModal();
+            }
+            self.editProject = function(project){
+                self.actionProject("update");
+                //console.log(project);
+                //console.log(self.projects());
+                 self.selectedProject(project);
+                 modalProject.classList.remove('hidden');
+                 self.nameProject( project.name);
+                 self.descriptionProject(project.description);
+                 //console.log(self.nameProject());
+                 //console.log(self.nameProject); 
+                 //console.log(inputDescriptionProject);
+                 inputNameProject.value = project.name;
+                 inputDescriptionProject.innerHTML = project.description;
+                      
+            }
+
+            self.deleteProject = function(project){
+                //console.log(project);
+                self.actionBorrar("proyecto");
+                 self.selectedProject(project);
+                openBorrarModal();
+            }
+            self.saveMember = function(model,e){
+               if (self.actionMember() == "new"){
+                  self.addMember(model,e);
+               } else if (self.actionMember() == "update"){
+                  self.updateMember(model,e);
+               }
+            }
+            self.addMember = function(model,e){
+                //console.log(model);
+                //console.log(self.selectedProject);
+                self.members.push({
+                    id:uuid.v4(),
+                    projectId: self.selectedProject().id,
+                    name: model.nameMember(),
+                    email: model.emailMember(),
+                    role: model.roleMember(),
+                    status: model.estadoMember(),
+                    ragDatabases:[],
+                    tools:[]
+                });
+                //console.log(self.members())
+                closeMemberModal();
+            } 
+            self.updateMember = function(model,e){
+               const oldMember = self.selectedMember();
+               console.log(oldMember);
+               let newMembers = [];
+               self.members().forEach((el,i) =>{
+                   if (el.name === oldMember.name){
+                    self.members()[i] = {id: oldMember.id , projectId: oldMember.projectId, name: model.nameMember(),email: model.emailMember(), role: model.roleMember(),status: model.estadoMember(),ragDatabases: oldMember.ragDatabases,tools: oldMember.tools};
+                   }
+                   newMembers.push(self.members()[i]);
+               });
+               self.members(newMembers);
+               closeMemberModal();
+            }
+            self.editMember = function(member){
+                //console.log(member)
+                modalMember.classList.remove('hidden');
+                self.selectedMember(member);
+                self.actionMember("update");
+                self.nameMember(member.name);
+                self.emailMember(member.email);
+                self.roleMember(member.role)
+                self.estadoMember(member.status);
+                inputMemberName.value = member.name;
+                inputMemberEmail.value = member.email;
+                selectMemberRole.value = member.role;
+                selectMemberStatus.value = member.status;
+            }
+            self.deleteMember = function(member){
+                //console.log(member);
+                self.actionBorrar("miembro");
+                self.selectedMember(member);
+                openBorrarModal();
+            }
+            
+            self.saveRag = function(model,e){
+                if (self.actionRag() === "new"){
+                    self.addRag(model,e);
+                }else if (self.actionRag() === "update"){
+                    self.updateRag(model,e);
+                }
+            }
+            self.addRag = function(model,e){
+                let selectedMember = self.selectedMember()
+                //console.log(selectedMember);
+                let memberId = selectedMember.id
+                let ragDatabases = self.selectedMember().ragDatabases;
+                let newRag = {id:uuid.v4(), memberId: memberId, lastUpdate: self.fechaRag(),name: self.nameRag(),type: self.tipoRag()}
+                ragDatabases.push(newRag);
+                selectedMember.ragDatabases = ragDatabases;
+                self.selectedMember(selectedMember);
+                
+                closeRagModal()
+            }
+            self.updateRag = function(model,e){
+                const oldMember = self.selectedMember();
+                const oldRag = self.selectedRag();
+                console.log(oldRag);
+                let newDababaseRag = [];
+                self.selectedMember().ragDatabases.forEach((el,i)=>{
+                   if (el.name === oldRag.name){
+                       self.selectedMember().ragDatabases[i] = {id: oldRag.id,memberId: oldMember.id,name: model.nameRag(),type: model.tipoRag(),lastUpdate: model.fechaRag()}
+                   }
+                   newDababaseRag.push(self.selectedMember().ragDatabases[i]);
+                });  
+                self.selectedMember().ragDatabases = newDababaseRag;
+                let selectedMember = self.selectedMember();
+                self.selectedMember(selectedMember);
+
+                closeRagModal()
+                
+            }
+            self.editRag = function(rag){
+              //console.log(rag);
+              modalRag.classList.remove('hidden');
+              self.selectedRag(rag);
+              self.actionRag("update");
+              self.nameRag(rag.name);
+              self.tipoRag(rag.type);
+              self.fechaRag(rag.lastUpdate);
+              inputRagName.value = rag.name;
+              selecttRagType.value = rag.type;
+              inputRagLastUpdate.value = rag.lastUpdate;
+            }
+            
+            self.deleteRag = function(rag){
+              //console.log(rag);
+              self.actionBorrar("rag");
+              self.selectedRag(rag);
+              openBorrarModal();
+
+            }
+            self.saveTool = function(model,e){
+                 if (self.actionTool() === "new"){
+                    self.addTool(model,e);
+                 }else if (self.actionTool() === "update"){
+                    self.updateTool(model,e);
+                 }
+            }
+            self.addTool = function(model,e){
+                let selectedMember = self.selectedMember();
+                let memberId = selectedMember.id;
+                let tools = self.selectedMember().tools;
+                let newTool = {id: uuid.v4(), memberId: memberId, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool() }
+                tools.push(newTool);
+                selectedMember.tools= tools;
+                self.selectedMember(selectedMember);
+                closeToolModal();
+            }
+            self.updateTool = function(model,e){
+                const oldMember = self.selectedMember();
+                const oldTool = self.selectedTool();
+                let newTools= [];
+                self.selectedMember().tools.forEach((el,i)=>{
+                  if (el.name === oldTool.name){
+                      self.selectedMember().tools[i]= {id: oldTool.id,memberId:oldMember.id, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool()} 
+                  }  
+                  newTools.push(self.selectedMember().tools[i]) 
+                });
+                self.selectedMember().tools= newTools;
+                let selectedMember = self.selectedMember();
+                self.selectedMember(selectedMember);
+                closeToolModal();
+                 
+            }
+            self.editTool = function(tool){
+              //console.log(tool);
+              modalTool.classList.remove('hidden');
+              self.selectedTool(tool);
+              self.actionTool("update");
+              self.nameTool(tool.name);
+              self.tipoTool(tool.type);
+              self.permisoTool(tool.permission);
+              inputToolName.value = tool.name; 
+              inputToolType.value = tool.type;
+              inputSelectToolPermission.value = tool.permission; 
+            }
+            
+            self.deleteTool = function(tool){
+              //console.log(tool);
+              self.actionBorrar("tool");
+              self.selectedTool(tool);
+              openBorrarModal();
+            }
+            self.saveBorrar = function(){
+              if (self.actionBorrar() === "proyecto"){
+                 self.deleteRowProject();
+              } else if (self.actionBorrar() === "miembro"){
+                 self.deleteRowMember(); 
+              } else if (self.actionBorrar() === "rag"){
+                 self.deleteRowRag();
+              } else if (self.actionBorrar() === "tool"){
+                 self.deleteRowTool();
+              }
+              closeBorrarModal();
+            }
+            self.deleteRowProject = function(){
+               let newProjects = [];
+               newProjects = self.projects().filter( f => f.id !== self.selectedProject().id);
+               self.projects(newProjects);
+               console.log(self.projects());
+               
+            }
+            self.deleteRowMember = function(){
+                let newMembers = [];
+                newMembers = self.members().filter(f => f.id !== self.selectedMember().id);
+                self.members(newMembers);
+            }
+            self.deleteRowRag = function(){
+                let newRagDatabases= [];
+                newRagDatabases = self.selectedMember().ragDatabases.filter(f => f.id !== self.selectedRag().id);
+                self.selectedMember().ragDatabases = newRagDatabases;
+                const selectedMember = self.selectedMember();
+                self.selectedMember(selectedMember);
+            }
+            self.deleteRowTool = function(){
+                let newTools = [];
+                newTools = self.selectedMember().tools.filter(f =>f.id !== self.selectedTool().id);
+                self.selectedMember().tools = newTools;
+                const selectedMember = self.selectedMember(); 
+                self.selectedMember(selectedMember); 
+            }
+            self.avatarClass = function (status) {
+                return status === 'Activo'
+                    ? 'bg-indigo-100 text-indigo-700'
+                    : 'bg-slate-200 text-slate-700';
+            };
+            
+            self.statusClass = function (status) {
+                return status === 'Activo'
+                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
+                    : 'bg-slate-100 text-slate-500 border border-slate-200';
+            };
+            
+            self.permissionClass = function (permission) {
+                if (permission === 'Lectura / Escritura') {
+                    return 'bg-emerald-50 text-emerald-700 border-emerald-100';
+                }
+                if (permission === 'Solo lectura') {
+                    return 'bg-amber-50 text-amber-700 border-amber-100';
+                }
+                if (permission === 'Restringido') {
+                    return 'bg-rose-50 text-rose-700 border-rose-100';
+                }
+                return 'bg-slate-50 text-slate-600 border-slate-200';
+            };
+
+            // inicialización
+            if (self.projects().length > 0) {
+                self.selectProject(self.projects()[0]);
+            }
+        }
+
+        ko.applyBindings(new AppViewModel());
+
+        /* *********************************
+        // una vez renderizado el viewmodel aqui podemos terminar de retocar
+        // elementos html, los foreach de las plantillas estaran ya renderizados
+        * **********************************/
+        //console.log(document.querySelectorAll('[icon-edit]').length)
+        /*
+        document.querySelectorAll('[icon-edit]').forEach((btnEdit) => {
+           //btn.addEventListener('click', closeToolModal);
+           //console.log(btnEdit);
+           btnEdit.innerHTML = iconSVGEdit;
+        });
+        document.querySelectorAll('[icon-del]').forEach((btnDel) =>{
+           btnDel.innerHTML = iconSVGDelete;
+        });
+        */
+
+     })
+
+  </script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.7/uuid.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+</body>
+</html>

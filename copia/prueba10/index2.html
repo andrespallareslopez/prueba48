@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+     <style type="text/tailwindcss">
+      /*
+      @theme {
+        --color-clifford: #da373d;
+      }
+      */
+    </style>
+    <title>Document</title>
+</head>
+<body class="bg-cyan-400">
+    <nav class="p-5 bg-white shadow-md md:flex md:justify-between md:items-center">
+        <div class="flex justify-between items-center">
+           
+              <div class="flex items-center ">
+              <span class="md:hidden cursor-pointer">
+                <i class="bi bi-list-task text-3xl "> </i>
+              </span>
+              <span class="pl-3 text-2xl font-[Poppins] cursor-pointer">MindSet</span>
+            </div>
+           
+           
+           <span>
+             <i class="bi bi-list text-3xl font-bold cursor-pointer md:hidden block" data-name="menu" onclick="Menu(this)"></i>
+           </span>
+        </div>
+       
+        
+        <ul class="md:flex md:items-center md:static absolute bg-white z-[-1] md:z-auto w-full left-0 md:w-auto md:py-0 md:pl-0 py-4 pl-7 md:opacity-100 opacity-0 top-[-400px] transition-all ease-in duration-300">
+            <li class="mx-4 my-6 md:my-0">
+                <a href="#" class="text-gray-700 hover:text-blue-500">Home</a>
+            </li>
+            <li class="mx-4 my-6 md:my-0">
+                <a href="#"  text-gray-700 hover:text-blue-500">About</a>
+            </li>
+            <li class="mx-4 my-6 md:my-0">
+                <a href="#" text-gray-700 hover:text-blue-500">Services</a>
+            </li>
+            <li class="mx-4 my-6 md:my-0">
+                <a href="#"  text-gray-700 hover:text-blue-500">Contact</a>
+            </li>
+        </ul>
+
+    </nav>
+     <div class="sidebar h-[calc(100vh-72px)] md:block hidden top-0 bottom-0 md:left-0  left-[-300px] p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
+      <div class="text-gray-100 text-xl " >
+           <div class="p-2.5 mt-1 flex items-center " >
+              <i class="bi bi-app-indicator px-2 py-1 bg-blue-600 rounded-md" ></i>
+              <h1 class="font-black text-gray-200 text-[15px] ml-3">MindSet</h1>
+              <i class="bi bi-x ml-35 cursor-pointer lg:hidden" onclick="Open()"></i>
+           </div>
+           <hr class="my-2 border-gray-600" >
+       </div>
+       <div class="p-2.5 mt-3 flex items-center rounded-md px-4 cursor-pointer bg-gray-700 text-white" >
+          <i class="bi bi-search text-sm" ></i>
+          <input type="text" class="text-[15px] ml-4 bg-transparent w-full focus:outline-none" placeholder="Search" />
+       </div>
+       <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-500 text-white" >
+          <i class="bi bi-house-door-fill" ></i>
+          <span class="text-[15px] ml-4 text-gray-200" >Home</span>
+       </div>
+       <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-500 text-white" >
+          <i class="bi bi-bookmark-fill" ></i>
+          <span class="text-[15px] ml-4 text-gray-200" >Bookmark</span>
+       </div>
+       <hr class="my-4 border-gray-600" >
+       <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white" onclick="dropdown()">
+          <i class="bi bi-chat-left-text-fill"></i>
+          <div class="flex w-full justify-between items-center" >
+            <span class="text-[15px] ml-4 text-gray-200">Chatbox</span>
+            <span class="text-sm rotate-180" id="arrow" >
+              <i class="bi bi-chevron-down"></i>
+            </span>
+          </div>
+       </div>
+       <div class="text-left text-sm font-thin mt-2 w-4/5 mx-auto text-gray-200" id="submenu">
+          <h1 class="cursor-pointer p-2 hover:bg-blue-600 mt-1 rounded-md">Social</h1>
+          <h1 class="cursor-pointer p-2 hover:bg-blue-600 mt-1 rounded-md">Personal</h1>
+          <h1 class="cursor-pointer p-2 hover:bg-blue-600 mt-1 rounded-md">Fiends</h1>
+       </div>
+       <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-500 text-white" >
+          <i class="bi bi-box-arrow-in-right" ></i>
+          <span class="text-[15px] ml-4 text-gray-200" >Logout</span>
+       </div>
+
+    </div>
+
+    <script type="text/javascript">
+        function Menu(e){
+            console.log(e.getAttribute("data-name"));
+            
+            if (e.getAttribute("data-name") === "menu") {
+                e.classList.remove("bi-list");
+                e.classList.add("bi-x");
+                e.setAttribute("data-name","close");
+                document.querySelector("ul").classList.remove("top-[-400px]");
+                document.querySelector("ul").classList.add("top-[76px]");
+                document.querySelector("ul").classList.remove("opacity-0");
+                document.querySelector("ul").classList.add("opacity-100");
+            } else {
+                e.classList.remove("bi-x");
+                e.classList.add("bi-list");
+                e.setAttribute("data-name","menu");
+                document.querySelector("ul").classList.remove("top-[76px]");
+                document.querySelector("ul").classList.add("top-[-400px]");
+                document.querySelector("ul").classList.remove("opacity-100");
+                document.querySelector("ul").classList.add("opacity-0");
+            }
+
+
+        }
+
+    </script>
+</body>
+</html>

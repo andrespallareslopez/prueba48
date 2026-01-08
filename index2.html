@@ -1,0 +1,3599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>MirrorMind Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- KnockoutJS -->
+  <style>
+  /* ===============================
+       FONDO SVG DE AXET FLOW
+       =============================== */
+    .chat-box {
+      position: fixed;
+      bottom: 57px;
+      right: 24px;
+      width: 420px;
+      height: 520px;
+      background: #dbd6d6;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+      display: none;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+
+      /* Fondo con el logo AXET FLOW */
+      
+      background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG0AAACdCAYAAAC+avZPAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAeQSURBVHgB7Z2NdeQ0FIXv5FAAHeykArIVECoAKmC2goQKUCogWwFDBYQKEipgqQDTQTowehk5Z378I9n6ubL0neNMJse7ief5ytZ9T88bVAZp23arX/4FF7srVMb4BVw0m83m9xq0AYzKduBCyZcatGEoVSbf1KD1oFX2LUhVJmxQuUAH7Vm/3IKHF62y77o3VWln6ID9BK6ACQ/Hb6rSztBBk1v8LXjYa5V9Ov5BVdoRRmVbcKHOf1CDdooCF6Ky/85/WINm0Cq7QwYqE2rQ8D6RvgcXvSoTatAOsF3LXsE3VPMgKmv5GHVjqtII7Sq97cd2KHqe1pKmXjqPcYjSlUZrCo9RbNC0yr4BsSk8RrHDY8tnCovKrm12LFJpLacprGx3LFJpLZ8pbK0yoTiltZym8CeXnTf6IL7Xr1+DBznr/kIgCFX2pI/3R5d/8JXebsBlmbzqD/ZaH8grPNNymsLOnqcMj59x8LpYENV7nz+1mZnCY1yZM/oRXNzrD/kD/JJFgtOGt7tH/QHJ2S1jPdO17aSYZQmkdtVFGYEtb3ePpGq7bQ+lbD5gs6sEhZm8z9OM2v5GxvOXPkhVpvRxPWAm7/M0ozYFLrZTuSULsku9THHhiBDOY+RkmjUFMKbwF3CxSGVCnyOyAxdLpgBs1+lmacCEi6AZN+IFXNy73pTkbgqP0WsYmw/oBVw4TQFyN4XH6DWMSdV2a3zSSUhNYQVPDKZmSNXW6O3j1E3JmlUmDKZmSNW21dvd2A6kprCCR0aToKQTU1HZTZ/Rav5eKSPYggdvdlzHaBJU/7IGCyeCAZApwNCtPOO1bAfPTJYbkJrJwu1xsnRtpvAYk+UGpGayoM7er8oUHsOqsIdYbff6pPpcksoEq8IeZrWZE6oYlQnWJXTEanvS2w/gIpjKBOsSOmK1sQWsQeAUl2vdoxQBNaiMMatYxwWnoJEmSplocDixg+JcYWyW4rAlFllQIeo1z5lVy09qJqfGqyk8xqxaflIzOTUKkZilNKGq7YRoKhNmr5qpajtBISKzlSZUtb3hPfUyxaL1aUZtTyibxdVVrixSmkBq1sYiqF01xOKVoCZRymhvxUAhAYuVJhCbySFJojLBy5prYjM5JAqJ8LlQnm1FaUiCm8JjeAtaYWpTSIjvlhQlqE2lVJngNWgFqK0BQUmhl7vHcwjLsn2xs+kSF5pQHXsU1kfDEDAhSNDMwb1gXSiQEGR4FFZmJkdNvUwRrKHZylI3CkQEU5qwErVRqUwI2jpwJWpL4i+OEaPfo0K+SILzBWQEHR479DD5B/gqgW3YpnY/+ojVWfVn5MeeMWBClKBlmihVICXK8ChklihNluC0IVrj6czMZAViYncLzyF188h6LeuIGrQM1NYgg9EgRV9+ZrXR3jEmR7rqtHxkU7uZ6gkYf4KPF2RCqqAxdiPYtYdOrPREm6d1tNxl5NEXU8whhdJ+BS8+28oHI2rQ2kOTTXbjWIGcqMNjm0+V1kmzNDaiKa3lbFE7xB7ExBweFfJBHuJwB1KiBK3lbFE7RdcsjY7gQWs5n1tmgwSMUm0xlJajyjruGdUWNGgZq6yDspdk6LrH38D37Jo5UBX4hCwL32I9XQ+o7K2QwyOzXeUKlb0VJGiZ2FWuKJBQFxW6QWFveVdaZnaVK3sQEGJ4VFgvW3NSJsVr0DK1q1x5TD3h9ha0FUykbUlub/lUWgkq60hqb3kJWkEq60iqNl9KY6yuCo2o7QMSUJt0LiPPJp1Yl13lyi6FvbUoaCu1q1xRiMzSbuFrtatciWpvzVbayu0qVxQisuQJGFVlp0TrUDdLaYXYVa5Eq95yDlqBE2lbtog04Z6jtKqyYaLYW05BqyqbJIq95aq0Eu0qV4LbW9ZBMyrbgQ8FLkRtCgFxURqjXSW9GB/A10Yi6FJgq6AR21XKvErg2NpcBDuRbJXG2BDlSzeZJW0qE6xWctIRMXbVHnyclGq3nA3TglQm2yhNgY+LzjolqW1UacauYhwaexdEkKrNe+PqQaURT6QHH9Bj1KbAhfelwINK079IbvHZgtbgkLsaXXZEmIGQk+nanFSL6VVajio73w9ceLW3epVGuhjQ6dqgj+FZv9yCB29qu1AasV3lqnwFLrwtBb5QWsvZQ39WqRqh2oTFS4FPgmbsqifwMetAW85n3SyecJ8Pj4xzstktakmfdbN4wv0eNNLqqgbLr00KfCgs4MrXfxSIxY2gjdr24GKR2t6uaaR2lTf7h3S9wezju2KeSMMTpM+6mb0UeMNqV/k2WUnN5FkTbgnaDnw8h2hrpI9VJrcKXChTMmHN4vVpObEWtaXqy58E0kSps5lclNIEYrXd2F4SilKaQJoodaqVLE5pHaRLtawWJxantCMU+FA2OxWrNIE0dTOptpKVJijwoaZ2KDpoxKmbUXur6OFRIE2UNnr7ODThLn14ZFXbFiMT7uKVJpCqbdDeKl5pAmmidNDeqkozkCZKe+2tqjQDaaK0196qSjuC1EwWRG3/dG+q0o4gTd0IJ39TVdoZxGp7t7eq0s4gVpvqvqlK64FdbVVpPZAmSoW9fKlKG4E0UXr/P2hSM+rA5xERAAAAAElFTkSuQmCC");
+      
+      
+      
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 70%;
+      opacity: 1;
+    }
+    
+    .chat-box-header {
+      background: rgba(0, 87, 184, 0.9);
+      color: #ffffff;
+      /*padding: 12px 16px;*/
+      padding: 10px;
+      font-size: 12px;
+      font-weight:500;
+      backdrop-filter: blur(4px);
+      border-radius: 16px;
+    }
+
+    .chat-box-body {
+      /*padding: 12px 16px;*/
+      /*padding: 10px;*/
+      margin-top:10px;
+      font-size: 14px;
+      color: #111827;
+      height: calc(100% - 70px - 56px); 
+      overflow-y: auto;
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(4px);
+    }
+
+    .chat-box-footer {
+      border-top: 1px solid #e5e7eb;
+      padding: 8px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(4px);
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .chat-input:focus {
+      border-color: #0057B8;
+      box-shadow: 0 0 0 1px rgba(0, 87, 184, 0.2);
+    }
+
+    .chat-send-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      background: #0057B8;
+      color: #ffffff;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .chat-send-btn:hover {
+      background: #006fe0;
+    }
+
+    /* BOTÓN DEL CHAT (con SVG animado) */
+    .chat-button {
+      border: none;
+      padding: 0;
+      background: transparent;
+      cursor: pointer;
+      outline: none;
+      position: fixed;
+      bottom: -3px;
+      right: 14px;
+      z-index: 1000;
+      outline: none !important;
+    }
+
+    .chat-button svg {
+         transform: scale(0.5);
+      display: block;
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .chat-bg {
+      fill: #0057B8;
+      transition: fill 0.2s ease;
+    }
+
+    .chat-bubble {
+      fill: #ffffff;
+    }
+
+    .chat-dot {
+      fill: #0057B8;
+      animation: chat-typing 1.2s infinite ease-in-out;
+    }
+
+    .dot-1 { animation-delay: 0s; }
+    .dot-2 { animation-delay: 0.2s; }
+    .dot-3 { animation-delay: 0.4s; }
+
+    @keyframes chat-typing {
+      0%   { transform: translateY(0); opacity: 0.4; }
+      50%  { transform: translateY(-2px); opacity: 1; }
+      100% { transform: translateY(0); opacity: 0.4; }
+    }
+
+    .chat-button:hover svg {
+      transform: scale(0.57);
+      filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+    }
+
+    .chat-button:hover .chat-bg {
+      fill: #006fe0;
+    }
+    /**********************************************************************************************/
+     #chat-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      opacity: 0.9;
+    }
+
+    #messages {
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      padding: 10px;
+      height: 350px;
+      overflow-y: auto;
+      background: #fafafa;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+
+    .message.user {
+      background: #e3f2fd;
+      text-align: right;
+      white-space: pre-wrap;
+    }
+
+    .message.bot {
+      background: #f1f8e9;
+      text-align: left;
+    }
+
+    #form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    #question {
+      width: 100%;
+      min-height: 40px;
+      resize: vertical;
+      padding: 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    #send-btn {
+      /*
+      vertical-align: middle;
+      align-self: flex-end;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      text-align: center;
+      background: #1976d2;
+      color: white;
+      */
+     /* Azul corporativo (ajústalo a tu HEX) */
+    /*--corp-blue: #0057B8;*/
+    /*
+    appearance: none;
+    border: 0;
+    background: var(--corp-blue);
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    transition: transform .08s ease, filter .15s ease, box-shadow .15s ease;
+    */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+
+    /* Azul corporativo */
+    /*background-color: #0057B8;*/
+
+    /* SVG BLANCO embebido */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/></svg>");
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 22px 22px;
+    }
+    #send-btn :hover{
+      /* 
+      scale:(1.07);
+      background: #03274b;
+      */   
+     filter: brightness(1.05);
+     box-shadow: 0 8px 22px rgba(0,0,0,.22);
+    }
+    .send-btn:active{
+       transform: translateY(1px) scale(0.98);
+    }
+    .send-btn:focus-visible{
+      outline: 3px solid rgba(255,255,255,.75);
+      outline-offset: 3px;
+    }
+    
+    #send-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+   
+
+    #error {
+      color: #d32f2f;
+      font-size: 13px;
+      min-height: 18px;
+    }
+    /*************************************************************************/
+    #drop-area {
+      /*width: 100%;*/
+      display: none;
+      height: 50px;
+      padding: 10px;
+      text-align: center;
+      line-height: 50px;
+      border: 2px dashed #ccc;
+      cursor: pointer;
+      border-radius: 16px;
+    }
+    
+    #preview-container {
+      text-align: center;
+    }
+    #preview-container.hide {
+       display: none;
+    }
+    #drop-area.drag-over {
+      background-color: #eee;
+    }
+     
+    .preview-image {
+      
+      position: absolute;
+      top: 0;
+      left: 0;
+      object-fit:fill;
+      width: 75px;
+      height: 75px;
+      /*margin: 10px;*/
+      /*border: 1px solid #ddd;*/
+      z-index: 0;
+    }
+    
+    .container-file {
+      display: inline-block;
+      position: relative;
+      object-fit: cover;
+      width: 75px;
+      height: 115px;
+      text-align: center;
+      line-height: 100px;
+      margin: 5px;
+      background-color: transparent;
+      /*border: 1px solid #ddd;*/
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .file-name {
+      position: absolute;
+      width: 75px;
+      height: 35px;
+      text-align:left;
+      line-height: 35px;
+      top: 76px;
+      left: 0;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      color: black;
+      font-size:xx-small;
+    }
+    .close-button-file {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      top: 2px;
+      right: 2px;
+      border-radius: 50%;
+      background-color: rgb(90, 87, 87);
+      color: white;
+    }
+   
+    
+    .close-button-file:hover {
+    
+      background-color: rgb(95, 92, 92);
+      color: yellow;
+      font-weight: bold;
+    }
+    
+    #message-drag {
+      display:none;
+      width: 400px;
+      height: 150px;
+      margin: 5px auto;
+      text-align: center;
+      /*line-height: 200px;*/ 
+    }
+    #message-drag.show-message {
+        display: block;
+    }
+    #question {
+      border-radius: 16px;
+    }
+    
+    .icon-edit {
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 35 25'%3E%3Crect x='1.5' y='1.5' width='21' height='21' rx='4' fill='none' stroke='%23424242' stroke-width='1.2'/%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z' fill='%23424242'/%3E%3Cpath d='M18.37 3.29c-.39-.39-1.02-.39-1.41 0l-2.12 2.12 3.75 3.75 2.12-2.12c.39-.39.39-1.02 0-1.41l-2.34-2.34z' fill='%23212121'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+      
+    }
+    .icon-trash {
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='5' y='4' width='10' height='2' rx='1' ry='1' fill='%23333333'/%3E%3Crect x='8' y='2.5' width='4' height='1.5' rx='0.75' ry='0.75' fill='%23333333'/%3E%3Crect x='6' y='6.5' width='8' height='10.5' rx='1.2' ry='1.2' fill='%23555555'/%3E%3Crect x='7.2' y='7.5' width='1' height='8.5' rx='0.5' ry='0.5' fill='%23777777'/%3E%3Crect x='9.5' y='7.5' width='1' height='8.5' rx='0.5' ry='0.5' fill='%23777777'/%3E%3Crect x='11.8' y='7.5' width='1' height='8.5' rx='0.5' ry='0.5' fill='%23777777'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+    .icon-borrar{
+       width: 48px;
+        height: 48px;
+
+         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2'><path stroke-linecap='round' stroke-linejoin='round' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7m3-3h4a1 1 0 011 1v1H9V5a1 1 0 011-1z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 28px 28px;
+    }
+    .icon-project{
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+
+        /* Fondo azul corporativo */
+        background-color: #0057B8;
+
+        /* SVG embebido */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L20 6.5V17.5L12 22L4 17.5V6.5L12 2Z' stroke='white' stroke-width='1.8' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M12 7.2L16.4 9.7V14.3L12 16.8L7.6 14.3V9.7L12 7.2Z' fill='white' fill-opacity='0.15' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M12 7.2V16.8' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.9'/%3E%3C/svg%3E");
+
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 22px 22px;
+    }
+    .icon-rag{
+      width: 40px;
+      height: 40px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+
+      /* Fondo (ejemplo) */
+      background-color: #0057B8;
+
+      /* SVG embebido */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z' stroke='white' stroke-width='1.8' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M8.5 8h7M8.5 11h5.5M8.5 14h7' stroke='white' stroke-width='1.6' stroke-linecap='round' opacity='0.9'/%3E%3Cpath d='M16.8 16.7l1.4 1.4' stroke='white' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M15.5 15.5a2.3 2.3 0 1 0-3.25-3.25a2.3 2.3 0 0 0 3.25 3.25Z' fill='white' fill-opacity='0.12' stroke='white' stroke-width='1.4'/%3E%3C/svg%3E");
+
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 22px 22px;
+    }
+    .icon-tool{
+      width: 40px;
+      height: 40px;
+      border-radius: 16px;
+      border: none;
+      cursor: pointer;
+
+      /* Fondo de ejemplo */
+      background-color: #0057B8;
+
+      /* SVG embebido */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 8.2L12 3.8l7.5 4.4V16L12 20.2 4.5 16V8.2Z' stroke='white' stroke-width='1.8' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M14.9 9.2a2.3 2.3 0 1 1-3.3 2.1l-3.2 3.2.9.9-.9.9-1.8-1.8.9-.9.9.9 3.2-3.2a2.3 2.3 0 0 1 2.4-3Z' fill='white' fill-opacity='0.14' stroke='white' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 22px 22px;
+    }
+    .progreso{
+    width: 50px;
+    height: 20px;
+    display: flex;
+    align-items: flex-end;      /* para que “salten” desde abajo */
+    justify-content: center;
+    gap: 2px;
+    border-radius: 8px;
+    padding: 2x 4x;
+    background: #f3f4f6;
+  }
+
+  .dot{
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: #111827;
+    transform: translateY(0);
+    animation: salto 0.75s ease-in-out infinite;
+  }
+
+  .dot:nth-child(2){ animation-delay: 0.12s; }
+  .dot:nth-child(3){ animation-delay: 0.24s; }
+
+  @keyframes salto{
+    0%, 100% { transform: translateY(0); opacity: 0.6; }
+    50%      { transform: translateY(-14px); opacity: 1; }
+  }
+  .member-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 16px;
+  background-color: #4f46e5; /* indigo-600 */
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%3E%3Cpath%20d='M12%202.5c4.5%200%208.2%203.2%209%207.5-.8%204.3-4.5%207.5-9%207.5S3.8%2014.3%203%2010c.8-4.3%204.5-7.5%209-7.5Z'%20stroke='white'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='0.9'/%3E%3Cpath%20d='M12%2013.2a3.2%203.2%200%201%200%200-6.4%203.2%203.2%200%200%200%200%206.4Z'%20stroke='white'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cpath%20d='M20.5%2020.5%2018%2018'%20stroke='white'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22px 22px;
+  }
+  .icon-spin {
+  width: 40px;
+  height: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'%3E%3Cpath fill='%23000' d='M286.7 96.1C291.7 113 282.1 130.9 265.2 135.9C185.9 159.5 128.1 233 128.1 320C128.1 426 214.1 512 320.1 512C426.1 512 512.1 426 512.1 320C512.1 233.1 454.3 159.6 375 135.9C358.1 130.9 348.4 113 353.5 96.1C358.6 79.2 376.4 69.5 393.3 74.6C498.9 106.1 576 204 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320C64 204 141.1 106.1 246.9 74.6C263.8 69.6 281.7 79.2 286.7 96.1z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+.icon-search {
+  width: 32px;
+  height: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23000' d='M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+.icon-close {
+  width: 32px;
+  height: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 352 512'%3E%3Cpath fill='%23000' d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+    .loaderIA {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #5a3e3e ;
+    box-shadow: 32px 0 #201c1c, -32px 0 #6d9b82 ;
+    position: relative;
+    animation: flashIA 0.5s ease-out infinite alternate;
+  }
+
+  @keyframes flashIA {
+    0% {
+      background-color: rgba(59, 38, 38, 0.133);
+      box-shadow: 32px 0 #FFF2, -32px 0 #5aa76d;
+    }
+    50% {
+      background-color: #e24a4a;
+      box-shadow: 32px 0 #FFF2, -32px 0 #FFF2;
+    }
+    100% {
+      background-color: rgba(22, 4, 4, 0.133);
+      box-shadow: 32px 0 #5a4545, -32px 0 #FFF2;
+    }
+  }
+  
+.lds-ellipsis,
+.lds-ellipsis div {
+  box-sizing: border-box;
+}
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 3.33333px;
+  width: 9.33333px;
+  height: 9.33333px;
+  border-radius: 50%;
+  background:#0057b8e6;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 4px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 4px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 16px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 23px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(12px, 0);
+  }
+}
+/*********************************************************************************/
+.form-search {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  border-bottom: 0px solid #E8EAF6;
+  width: 65px;
+  height: 45px;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+  padding: 0px;
+  margin: 0px;
+  z-index: 50; }
+
+.btn-progress {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  border-bottom: 0px solid #E8EAF6;
+  width: 65px;
+  height: 45px;
+  visibility: hidden;
+  top: 0px;
+  left: 0px;
+  overflow: hidden;
+  padding: 0px;
+  margin: 0px;
+  z-index: 50; }
+
+.btn-search {
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+  color: #E8EAF6;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  transition: all 0s ease-in-out; }
+
+.btn-spin-progress {
+  display: inline-block;
+  visibility: hidden;
+  box-sizing: border-box;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+  color: #E8EAF6;
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  margin-left: -35px; }
+
+.open-progress .btn-spin-progress {
+  visibility: visible; }
+
+.input-search {
+  display: inline-block;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  padding-top: 0px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 0px solid #E8EAF6;
+  color: #E8EAF6;
+  width: 0px;
+  font-size: 16px;
+  right: 0px;
+  top: 0px;
+  vertical-align: top;
+  /*importante en un input */
+  height: 38px;
+  transform: translateX(150%);
+  transition: all .3s ease-in-out,width 0.2s ease-in-out; }
+
+.btn-search-close {
+  margin-left: -10px;
+  opacity: 0; }
+
+.form-search.open-search {
+  /*right:67px;*/
+  width: 100%;
+  max-width: 285px; }
+
+.open-search .input-search {
+  transform: translateX(0%);
+  width: calc(100% - 70px);
+  max-width: 135px;
+  border-bottom: 2px solid #E8EAF6; }
+
+.fa-18x {
+  font-size: 1.7em; }
+
+.open-search .btn-search {
+  left: 0px; }
+
+.open-search .btn-search-close {
+  opacity: 1; }
+
+
+
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-900">
+  
+  <div class="min-h-screen flex flex-col">
+    <!-- TOP NAVBAR -->
+    <header class="bg-white shadow-sm border-b border-slate-200">
+  
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo / Brand -->
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white text-xs font-semibold">
+              MM
+            </div>
+            <div>
+              <div class="text-sm font-semibold tracking-tight">MirrorMind Portal</div>
+              <div class="text-xs text-slate-500">Panel maestro</div>
+            </div>
+          </div>
+  
+          <!-- Top Menu Tabs -->
+          <nav class="flex items-center gap-4 text-sm font-medium">
+            <button data-view="miembros"
+              class="top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+              Miembros
+            </button>
+            <button data-view="chat"
+              class="top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+              Chat
+            </button>
+            <button data-view="detalle"
+              class="top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+              Detalle del miembro
+            </button>
+          </nav>
+        </div>
+      </div>
+    </header>
+    
+    <!-- MAIN LAYOUT -->
+    <div class="flex flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 gap-4">
+      <!-- LEFT SIDEBAR: PROYECTOS -->
+      <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-slate-800">Proyectos</h2>
+          <button id="btn-new-project" class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+            data-bind="click: btnNewProject">
+            + Nuevo
+          </button>
+        </div>
+  
+        <!-- Grid de proyectos (KO) -->
+        <div class="h-full">
+          <div class="relative h-full overflow-hidden overflow-y-auto" >  
+              <div id="projects-grid"  class="absolute overflow-hidden w-full top-0 left-0 grid-cols-1 gap-2 overflow-y-auto text-xs" data-bind="foreach: projects">
+                <div
+                  class="project-card text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 transition">
+                  <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">Proyecto
+                    <div class="flex items-center gap-1/2">
+                      <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200" style="scale:1.3"
+                        data-bind="click: $root.editProject">
+        
+        
+                      </p>
+                      <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                        data-bind="click: $root.deleteProject">
+        
+                      </p>
+                    </div>
+                  </div>
+                  <button data-bind="click: $root.selectProject">
+                    <div style="text-align: left;" class="font-semibold text-slate-800 text-sm" data-bind="text: name"></div>
+                    <div class="mt-1 text-[11px] text-slate-500" style="text-align: left;">
+                      <span data-bind="text: $root.getProjectMemberCount(id)"></span> miembros ·
+                      <span data-bind="text: $root.getProjectRagCount(id)"></span> bases RAG
+                    </div>
+                  </button>
+                </div>
+              </div>
+          </div>
+        </div>
+      </aside>
+      
+      <!-- MAIN CONTENT -->
+      <main class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 overflow-y-auto">
+        <!-- VIEW: MIEMBROS -->
+        <section id="view-miembros" class="view-section relative h-full">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h1 class="text-lg font-semibold text-slate-900">Miembros</h1>
+              <p class="text-xs text-slate-500">
+                Gestión de miembros del portal y sus configuraciones de IA.
+              </p>
+              <p class="text-[11px] text-slate-400 mt-1" data-bind="with: selectedProject">
+                Proyecto seleccionado:
+                <span class="font-semibold" data-bind="text: name"></span>
+              </p>
+            </div>
+            <button id="btn-new-member"
+              class="px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 hover:bg-slate-50"
+              data-bind="click: btnNewMember">
+              + Añadir miembro
+            </button>
+          </div>
+           
+          <!-- Filtros / búsqueda (solo UI) -->
+          <div class="flex flex-wrap gap-2 mb-4">
+            <input id="txtmiembros" data-bind="textInput: filtertext" type="text" placeholder="Buscar miembro..."
+              class="w-full sm:w-64 px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
+            <select
+              class="px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/60">
+              <option>Todos los estados</option>
+              <option>Activo</option>
+              <option>Deshabilitado</option>
+            </select>
+          </div>
+          
+          <!-- Tabla de miembros (KO) -->
+          <div class="overflow-x-auto">
+              <div class="">
+                <table class="absolute overflow-hidden table-auto overflow-scroll w-full text-xs">
+                  <thead>
+                    <tr class="text-left border-b border-slate-200">
+                      <th class="py-2 pr-4 font-semibold text-slate-500">Miembro</th>
+                      <th class="py-2 pr-4 font-semibold text-slate-500">Rol</th>
+                      <th class="py-2 pr-4 font-semibold text-slate-500">Bases RAG</th>
+                      <th class="py-2 pr-4 font-semibold text-slate-500">Herramientas</th>
+                      <th class="py-2 font-semibold text-slate-500 text-right">Estado</th>
+                      <th class="py-2 pr-4 font-semibold text-slate-500"></th>
+                    </tr>
+                  </thead>
+                  <tbody id="members-tbody" class="divide-y divide-slate-100" data-bind="foreach: filteredMembers">
+                    <tr class="hover:bg-slate-50/60 cursor-pointer">
+                      <td data-bind="click: $root.selectMember" class="py-2 pr-4">
+                        <div class="flex items-center gap-2">
+                          <div class="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold"
+                            data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
+                          <div>
+                            <div class="text-xs font-medium text-slate-800" data-bind="text: name"></div>
+                            <div class="text-[11px] text-slate-500" data-bind="text: email"></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td data-bind="click: $root.selectMember" class="py-2 pr-4">
+                        <p data-bind="text: role"></p>
+                      </td>
+                      <td data-bind="click: $root.selectMember" class="py-2 pr-4">
+                        <p data-bind="text: ragDatabases ? ragDatabases.length : 0"></p>
+                      </td>
+                      <td data-bind="click: $root.selectMember" class="py-2 pr-4">
+                        <p data-bind="text: tools ? tools.length : 0"></p>
+                      </td>
+                      <td data-bind="click: $root.selectMember" class="py-2 pl-4 text-right">
+                        <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium"
+                          data-bind="text: status, css: $root.statusClass(status)"></span>
+                      </td>
+                      <td class="py-2 pl-4">
+                        <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                          <div class="flex items-center gap-1/2">
+                            <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                              style="scale:1.3" data-bind="click: $root.editMember"></p>
+                            <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                              data-bind="click: $root.deleteMember">
+                            </p>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+        </section>
+  
+        <!-- VIEW: CHAT (mock sencillo) -->
+        <section id="view-chat" class="view-section hidden h-full flex flex-col">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h1 class="text-lg font-semibold text-slate-900">Chat</h1>
+              <p class="text-xs text-slate-500">
+                Chat de la aplicación para interactuar con los miembros y las bases RAG.
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex-1 border border-slate-200 rounded-2xl p-4 flex flex-col bg-slate-50">
+            <div class="flex-1 space-y-3 overflow-y-auto mb-3 text-xs">
+              <div class="flex gap-2">
+                <div
+                  class="w-7 h-7 rounded-full bg-slate-300 flex items-center justify-center text-[10px] font-semibold text-slate-800">
+                  AP
+                </div>
+                <div>
+                  <div class="text-[11px] text-slate-500 mb-0.5">Andrés · hace 2 min</div>
+                  <div class="inline-block bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-200">
+                    ¿Podemos revisar las bases RAG asignadas al miembro seleccionado?
+                  </div>
+                </div>
+              </div>
+  
+              <div class="flex gap-2 justify-end">
+                <div>
+                  <div class="text-[11px] text-slate-500 text-right mb-0.5">IA · ahora</div>
+                  <div class="inline-block bg-indigo-600 text-white rounded-xl px-3 py-2 shadow-sm">
+                    Claro, revisa la pestaña “Detalle del miembro” para ver las RAGs y tools asociadas.
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="flex items-center gap-2">
+              <input type="text" placeholder="Escribe un mensaje o una pregunta a la IA..."
+                class="flex-1 px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 bg-white" />
+              <button class="px-3 py-2 rounded-xl text-xs font-medium bg-indigo-600 text-white hover:bg-indigo-700">
+                Enviar
+              </button>
+            </div>
+          </div>
+        </section>
+  
+        <!-- VIEW: DETALLE DEL MIEMBRO -->
+        <section id="view-detalle" class="view-section hidden">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h1 class="text-lg font-semibold text-slate-900">Detalle del miembro</h1>
+              <p class="text-xs text-slate-500">
+                Bases de datos RAG asociadas y herramientas registradas para el miembro seleccionado.
+              </p>
+            </div>
+  
+            <button id="btn-back-members" type="button"
+              class="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+             
+            </button>
+          </div>
+  
+          <!-- Info del miembro (KO) -->
+          <div data-bind="if: selectedMember">
+            <div class="mb-4 flex items-center gap-3" data-bind="with: selectedMember">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
+                data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
+              <div>
+                <div class="text-sm font-semibold text-slate-900" data-bind="text: name"></div>
+                <div class="text-xs text-slate-500" data-bind="text: email"></div>
+                <div class="text-[11px] text-slate-400 mt-1">
+                  Rol:
+                  <span data-bind="text: role"></span> · Estado:
+                  <span data-bind="text: status"></span>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Dos listados pegados (RAG y Herramientas) -->
+  
+            <div id="listado-rag" class="grid grid-cols-1 lg:grid-cols-2 gap-4" data-bind="with: selectedMember">
+              <!-- RAGs asociadas -->
+              <div class="border border-slate-200 rounded-2xl p-4">
+  
+                <div class="flex items-center justify-between mb-3">
+                  <h2 class="text-sm font-semibold text-slate-800">Bases de datos RAG</h2>
+                  <button id="btn-new-ragdb"
+                    class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+                    data-bind="click:  $root.btnNewRag">
+                    + Nuevo
+                  </button>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full text-xs">
+                    <thead>
+                      <tr class="text-left border-b border-slate-200">
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Tipo</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Última actualización</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100" data-bind="foreach: ragDatabases">
+                      <tr class="hover:bg-slate-50/60">
+                        <td class="py-2 pr-3" data-bind="text: name"></td>
+                        <td class="py-2 pr-3" data-bind="text: type"></td>
+                        <td class="py-2 pr-3" data-bind="text: lastUpdate"></td>
+                        <td class="py-2 pr-3">
+                          <div
+                            class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                            <div class="flex items-center gap-1/2">
+                              <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                style="scale: 1.3" data-bind="click: $root.editRag">
+                              </p>
+                              <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                data-bind="click: $root.deleteRag">
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p class="text-[11px] text-slate-400 mt-2"
+                    data-bind="visible: !ragDatabases || ragDatabases.length === 0">
+                    Este miembro no tiene RAGs asociadas.
+                  </p>
+                </div>
+              </div>
+  
+              <!-- Herramientas / tools registradas -->
+              <div class="border border-slate-200 rounded-2xl p-4">
+                <div class="flex items-center justify-between mb-3">
+                  <h2 class="text-sm font-semibold text-slate-800">Herramientas y permisos</h2>
+                  <button id="btn-new-tools"
+                    class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+                    data-bind="click: $root.btnNewTool">
+                    + Nuevo
+                  </button>
+                </div>
+                <div class="overflow-x-auto">
+                  <table class="min-w-full text-xs">
+                    <thead>
+                      <tr class="text-left border-b border-slate-200">
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Herramienta</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Tipo</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Permiso</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100" data-bind="foreach: tools">
+                      <tr class="hover:bg-slate-50/60">
+                        <td class="py-2 pr-3" data-bind="text: name"></td>
+                        <td class="py-2 pr-3" data-bind="text: type"></td>
+                        <td class="py-2 pr-3">
+                          <span class="inline-flex px-2 py-1 rounded-full text-[10px] border"
+                            data-bind="text: permission, css: $root.permissionClass(permission)"></span>
+                        </td>
+                        <td class="py-2 pr-3">
+                          <div
+                            class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                            <div class="flex items-center gap-1/2">
+                              <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                style="scale:1.3" data-bind="click: $root.editTool">
+                              </p>
+                              <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                data-bind="click: $root.deleteTool">
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p class="text-[11px] text-slate-400 mt-2" data-bind="visible: !tools || tools.length === 0">
+                    Este miembro no tiene herramientas registradas.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Mensaje cuando no hay miembro seleccionado -->
+          <div data-bind="ifnot: selectedMember" class="text-xs text-slate-400 mt-4">
+            Selecciona un miembro en la pestaña “Miembros” para ver su detalle aquí.
+          </div>
+        </section>
+        
+        
+        <!-- =============== MODAL: NUEVO PROYECTO =============== -->
+        <div id="modal-project"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+            <!-- Header -->
+            <div class="relative px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG azul -->
+                  <div class="icon-project grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+                   
+                  </div>
+  
+                  <div>
+                    <h2 id="modal-project-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nuevo proyecto
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Crea un proyecto y guarda su información principal
+                    </p>
+                  </div>
+                </div>
+  
+                <button type="button" data-close-project aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+  
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-project" class="space-y-4 text-sm">
+                <div>
+                  <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    Nombre del proyecto
+                  </label>
+                  <div class="relative">
+                    <input type="text" name="projectName" required placeholder="Ej. RAG Soporte Interno"
+                      data-bind="value: nameProject"
+                      class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                  </div>
+                  <p class="mt-1 text-[11px] text-slate-500">
+                    Usa un nombre claro y corto (lo verás en la lista de proyectos).
+                  </p>
+                </div>
+  
+                <div>
+                  <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    Descripción breve
+                  </label>
+                  <textarea name="projectDescription" rows="3" placeholder="Resumen del proyecto..."
+                    data-bind="value: descriptionProject"
+                    class="w-full resize-none rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></textarea>
+                </div>
+  
+                <!-- Si quieres meter campos extra, aquí queda bien -->
+                <div class="grid grid-cols-2 gap-3"></div>
+  
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-project
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+  
+                  <button type="submit" data-bind="click: $root.saveProject"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar proyecto
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <!-- =============== MODAL: NUEVO MIEMBRO =============== -->
+        <div id="modal-member" class="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 hidden"
+          role="dialog" aria-modal="true" aria-labelledby="memberModalTitle">
+          <!-- Backdrop -->
+          <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+  
+          <!-- Panel -->
+          <div class="relative w-full max-w-xl mx-4">
+            <div class="bg-white/95 rounded-3xl shadow-2xl ring-1 ring-slate-900/10 overflow-hidden">
+              <!-- Header -->
+              <div class="px-6 py-5 border-b border-slate-200/70 bg-gradient-to-b from-slate-50 to-white">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex items-center gap-3">
+                    <!-- Logo SVG -->
+                    <div
+                      class="member-logo h-10 w-10 rounded-2xl bg-indigo-600 text-white grid place-items-center shadow-sm shadow-indigo-600/30">
+  
+                    </div>
+  
+                    <div>
+                      <h2 id="memberModalTitle" class="text-base font-semibold text-slate-900">
+                        Nuevo miembro del proyecto
+                      </h2>
+                      <p class="text-xs text-slate-500 mt-0.5">
+                        Completa los datos para invitar a una persona al equipo.
+                      </p>
+                    </div>
+                  </div>
+  
+                  <button type="button"
+                    class="h-9 w-9 rounded-xl grid place-items-center text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition"
+                    data-close-member aria-label="Cerrar" title="Cerrar">
+                    <span class="text-xl leading-none">×</span>
+                  </button>
+                </div>
+              </div>
+  
+              <!-- Body -->
+              <form id="form-member" class="px-6 py-5 space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="md:col-span-1">
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Nombre</label>
+                    <div class="relative">
+                      <input type="text" name="memberName" required class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                              placeholder:text-slate-400
+                              focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                              transition" placeholder="Ej. Ana Pérez" data-bind="value: nameMember" />
+                    </div>
+                  </div>
+  
+                  <div class="md:col-span-1">
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Email</label>
+                    <input type="email" name="memberEmail" required class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                            placeholder:text-slate-400
+                            focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                            transition" placeholder="ana@mirrormind.ai" data-bind="value: emailMember" />
+                    <p class="mt-1 text-[11px] text-slate-500">Enviaremos una invitación a este correo.</p>
+                  </div>
+  
+                  <div>
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Rol</label>
+                    <div class="relative">
+                      <select name="memberRole" class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                              focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                              transition" data-bind="value: roleMember">
+                        <option value="Admin">Admin</option>
+                        <option value="Editor">Editor</option>
+                        <option value="Viewer">Viewer</option>
+                      </select>
+                      <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        ▾
+                      </span>
+                    </div>
+                  </div>
+  
+                  <div>
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Estado</label>
+                    <div class="relative">
+                      <select name="memberStatus" class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                              focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                              transition" data-bind="value: estadoMember">
+                        <option value="Activo">Activo</option>
+                        <option value="Deshabilitado">Deshabilitado</option>
+                      </select>
+                      <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        ▾
+                      </span>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Footer -->
+                <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+                  <p class="text-[11px] text-slate-500">
+                    Al guardar, el miembro quedará asociado al proyecto.
+                  </p>
+  
+                  <div class="flex justify-end gap-2">
+                    <button type="button" data-close-member class="px-4 py-2.5 rounded-2xl border border-slate-200 bg-white text-xs font-semibold
+                            text-slate-700 hover:bg-slate-50 active:scale-[0.99] transition">
+                      Cancelar
+                    </button>
+  
+                    <button type="submit" class="px-4 py-2.5 rounded-2xl bg-indigo-600 text-white text-xs font-semibold
+                            shadow-sm shadow-indigo-600/30 hover:bg-indigo-700 active:scale-[0.99] transition"
+                      data-bind="click: saveMember">
+                      Guardar miembro
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+  
+          </div>
+        </div>
+        
+        
+        <!-- =============== MODAL: NUEVO BASE DATOS RAG =============== -->
+        <div id="modal-rag"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-rag-title">
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG -->
+                  <div class="icon-rag grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+                   
+                  </div>
+  
+                  <div>
+                    <h2 id="modal-rag-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nueva base de datos RAG
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Registra la información básica y, si aplica, los detalles de la base RAG
+                    </p>
+                  </div>
+                </div>
+  
+                <button type="button" data-close-rag aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+  
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-rag" class="space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Tus inputs básicos aquí -->
+                </div>
+  
+                <!-- RAG -->
+                <div class="rounded-3xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                      <h3 class="text-xs font-semibold text-slate-800">
+                        Registrar nueva base de datos RAG <span class="text-slate-400 font-medium">(opcional)</span>
+                      </h3>
+                      <p class="mt-0.5 text-[11px] text-slate-500">
+                        Completa estos campos si quieres guardar metadatos de la base RAG.
+                      </p>
+                    </div>
+                    <span
+                      class="inline-flex items-center rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-slate-200">
+                      RAG
+                    </span>
+                  </div>
+  
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre RAG</label>
+                      <input type="text" name="ragName" placeholder="Ej. RAG Documentación" data-bind="value: nameRag"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                    </div>
+  
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
+                      <select name="ragType" data-bind="value: tipoRag"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15">
+                        <option value="">Sin especificar</option>
+                        <option value="Vectorial">Vectorial</option>
+                        <option value="Mixto">Mixto</option>
+                      </select>
+                    </div>
+  
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Última actualización</label>
+                      <input type="date" name="ragLastUpdate" data-bind="value: fechaRag"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Actions -->
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-rag
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+  
+                  <button type="submit" data-bind="click: saveRag"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar RAG
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        
+        <!-- =============== MODAL: INSERTAR TOOLS =============== -->
+        <div id="modal-tool"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-tool-title">
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG -->
+                  <div class="icon-tool grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+                   
+                  </div>
+  
+                  <div>
+                    <h2 id="modal-tool-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nueva Tool
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Registra los datos básicos y, si aplica, la configuración de la herramienta
+                    </p>
+                  </div>
+                </div>
+  
+                <button type="button" data-close-tool aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+  
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-tool" class="space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Tus inputs básicos aquí -->
+                </div>
+  
+                <!-- TOOL -->
+                <div class="rounded-3xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                      <h3 class="text-xs font-semibold text-slate-800">
+                        Registrar nueva tool <span class="text-slate-400 font-medium">(opcional)</span>
+                      </h3>
+                      <p class="mt-0.5 text-[11px] text-slate-500">
+                        Útil para documentar conectores, APIs, scripts o integraciones.
+                      </p>
+                    </div>
+                    <span
+                      class="inline-flex items-center rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-slate-200">
+                      TOOL
+                    </span>
+                  </div>
+  
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre de la tool</label>
+                      <input type="text" name="toolName" placeholder="Ej. Conector CRM" data-bind="value: nameTool"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                    </div>
+  
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
+                      <input type="text" name="toolType" placeholder="API / Tool / Script..." data-bind="value: tipoTool"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                    </div>
+  
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Permiso</label>
+                      <select name="toolPermission" data-bind="value: permisoTool"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15">
+                        <option value="">Sin especificar</option>
+                        <option value="Lectura / Escritura">Lectura / Escritura</option>
+                        <option value="Solo lectura">Solo lectura</option>
+                        <option value="Restringido">Restringido</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Actions -->
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-tool
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+  
+                  <button type="submit" data-bind="click: saveTool"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar tool
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        
+        <!-- =============== MODAL: CUADRO DE DIALOGO BORRAR =============== -->
+        <div id="modal-borrar"
+          class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+          <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+  
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-sm font-semibold text-slate-900">
+                Eliminar Registro
+              </h2>
+              <button type="button" class="text-slate-400 hover:text-slate-600 text-xl leading-none" data-close-borrar>
+                ×
+              </button>
+            </div>
+  
+            <!-- Icono -->
+            <div class="flex justify-center mb-4">
+              <div class="icon-borrar flex items-center justify-center w-14 h-14 rounded-full bg-red-100">
+  
+              </div>
+            </div>
+  
+            <!-- Contenido -->
+            <form id="form-borrar" class="space-y-4 text-xs text-center">
+  
+              <div class="border border-red-200 bg-red-50 rounded-2xl p-4">
+                <h3 class="text-sm font-semibold text-red-700 mb-1">
+                  ¿Deseas borrar este registro?
+                </h3>
+                <p class="text-red-600 text-[11px]">
+                  Esta acción no se puede deshacer.
+                </p>
+              </div>
+  
+              <!-- Botones -->
+              <div class="flex justify-center gap-3 pt-2">
+                <button type="button" data-close-borrar
+                  class="px-4 py-2 rounded-xl border border-slate-200 text-xs hover:bg-slate-50">
+                  Cancelar
+                </button>
+  
+                <button type="submit"
+                  class="px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-medium hover:bg-red-700"
+                  data-bind="click: saveBorrar">
+                  Sí, eliminar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        
+        <!-- CUADRO DE DIÁLOGO CHAT -->
+        <div id="chat-box" class="chat-box">
+  
+          <div id="chat-container">
+            <div class="chat-box-header flex justify-between items-center  gap-4">
+           
+               <span >Axet Flow – Chat</span>
+               <span class="flex items-center gap-2">
+               <button type="button" id="btn-borrar-mensajes"  aria-label="borrar mensajes"
+                  class="inline-flex h-9 w-9 items-center bg-slate-100 justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200  transition hover:bg-slate-300 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="icon-trash leading-none"></span>
+               </button>
+               <button type="button" data-close-chat aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center bg-slate-100 justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-300 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-sm leading-none">×</span>
+               </button>
+               </span>
+            </div>
+            <div class="chat-box-body">
+              
+                 
+                 <div id="messages" class="flex-1 space-y-3 overflow-y-auto mb-3 text-xs" databind="with: selectedProject">
+                
+                 </div>
+                 
+
+              <form id="form">
+                <div id="drop-area">
+                  Drag here to attach
+                </div>
+                <input type="file" id="file-input" multiple hidden>
+                <div id="preview-container"></div>
+                <div id="message-drag">
+                  <div><img id="multiplesFicheros" src="" height="50" width="50" /></div>
+                  <div>
+                    <h2 style="padding: 0; margin: 0;">Añade lo que quieras</h2>
+                  </div>
+                  <div style="margin: 5px;"><span>Suelta aqui cualquier archivo para añadirlo a la conversacion</span>
+                  </div>
+                </div>
+                <!--
+                <textarea id="question" placeholder="Escribe tu pregunta aquí..."></textarea>
+                <button type="submit" id="send-btn">Enviar</button>
+                
+                -->
+                <div class="pl-1 flex items-center gap-3">
+                  
+                    <input id="question" type="text" placeholder="Escribe un mensaje o una pregunta a la IA..."
+                      class="flex-1 px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 bg-white" />
+                    <button id="send-btn"  class="px-3 py-2 rounded-xl text-xs font-medium bg-indigo-600 text-white hover:bg-indigo-700">
+                       
+                    </button>
+                </div>
+                <div class="relative block" id="error"></div>
+              </form>
+            </div>
+          </div>
+  
+        </div>
+        
+        <!-- BOTÓN FLOTANTE DEL CHAT -->
+        <button id="chat-toggle" class="chat-button" aria-label="Abrir chat">
+          <svg width="75" height="75" viewBox="0 0 75 75" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="37.5" cy="37.5" r="37.5" class="chat-bg" />
+            <path class="chat-bubble"
+              d="M22 24 h31 a4 4 0 0 1 4 4 v15 a4 4 0 0 1 -4 4 h-12 l-6 6 v-6 h-13 a4 4 0 0 1 -4 -4 v-15 a4 4 0 0 1 4 -4 z" />
+            <circle cx="30" cy="35.5" r="2.2" class="chat-dot dot-1" />
+            <circle cx="37.5" cy="35.5" r="2.2" class="chat-dot dot-2" />
+            <circle cx="45" cy="35.5" r="2.2" class="chat-dot dot-3" />
+          </svg>
+        </button>
+      </main>
+    </div>
+  </div>
+
+  <!-- JS: Tabs + Knockout + datos mock -->
+  <script>
+    // ------- TABS SUPERIORES (igual que antes) -------
+    //let globalMiembro={};
+    function getInitials(name) {
+      if (!name) return '';
+      return name
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((n) => n[0].toUpperCase())
+        .join('');
+    }
+    
+    window.getInitials=getInitials;
+    window.globalMiembro={};
+    addEventListener("DOMContentLoaded", (event) => {
+        function removeIfExists (selector) {
+          var x = document.querySelector(selector)
+          if (x) x.remove()
+        }
+        
+    
+    removeIfExists('nav.navbar.navbar-expand');
+    removeIfExists('ul.sidebar.navbar-nav');
+    removeIfExists('footer.sticky-footer');
+    //tanto el url como el port hay que ponerlo como undefined, para que quede como /api/projects y /api/members, el
+    //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
+    const url= 'localhost';
+    const port = '52319';
+    const urlProject= (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
+    const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
+    
+    async function AddProjectApi(project){
+        try {
+            const response = await fetch(urlProject + '/insert', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(project)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+            
+            
+            if (result) {
+                
+                const id = result.data["0"]._id;
+                const mockProject = {...result.data["0"],id:id}
+                return mockProject;
+                
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            return {error:err};
+          } finally {
+          
+          }
+    }
+    async function UpdateProjectApi(project){
+       try {
+            const response = await fetch(urlProject + '/update', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(project)
+            });
+            
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+            
+            const result = await response.json();
+            console.log(result);
+            
+            
+            if (result) {
+                
+                /*
+                const mockMembers = result.data.map((f)=>{
+                  return {...f,id:f._id};
+                });
+                */
+                
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            
+          } finally {
+          
+          }
+    }
+    async function deleteProjectApi(project){
+       try {
+            const response = await fetch(urlProject + '/' + project.id, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(member)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+            
+            
+            if (result) {
+                
+                /*
+                const mockMembers = result.data.map((f)=>{
+                  return {...f,id:f._id};
+                });
+                */
+                
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            
+          } finally {
+          
+          }
+    }
+    async function queryProjectApi(setProjects){
+          try {
+            const response = await fetch(urlProject + '/all', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+            
+            
+            if (result) {
+                const mockProjects = result.data.map((f)=>{
+
+                  return {...f,id:f._id};
+                });
+                setProjects(mockProjects);
+                //viewModel.setProjects(result.data);
+                //loadViewModel()
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            
+          } finally {
+          
+          }
+    }
+    async function querySearchProjectApi(filter){
+       
+    }
+    async function addMembersApi(member){
+          try {
+            const response = await fetch(urlMember + '/insert', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(member)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+            
+            
+            if (result) {
+                
+                const id = result.data["0"]._id;
+                const mockMembers = {...result.data["0"],id:id}
+                return mockMembers;
+                
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            return {error:err};
+          } finally {
+          
+          }
+    }
+    async function updateMembersApi(member){
+       try {
+            const response = await fetch(urlMember + '/update', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(member)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+            
+            
+            if (result) {
+                
+                /*
+                const mockMembers = result.data.map((f)=>{
+                  return {...f,id:f._id};
+                });
+                */
+                
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            
+          } finally {
+          
+          }
+    }
+    async function deleteMembersApi(member){
+        try {
+            const response = await fetch(urlMember + '/' + member.id, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(member)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+            
+            
+            if (result) {
+                
+                /*
+                const mockMembers = result.data.map((f)=>{
+                  return {...f,id:f._id};
+                });
+                */
+                
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            
+          } finally {
+          
+          }
+    } 
+    async function queryMembersApi(){
+       
+    }
+    async function querySearchMembersApi(filter){
+       
+    }
+    async function queryMembersByID(id,setMembers){
+       //console.log(id);
+          try {
+            const response = await fetch(urlProject + '/members/' + id, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+           
+            
+            if (result) {
+                const mockMembers = result.data.map((f)=>{
+
+                  return {...f,id:f._id};
+                });
+                setMembers(mockMembers);
+                
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            
+          } finally {
+          
+          }
+    }    
+    //--------------------------------------------------------------------
+    
+        const tabs = document.querySelectorAll('.top-tab');
+        const sections = {
+            miembros: document.getElementById('view-miembros'),
+            chat: document.getElementById('view-chat'),
+            detalle: document.getElementById('view-detalle'),
+        };
+
+        function setActiveTab(view) {
+            tabs.forEach((tab) => {
+                const isActive = tab.dataset.view === view;
+                tab.classList.toggle('bg-slate-900', isActive);
+                tab.classList.toggle('text-white', isActive);
+                tab.classList.toggle('border-slate-900', isActive);
+                tab.classList.toggle('hover:bg-slate-100', !isActive);
+            });
+
+            Object.entries(sections).forEach(([key, section]) => {
+                if (key === view) {
+                    section.classList.remove('hidden');
+                } else {
+                    section.classList.add('hidden');
+                }
+            });
+        }
+
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => {
+                setActiveTab(tab.dataset.view);
+            });
+        });
+
+        setActiveTab('miembros');
+        
+
+         const iconSVGBack = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+                    <path d="M15 18l-6-6 6-6" />
+                </svg> <span>Volver Atrás</span>
+                `.trim();
+        const btnBackMembers = document.getElementById('btn-back-members');
+        btnBackMembers.innerHTML = iconSVGBack;
+        
+        btnBackMembers.addEventListener('click',()=>{
+            setActiveTab('miembros');  
+        });
+        
+        
+        // ------- DATOS MOCK (proyectos, miembros, RAGs, tools) -------
+        
+        let mockProjects = [
+            {
+                id: 1,
+                name: 'RAG Asistentes IA',
+                description: 'Asistentes internos para soporte a equipos.',
+            },
+            {
+                id: 2,
+                name: 'Portal MirrorMind',
+                description: 'Portal maestro para gestión de miembros y proyectos.',
+            },
+            {
+                id: 3,
+                name: 'Analítica Conversacional',
+                description: 'KPIs y reporting conversacional.',
+            },
+            {
+                id: 4,
+                name: 'Onboarding RAG',
+                description: 'Flujos de onboarding con IA y RAG.',
+            },
+        ];
+         
+        let mockMembers = [
+            {
+                id: 1,
+                projectId: 1,
+                name: 'Andrés Pallares',
+                email: 'andres@mirrormind.ai',
+                role: 'Admin',
+                status: 'Activo',
+                ragDatabases: [
+                    {id:1,memberId:1, name: 'Documentación Interna', type: 'Vectorial', lastUpdate: '2025-10-12' },
+                    {id:2,memberId:1, name: 'FAQs Cliente A', type: 'Vectorial', lastUpdate: '2025-09-03' },
+                    {id:3,memberId:1, name: 'Conocimiento Producto X', type: 'Mixto', lastUpdate: '2025-08-25' },
+                ],
+                tools: [
+                    {id:1,memberId:1, name: 'Conector Jira', type: 'API', permission: 'Lectura / Escritura' },
+                    {id:2,memberId:1, name: 'Conector Confluence', type: 'API', permission: 'Solo lectura' },
+                    {id:3,memberId:1, name: 'SQL Runner', type: 'Tool', permission: 'Restringido' },
+                ],
+            },
+            {
+                id: 2,
+                projectId: 1,
+                name: 'María García',
+                email: 'maria.g@mirrormind.ai',
+                role: 'Editor',
+                status: 'Activo',
+                ragDatabases: [
+                    {id:4,memberId:2,name: 'FAQs Cliente B', type: 'Vectorial', lastUpdate: '2025-07-10' },
+                    {id:5,memberId:2,name: 'Guías de uso', type: 'Vectorial', lastUpdate: '2025-06-18' },
+                ],
+                tools: [
+                    {id:4,memberId:2, name: 'Conector CRM', type: 'API', permission: 'Lectura / Escritura' },
+                    {id:5,memberId:2, name: 'Slack Bot', type: 'Tool', permission: 'Solo lectura' },
+                ],
+            },
+            {
+                id: 3,
+                projectId: 2,
+                name: 'Juan López',
+                email: 'juan.lopez@mirrormind.ai',
+                role: 'Viewer',
+                status: 'Deshabilitado',
+                ragDatabases: [
+                    {id:6,memberId:3,name: 'Manual Portal', type: 'Mixto', lastUpdate: '2025-05-02' },
+                ],
+                tools: [
+                    {id:6,memberId:3, name: 'Panel Analytics', type: 'Tool', permission: 'Restringido' },
+                ],
+            },
+            {
+                id: 4,
+                projectId: 3,
+                name: 'Laura Sánchez',
+                email: 'laura.s@mirrormind.ai',
+                role: 'Editor',
+                status: 'Activo',
+                ragDatabases: [
+                    {id:7,memberId:4, name: 'Logs Conversacionales', type: 'Vectorial', lastUpdate: '2025-09-21' },
+                    {id:8,memberId:4, name: 'Dashboards KPIs', type: 'Mixto', lastUpdate: '2025-09-30' },
+                ],
+                tools: [
+                    {id:7,memberId:4, name: 'Looker Studio', type: 'Tool', permission: 'Lectura / Escritura' },
+                    {id:8,memberId:4, name: 'Conector BigQuery', type: 'API', permission: 'Lectura / Escritura' },
+                ],
+            },
+            {
+                id: 5,
+                projectId: 4,
+                name: 'Pedro Ruiz',
+                email: 'pedro.ruiz@mirrormind.ai',
+                role: 'Admin',
+                status: 'Activo',
+                ragDatabases: [
+                    { name: 'Playbooks Onboarding', type: 'Vectorial', lastUpdate: '2025-10-01' },
+                ],
+                tools: [
+                    { name: 'Orquestador Flujos', type: 'Tool', permission: 'Lectura / Escritura' },
+                ],
+            },
+        ];
+       
+    // ------- MODAL NUEVO PROYECTO -------
+    const modalProject = document.getElementById('modal-project');
+    const btnNewProject = document.getElementById('btn-new-project');
+    const formProject = document.getElementById('form-project');
+    //const projectGrid = document.getElementById('projects-grid');
+
+    const inputNameProject = formProject.querySelector('input[name="projectName"]');
+    const inputDescriptionProject = formProject.querySelector('textarea[name="projectDescription"]');
+    //console.log(inputDescriptionProject);
+
+    function openProjectModal() {
+      modalProject.classList.remove('hidden');
+    }
+    
+    function closeProjectModal() {
+      modalProject.classList.add('hidden');
+      formProject.reset();
+    }
+    /*
+    btnNewProject.addEventListener('click',(e) =>{
+       openProjectModal()
+    });
+    */
+    modalProject.querySelectorAll('[data-close-project]').forEach((btn) => {
+      btn.addEventListener('click', closeProjectModal);
+    });
+     
+    modalProject.addEventListener('click', (e) => {
+      if (e.target === modalProject) closeProjectModal();
+    });
+    
+    // ------- MODAL NUEVO MIEMBRO -------
+    const modalMember = document.getElementById('modal-member');
+    //const btnNewMember = document.getElementById('btn-new-member');
+    const formMember = document.getElementById('form-member');
+    const membersTbody = document.getElementById('members-tbody');
+    
+    const inputMemberName = formMember.querySelector('input[name="memberName"]');
+    const inputMemberEmail = formMember.querySelector('input[name="memberEmail"]');
+    const selectMemberRole = formMember.querySelector('select[name="memberRole"]');
+    const selectMemberStatus = formMember.querySelector('select[name="memberStatus"]');
+    
+    
+    function openMemberModal() {
+      modalMember.classList.remove('hidden');
+    }
+    
+    function closeMemberModal() {
+      modalMember.classList.add('hidden');
+      formMember.reset();
+    }
+     
+    //btnNewMember.addEventListener('click', openMemberModal);
+    
+    modalMember.querySelectorAll('[data-close-member]').forEach((btn) => {
+      btn.addEventListener('click', closeMemberModal);
+    });
+    
+    modalMember.addEventListener('click', (e) => {
+      if (e.target === modalMember) closeMemberModal();
+    });
+    
+    //------------MODAL NUEVA BASE DE DATOS RAG-----------------------
+              
+    const modalRag = document.getElementById('modal-rag');
+    
+    const formRag = document.getElementById('form-rag');
+    
+    const inputRagName = formRag.querySelector('input[name="ragName"]');
+    const selecttRagType = formRag.querySelector('select[name="ragType"]');
+    const inputRagLastUpdate = formRag.querySelector('input[name="ragLastUpdate"]');
+    
+    
+
+    function closeRagModal(){
+        modalRag.classList.add('hidden');
+    }
+    
+    modalRag.querySelectorAll('[data-close-rag]').forEach((btn) => {
+      btn.addEventListener('click', closeRagModal);
+    });
+    
+    modalRag.addEventListener('click',(e) =>{
+         if (e.target === modalRag) closeRagModal();
+    });
+    
+    //--------------- MODAL NUEVO TOOL -----------------------------------
+    const modalTool = document.getElementById('modal-tool');       
+    
+    const formTool = document.getElementById('form-tool')
+    
+    const inputToolName = formTool.querySelector('input[name="toolName"]');
+    const inputToolType = formTool.querySelector('input[name="toolType"]');
+    const inputSelectToolPermission = formTool.querySelector('select[name="toolPermission"]');
+    
+    function closeToolModal(){
+        modalTool.classList.add('hidden');
+    }
+    
+    modalTool.querySelectorAll('[data-close-tool]').forEach((btn) => {
+      btn.addEventListener('click', closeToolModal);
+    });
+    
+    modalTool.addEventListener('click',(e) =>{
+         if (e.target === modalTool) closeToolModal();
+    });
+    
+    //------------------ MODAL CUADRO DIALOGO BORRAR -------------------------
+    
+    const modalBorrar = document.getElementById('modal-borrar');
+    
+    function openBorrarModal(){
+        modalBorrar.classList.remove('hidden');
+    }
+    
+    function closeBorrarModal(){
+      modalBorrar.classList.add('hidden');
+    }
+
+    
+    modalBorrar.querySelectorAll('[data-close-borrar]').forEach((btn) => {
+      btn.addEventListener('click', closeBorrarModal);
+    });
+    
+    modalBorrar.addEventListener('click',(e) =>{
+         if (e.target === modalTool) closeBorrarModal();
+    });
+    
+    
+   
+    function debounce(func, wait, immediate) {
+            var timeout;
+            return function () {
+                var context = this, args = arguments;
+                var later = function () {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        }
+    let txtmiembros = document.getElementById('txtmiembros');
+    
+    txtmiembros.addEventListener("keydown",(e) =>{
+      //console.log(e);
+      //console.log(txtmiembros.value);
+    });
+    
+    txtmiembros.addEventListener("keyup",(e)=>{
+      //console.log(e);
+      //console.log(txtmiembros.value);
+      
+    });
+    
+   
+        
+    
+    
+        // ------- VIEWMODEL KO -------
+
+        function AppViewModel() {
+            const self = this;
+            
+            self.filtertext = ko.observable("");
+            self.filtertext.subscribe((d)=>{
+              console.log(d);
+              const project = self.selectedProject();
+              if (!project) return self.members();
+              
+              console.log(self.members().filter((m) => m.name.toLowerCase().includes(d.toLowerCase()) && m.projectId === project.id));
+              self.filterMembers(self.members().filter((m) => m.name.toLowerCase().includes(d.toLowerCase()) && m.projectId === project.id));
+              if (d.length>0)
+                 self.cadBusquedaMiembros(true);
+              else
+                 self.cadBusquedaMiembros(false);
+                 //self.filteredMembers(filterMembers);
+            });
+
+            self.nameProject= ko.observable("");
+            self.descriptionProject= ko.observable("");
+            self.cadBusquedaMiembros = ko.observable(false);
+            
+            
+            self.projects = ko.observableArray(mockProjects);
+            self.members = ko.observableArray(mockMembers);
+            self.filterMembers = ko.observableArray([]);
+            //console.log(self.projects.length);
+            this.setProjects = function(projects){
+              self.projects(projects);
+            }
+            
+            self.actionProject = ko.observable("");
+            self.actionMember = ko.observable("");
+            self.actionRag = ko.observable("");
+            self.actionTool = ko.observable("");
+            self.actionBorrar = ko.observable("");
+            
+            self.selectedProject = ko.observable();
+            self.selectedMember = ko.observable();
+            self.selectedRag = ko.observable();
+            self.selectedTool = ko.observable();
+            
+
+            self.nameMember = ko.observable("");
+            self.emailMember = ko.observable("");
+            self.roleMember = ko.observable("");
+            self.estadoMember = ko.observable("");
+
+            self.nameRag = ko.observable("");
+            self.tipoRag = ko.observable("");
+            self.fechaRag = ko.observable("");
+
+            self.nameTool = ko.observable("");
+            self.tipoTool = ko.observable("");
+            self.permisoTool = ko.observable("");
+            
+            
+            self.selectProject = async function (project) {
+                setActiveTab('miembros');
+                self.filtertext("");
+                self.cadBusquedaMiembros(false);
+                self.filterMembers([]);
+                self.selectedProject(project);
+                await queryMembersByID(project._id,self.members);
+                const firstMember = self.members().find((m) => m.projectId === project.id);
+                self.selectedMember(firstMember || null);
+                //console.log(project);
+            };
+            
+            self.selectMember = function (member) {
+                self.selectedMember(member);
+                globalMiembro = member;
+                // opcional: cambiar a pestaña "Detalle" automáticamente
+                setActiveTab('detalle');
+            };
+            self.selectRag = function(rag){
+              self.selectedRag(rag);
+
+            }
+            self.selectTool = function(tool){
+              self.selectedTool(tool);
+            }
+            self.filteredMembers = ko.computed(function () {
+                //console.log("estoy en filtered")
+                const project = self.selectedProject();
+                if (!project) return self.members();
+                //console.log(self.members().filter((m) => m.projectId === project.id));
+                console.log(self.filterMembers());
+                console.log(self.cadBusquedaMiembros());
+                if (self.filterMembers().length==0 && !self.cadBusquedaMiembros())
+                  return  self.members().filter((m) => m.projectId === project.id);
+                else 
+                  return self.filterMembers()
+                
+                  
+            });
+            
+            self.getProjectMemberCount = function (projectId) {
+                return self.members().filter((m) => m.projectId === projectId).length;
+            };
+             
+            self.getProjectRagCount = function (projectId) {
+                return self.members()
+                    .filter((m) => m.projectId === projectId)
+                    .reduce((acc, m) => acc + (m.ragDatabases ? m.ragDatabases.length : 0), 0);
+            };
+            
+            self.getInitials = function (name) {
+                if (!name) return '';
+                return name
+                    .split(' ')
+                    .filter(Boolean)
+                    .slice(0, 2)
+                    .map((n) => n[0].toUpperCase())
+                    .join('');
+            };
+            
+            self.btnNewMember = function(){
+                self.actionMember("new");
+                modalMember.classList.remove('hidden');
+                self.nameMember("");
+                self.emailMember("");
+                self.roleMember("")
+                self.estadoMember("");
+            }
+            self.btnNewRag= function(){
+               //console.log("estoy en click RAG");
+               self.actionRag("new");
+               modalRag.classList.remove('hidden');
+               self.nameRag("");
+               self.tipoRag("");
+               self.fechaRag("");
+            }
+            
+            self.btnNewTool = function(){
+              //console.log("opentoolmodal");
+                self.actionTool("new");
+                modalTool.classList.remove('hidden');
+                self.nameTool("");
+                self.tipoTool("");
+                self.permisoTool("");
+            }
+             
+            self.btnNewProject = function(){
+                modalProject.classList.remove('hidden');
+                self.actionProject("new");
+                self.nameProject("");
+                self.descriptionProject("");
+            }
+            self.saveProject = function(model,e){
+              //console.log(self.actionProject());
+              if (self.actionProject()==="new"){
+                  self.addProject(model,e);
+              }else if (self.actionProject()==="update"){
+                  self.updateProject(model,e);
+              }
+            }
+            self.addProject = async function(model,e){
+                //console.log(model);
+                 inputNameProject.reportValidity(); 
+                //console.log(inputNameProject.validity.valid);
+                if (inputNameProject.validity.valid){
+                    let project = {
+                      //id:uuid.v4(),
+                      name: model.nameProject(),
+                      description: model.descriptionProject()
+                    };  
+                    project = await AddProjectApi(project);
+                    self.projects.push(project);
+                    closeProjectModal();
+                }else{
+                   
+                }
+            }
+            self.updateProject = function(model,e){
+               //let project = model
+               const oldproject = self.selectedProject();
+               //console.log(project);
+               //console.log(oldproject);
+               let newProjects = [];
+               self.projects().forEach((el,i)=>{
+                    if (el.name === oldproject.name){
+                      const project = {id: oldproject.id, _id:oldproject.id, name: model.nameProject(),description: model.descriptionProject()}
+
+                      self.projects()[i]= project;
+                      UpdateProjectApi(project);
+                    }
+                    newProjects.push(self.projects()[i]);
+               })
+               //console.log(self.projects());
+               self.projects(newProjects);
+               closeProjectModal();
+            }
+            self.editProject = function(project){
+                self.actionProject("update");
+                //console.log(project);
+                //console.log(self.projects());
+                 self.selectedProject(project);
+                 modalProject.classList.remove('hidden');
+                 self.nameProject( project.name);
+                 self.descriptionProject(project.description);
+                 //console.log(self.nameProject());
+                 //console.log(self.nameProject); 
+                 //console.log(inputDescriptionProject);
+                 inputNameProject.value = project.name;
+                 inputDescriptionProject.innerHTML = project.description;
+                      
+            }
+            
+            self.deleteProject = function(project){
+                //console.log(project);
+                self.actionBorrar("proyecto");
+                 self.selectedProject(project);
+                openBorrarModal();
+            }
+            self.saveMember = function(model,e){
+               if (self.actionMember() == "new"){
+                  self.addMember(model,e);
+               } else if (self.actionMember() == "update"){
+                  self.updateMember(model,e);
+               }
+            }
+            self.addMember = async function(model,e){
+                //console.log(model);
+                //console.log(self.selectedProject);
+                let member = {
+                    //id:uuid.v4(),
+                    projectId: self.selectedProject().id,
+                    name: model.nameMember(),
+                    email: model.emailMember(),
+                    role: model.roleMember(),
+                    status: model.estadoMember(),
+                    ragDatabases:[],
+                    tools:[]
+                };
+                member = await addMembersApi(member);
+                self.members.push(member);
+                  
+                //console.log(self.members())
+                closeMemberModal();
+            } 
+            self.updateMember = function(model,e){
+               const oldMember = self.selectedMember();
+               console.log(oldMember);
+               let newMembers = [];
+               self.members().forEach((el,i) =>{
+                   if (el.id === oldMember.id){
+                    const member = {id: oldMember.id,_id: oldMember.id , projectId: oldMember.projectId, name: model.nameMember(),email: model.emailMember(), role: model.roleMember(),status: model.estadoMember(),ragDatabases: oldMember.ragDatabases,tools: oldMember.tools}  
+                    self.members()[i] = member;
+                    updateMembersApi(member); 
+                   }
+                   newMembers.push(self.members()[i]);
+               });
+               self.members(newMembers);
+               closeMemberModal();
+            }
+            self.editMember = function(member){
+                //console.log(member)
+                modalMember.classList.remove('hidden');
+                self.selectedMember(member);
+                self.actionMember("update");
+                self.nameMember(member.name);
+                self.emailMember(member.email);
+                self.roleMember(member.role)
+                self.estadoMember(member.status);
+                inputMemberName.value = member.name;
+                inputMemberEmail.value = member.email;
+                selectMemberRole.value = member.role;
+                selectMemberStatus.value = member.status;
+            }
+            self.deleteMember = function(member){
+                //console.log(member);
+                self.actionBorrar("miembro");
+                self.selectedMember(member);
+                openBorrarModal();
+            }
+            
+            self.saveRag = function(model,e){
+                if (self.actionRag() === "new"){
+                    self.addRag(model,e);
+                }else if (self.actionRag() === "update"){
+                    self.updateRag(model,e);
+                }
+            }
+            self.addRag = async function(model,e){
+                let selectedMember = self.selectedMember()
+                //console.log(selectedMember);
+                let memberId = selectedMember.id
+                let ragDatabases = self.selectedMember().ragDatabases;
+                let newRag = { id:uuid.v4(), memberId: memberId, lastUpdate: self.fechaRag(),name: self.nameRag(),type: self.tipoRag()}
+                ragDatabases.push(newRag);
+                selectedMember.ragDatabases = ragDatabases;
+                selectedMember = await addMembersApi(selectedMember);
+                self.selectedMember(selectedMember);
+                
+                closeRagModal()
+            }
+            self.updateRag = async function(model,e){
+                const oldMember = self.selectedMember();
+                const oldRag = self.selectedRag();
+                //console.log(oldRag);
+                let newDababaseRag = [];
+                self.selectedMember().ragDatabases.forEach((el,i)=>{
+                   if (el.name === oldRag.name){
+                       self.selectedMember().ragDatabases[i] = {id: oldRag.id,memberId: oldMember.id,name: model.nameRag(),type: model.tipoRag(),lastUpdate: model.fechaRag()}
+                   }
+                   newDababaseRag.push(self.selectedMember().ragDatabases[i]);
+                });  
+                self.selectedMember().ragDatabases = newDababaseRag;
+                let selectedMember = self.selectedMember();
+                await updateMembersApi(selectedMember);
+                self.selectedMember(selectedMember);
+
+                closeRagModal()
+                
+            }
+            self.editRag = function(rag){
+              //console.log(rag);
+              modalRag.classList.remove('hidden');
+              self.selectedRag(rag);
+              self.actionRag("update");
+              self.nameRag(rag.name);
+              self.tipoRag(rag.type);
+              self.fechaRag(rag.lastUpdate);
+              inputRagName.value = rag.name;
+              selecttRagType.value = rag.type;
+              inputRagLastUpdate.value = rag.lastUpdate;
+            }
+            
+            self.deleteRag = function(rag){
+              //console.log(rag);
+              self.actionBorrar("rag");
+              self.selectedRag(rag);
+              openBorrarModal();
+
+            }
+            self.saveTool = function(model,e){
+                 if (self.actionTool() === "new"){
+                    self.addTool(model,e);
+                 }else if (self.actionTool() === "update"){
+                    self.updateTool(model,e);
+                 }
+            }
+            self.addTool = async function(model,e){
+                let selectedMember = self.selectedMember();
+                let memberId = selectedMember.id;
+                let tools = self.selectedMember().tools;
+                let newTool = { id:uuid.v4(), memberId: memberId, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool() }
+                tools.push(newTool);
+                selectedMember.tools= tools;
+                selectedMember = await addMembersApi(selectedMember);
+                self.selectedMember(selectedMember);
+                closeToolModal();
+            }
+            self.updateTool = async function(model,e){
+                const oldMember = self.selectedMember();
+                const oldTool = self.selectedTool();
+                let newTools= [];
+                self.selectedMember().tools.forEach((el,i)=>{
+                  if (el.name === oldTool.name){
+                      self.selectedMember().tools[i]= {id: oldTool.id,memberId:oldMember.id, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool()} 
+                  }  
+                  newTools.push(self.selectedMember().tools[i]) 
+                });
+                self.selectedMember().tools= newTools;
+                let selectedMember = self.selectedMember();
+                await updateMembersApi(selectedMember);
+                self.selectedMember(selectedMember);
+                closeToolModal();
+                 
+            }
+            self.editTool = function(tool){
+              //console.log(tool);
+              modalTool.classList.remove('hidden');
+              self.selectedTool(tool);
+              self.actionTool("update");
+              self.nameTool(tool.name);
+              self.tipoTool(tool.type);
+              self.permisoTool(tool.permission);
+              inputToolName.value = tool.name; 
+              inputToolType.value = tool.type;
+              inputSelectToolPermission.value = tool.permission; 
+            }
+            
+            self.deleteTool = function(tool){
+              //console.log(tool);
+              self.actionBorrar("tool");
+              self.selectedTool(tool);
+              openBorrarModal();
+            }
+            self.saveBorrar = function(){
+              if (self.actionBorrar() === "proyecto"){
+                 self.deleteRowProject();
+              } else if (self.actionBorrar() === "miembro"){
+                 self.deleteRowMember(); 
+              } else if (self.actionBorrar() === "rag"){
+                 self.deleteRowRag();
+              } else if (self.actionBorrar() === "tool"){
+                 self.deleteRowTool();
+              }
+              closeBorrarModal();
+            }
+            self.deleteRowProject = async function(){
+               let newProjects = [];
+               await deleteProjectApi(self.selectedProject());
+               newProjects = self.projects().filter( f => f.id !== self.selectedProject().id);
+               self.projects(newProjects);
+               //console.log(self.projects());
+               
+            }
+            self.deleteRowMember = async function(){
+                let newMembers = [];
+                await deleteMembersApi(self.selectedMember());
+                newMembers = self.members().filter(f => f.id !== self.selectedMember().id);
+                self.members(newMembers);
+            }
+            self.deleteRowRag = function(){
+                let newRagDatabases= [];
+                newRagDatabases = self.selectedMember().ragDatabases.filter(f => f.id !== self.selectedRag().id);
+                self.selectedMember().ragDatabases = newRagDatabases;
+                const selectedMember = self.selectedMember();
+                //aqui no borramos directamente el registro RAG, sino que como va embebido en miembros dentro de su array RagDatabases,
+                //lo que hacemos es actualizar el miembro y apareceran actualizados su array de RAGs asociados.
+                updateMembersApi(selectedMember);
+                self.selectedMember(selectedMember);
+            }
+            self.deleteRowTool = function(){
+                let newTools = [];
+                newTools = self.selectedMember().tools.filter(f =>f.id !== self.selectedTool().id);
+                self.selectedMember().tools = newTools;
+                const selectedMember = self.selectedMember(); 
+                //Aqui no borramos directamente el registro TOOL, 
+                // lo que hacemos es actualizar el registro miembro que lo habra quitado de su arrays de tools asociados
+                updateMembersApi(selectedMember);
+                self.selectedMember(selectedMember); 
+            }
+            self.avatarClass = function (status) {
+                return status === 'Activo'
+                    ? 'bg-indigo-100 text-indigo-700'
+                    : 'bg-slate-200 text-slate-700';
+            };
+            
+            self.statusClass = function (status) {
+                return status === 'Activo'
+                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
+                    : 'bg-slate-100 text-slate-500 border border-slate-200';
+            };
+            
+            self.permissionClass = function (permission) {
+                if (permission === 'Lectura / Escritura') {
+                    return 'bg-emerald-50 text-emerald-700 border-emerald-100';
+                }
+                if (permission === 'Solo lectura') {
+                    return 'bg-amber-50 text-amber-700 border-amber-100';
+                }
+                if (permission === 'Restringido') {
+                    return 'bg-rose-50 text-rose-700 border-rose-100';
+                }
+                return 'bg-slate-50 text-slate-600 border-slate-200';
+            };
+
+            // inicialización
+            if (self.projects().length > 0) {
+               
+                self.selectMember(self.members()[0]);
+                 self.selectProject(self.projects()[0]);
+            }
+            queryProjectApi(self.projects);
+        }
+        var viewModel = new AppViewModel();
+
+        function loadViewModel(){
+          
+           ko.applyBindings(new AppViewModel());
+        }
+        loadViewModel();
+        
+        //queryProjectApi()
+        /* *********************************
+        // una vez renderizado el viewmodel aqui podemos terminar de retocar
+        // elementos html, los foreach de las plantillas estaran ya renderizados
+        * **********************************/
+        //console.log(document.querySelectorAll('[icon-edit]').length)
+        /*
+        document.querySelectorAll('[icon-edit]').forEach((btnEdit) => {
+           //btn.addEventListener('click', closeToolModal);
+           //console.log(btnEdit);
+           btnEdit.innerHTML = iconSVGEdit;
+        });
+        document.querySelectorAll('[icon-del]').forEach((btnDel) =>{
+           btnDel.innerHTML = iconSVGDelete;
+        });
+        */
+
+     })
+
+  </script>
+
+ <script>
+    const btnChat = document.getElementById("chat-toggle");
+    const chatBox = document.getElementById("chat-box");
+
+    chatBox.querySelectorAll('[data-close-chat]').forEach((btn) => {
+        btn.addEventListener('click', closeChatboxModal);
+    });
+    function closeChatboxModal(){
+       chatBox.style.display = 'none'
+       
+    }
+    //const iconSVGChatBox = `<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'><path d='M20 10 L50 60 L20 110 L35 110 L60 70 L85 110 L100 110 L70 60 L100 10 L85 10 L60 45 L35 10 Z' fill='#0072CE'/></svg> `.trim();
+    //chatBox.innerHTML = iconSVGChatBox;
+    
+    const iconSVGChatButton = `<svg width="75" height="75" viewBox="0 0 75 75" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="37.5" cy="37.5" r="37.5" class="chat-bg" />
+                <path class="chat-bubble"
+                    d="M22 24 h31 a4 4 0 0 1 4 4 v15 a4 4 0 0 1 -4 4 h-12 l-6 6 v-6 h-13 a4 4 0 0 1 -4 -4 v-15 a4 4 0 0 1 4 -4 z" />
+                <circle cx="30" cy="35.5" r="2.2" class="chat-dot dot-1" />
+                <circle cx="37.5" cy="35.5" r="2.2" class="chat-dot dot-2" />
+                <circle cx="45" cy="35.5" r="2.2" class="chat-dot dot-3" />
+            </svg> `.trim();
+    btnChat.innerHTML = iconSVGChatButton;
+
+
+    btnChat.addEventListener("click", () => {
+        chatBox.style.display =
+            chatBox.style.display === "none" || chatBox.style.display === ""
+                ? "block"
+                : "none";
+    });
+</script>
+
+  <script>
+
+    const chatIA = function () {
+        const form = document.getElementById('form');
+        const questionInput = document.getElementById('question');
+        const messagesDiv = document.getElementById('messages');
+        const errorDiv = document.getElementById('error');
+        const sendBtn = document.getElementById('send-btn');
+        const btnBorrarMensajes = document.getElementById('btn-borrar-mensajes')
+        let messages = [];
+        const url =  'localhost';
+        const port= '52319';
+        const urlChat =(url && port) ? `http://${url}:${port}/api/test` : '/api/test';
+        // Función para añadir mensajes al div de salida
+        function addMessage(content, type) {
+          const msg = document.createElement('div');
+          //msg.classList.add('message', type);
+          
+          const contentUserTemplate = `
+              <div class="flex gap-2">
+                <div class="w-7 h-7 rounded-full bg-slate-300 flex items-center justify-center text-[10px] font-semibold text-slate-800" >
+                  ${getInitials(globalMiembro.name)}
+                </div>
+                <div>
+                  <div class="text-[11px] text-slate-500 mb-0.5">
+                    ${globalMiembro.name}
+                  </div>
+                  <div class="inline-block bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-200">
+                     ${content}
+                  </div>
+                </div>
+              </div> `.trim();
+          
+          const contentAITemplate = `
+              <div class="flex gap-2 justify-start min-w-[150] ">
+                <div>
+                  <div class="text-[11px] text-slate-500 text-right mb-0.5">IA · ahora</div>
+                  <div class="inline-block bg-white font-semibold text-slate-800 rounded-xl px-3 py-2 shadow-sm">
+                   ${content}
+                  </div>
+                </div>
+              </div>  `.trim();
+
+          if (type === 'bot') {
+            // La respuesta puede contener HTML -> usamos innerHTML
+            msg.innerHTML = contentAITemplate;
+          } else {
+            // El mensaje del usuario lo tratamos como texto plano
+            //msg.textContent = content;
+            msg.innerHTML = contentUserTemplate; 
+          }
+
+          messagesDiv.appendChild(msg);
+          // Hacemos scroll al final para ver el último mensaje
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        function addHistoryUser(value) {
+          return messages.concat([
+            {
+              role: "user",
+              content: value
+            }
+          ]);
+        }
+        function addProgressIA(){
+          const progress = document.createElement('span');
+          progress.classList.add('lds-ellipsis')
+          //<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+          //progress.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>'
+          //progress.innerHTML ='<span class="loader"></span>'
+          progress.innerHTML='<div></div><div></div><div></div><div></div>'
+          messagesDiv.appendChild(progress);
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+        function deleteProgressIA(){
+          const progress = document.getElementsByClassName('lds-ellipsis');
+          if (progress && progress.length>0){
+            //console.log(progress);
+             progress[0].remove();
+          }
+        }
+        async function sendQuestion(questionText) {
+          errorDiv.textContent = '';
+          sendBtn.disabled = true;
+          //sendBtn.textContent = 'Enviando...';
+          messages = addHistoryUser(questionText);
+
+          try {
+            const response = await fetch(urlChat, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(messages)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const data = await response.json();
+            //console.log(data)
+            // data.message contiene texto+HTML que renderizamos
+            if (data && typeof data.choices[0].message.content === 'string') {
+
+              messages = addHistoryUser(data.choices[1].message.content);
+              addMessage(marked.parse(data.choices[1].message.content), 'bot');
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            //console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            deleteProgressIA();
+            addMessage(mensajeError,'bot');
+            errorDiv.textContent = mensajeError
+          } finally {
+            deleteProgressIA(); 
+            // Volvemos a habilitar el botón y restaurar el texto
+            sendBtn.disabled = false;
+            //sendBtn.textContent = 'Enviar';
+            // Limpiamos y enfocamos la caja de texto para la siguiente pregunta
+            questionInput.value = '';
+            questionInput.focus();
+          }
+        }
+
+        form.addEventListener('submit', function (event) {
+          event.preventDefault(); // Evita recargar la página
+
+          const questionText = questionInput.value.trim();
+          if (!questionText) {
+            errorDiv.textContent = 'La pregunta no puede estar vacía.';
+            return;
+          }
+
+          // Añadimos el mensaje del usuario al chat
+          addMessage(questionText, 'user');
+          addProgressIA();
+
+          // Enviamos la pregunta a la API
+          sendQuestion(questionText);
+        });
+        btnBorrarMensajes.addEventListener('click',()=>{
+          //Se reinicia todo el historial del chat  
+          messages = []
+          messagesDiv.innerHTML = "";
+          errorDiv.textContent = "";
+        });
+        // Enfocar el textarea al cargar
+        questionInput.focus();
+        
+    }
+      
+    const draganddrop = function () {
+      const logoSvgMultiplesFicheros = `
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="100"
+     height="100"
+     viewBox="0 0 100 100">
+
+  <rect x="0" y="0" width="100" height="100" fill="none" />
+
+  <ellipse cx="50" cy="80" rx="30" ry="6" fill="#d0d0d0" opacity="0.5" />
+
+  <rect x="14" y="30" width="72" height="38" rx="4" ry="4" fill="#f5c881" />
+
+  <path d="
+    M 16 30
+    H 40
+    L 46 24
+    H 70
+    A 4 4 0 0 1 74 28
+    V 34
+    H 16
+    Z"
+    fill="#f2b45a" />
+
+  <path d="
+    M 12 34
+    H 86
+    A 4 4 0 0 1 90 38
+    V 70
+    A 4 4 0 0 1 86 74
+    H 14
+    A 4 4 0 0 1 10 70
+    V 38
+    A 4 4 0 0 1 12 34
+    Z"
+    fill="#f4af4a" />
+
+  <g transform="translate(40,20) rotate(-15)">
+    <rect x="-10" y="0" width="26" height="32" rx="2" ry="2" fill="#ffffff" stroke="#d9d9d9" stroke-width="1" />
+    <path d="M -10 0 H 6 L 10 4 V 8 H -10 Z" fill="#f0f0f0" />
+    <rect x="-6" y="11" width="18" height="2" fill="#d0d0d0" />
+    <rect x="-6" y="16" width="14" height="2" fill="#e0e0e0" />
+    <rect x="-6" y="21" width="10" height="2" fill="#e8e8e8" />
+  </g>
+
+  <g transform="translate(52,18)">
+    <rect x="-10" y="0" width="26" height="32" rx="2" ry="2" fill="#ffffff" stroke="#d9d9d9" stroke-width="1" />
+    <path d="M -10 0 H 6 L 10 4 V 8 H -10 Z" fill="#f0f0f0" />
+    <rect x="-6" y="11" width="18" height="2" fill="#d0d0d0" />
+    <rect x="-6" y="16" width="14" height="2" fill="#e0e0e0" />
+    <rect x="-6" y="21" width="10" height="2" fill="#e8e8e8" />
+  </g>
+
+  <g transform="translate(64,20) rotate(15)">
+    <rect x="-10" y="0" width="26" height="32" rx="2" ry="2" fill="#ffffff" stroke="#d9d9d9" stroke-width="1" />
+    <path d="M -10 0 H 6 L 10 4 V 8 H -10 Z" fill="#f0f0f0" />
+    <rect x="-6" y="11" width="18" height="2" fill="#d0d0d0" />
+    <rect x="-6" y="16" width="14" height="2" fill="#e0e0e0" />
+    <rect x="-6" y="21" width="10" height="2" fill="#e8e8e8" />
+  </g>
+
+</svg>
+`.trim();
+
+       const logoSrcMultiplesFicheros = 'data:image/svg+xml;utf8,' + encodeURIComponent(logoSvgMultiplesFicheros);
+
+     document.getElementById("multiplesFicheros").src = logoSrcMultiplesFicheros;
+     
+     
+     const iconSVGPDF=`
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="75"
+     height="75"
+     viewBox="0 0 75 75">
+  <!-- Fondo transparente -->
+  <rect x="0" y="0" width="75" height="75" fill="none"/>
+
+  <!-- Sombra suave -->
+  <rect x="11" y="9" width="53" height="63" rx="4" ry="4" fill="#e0e0e0"/>
+
+  <!-- Cuerpo del documento -->
+  <path d="
+    M 15 6
+    H 45
+    L 60 21
+    V 69
+    A 4 4 0 0 1 56 73
+    H 15
+    A 4 4 0 0 1 11 69
+    V 10
+    A 4 4 0 0 1 15 6
+    Z" fill="#ffffff"/>
+
+  <!-- Esquina doblada -->
+  <path d="
+    M 45 6
+    L 60 21
+    H 48
+    A 3 3 0 0 1 45 18
+    Z" fill="#f0f0f0"/>
+
+  <!-- Línea horizontal simulando texto -->
+  <rect x="18" y="28" width="32" height="3" rx="1.5" fill="#c0c0c0"/>
+  <rect x="18" y="35" width="26" height="3" rx="1.5" fill="#d0d0d0"/>
+  <rect x="18" y="42" width="22" height="3" rx="1.5" fill="#e0e0e0"/>
+
+  <!-- Banda roja inferior PDF -->
+  <rect x="11" y="52" width="49" height="17" rx="3" ry="3" fill="#d32f2f"/>
+
+  <!-- Texto PDF -->
+  <text x="35.5" y="64"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="9"
+        font-weight="bold"
+        fill="#ffffff">
+    PDF
+  </text>
+</svg>
+    `.trim();
+
+    const iconSVGWord =`<svg xmlns="http://www.w3.org/2000/svg"
+     width="75"
+     height="75"
+     viewBox="0 0 75 75">
+  <!-- Fondo transparente -->
+  <rect x="0" y="0" width="75" height="75" fill="none"/>
+
+  <!-- Sombra suave -->
+  <rect x="11" y="9" width="53" height="63" rx="4" ry="4" fill="#d9e3f5"/>
+
+  <!-- Cuerpo del documento blanco -->
+  <path d="
+    M 15 6
+    H 46
+    L 60 20
+    V 69
+    A 4 4 0 0 1 56 73
+    H 15
+    A 4 4 0 0 1 11 69
+    V 10
+    A 4 4 0 0 1 15 6
+    Z" fill="#ffffff"/>
+
+  <!-- Esquina doblada -->
+  <path d="
+    M 46 6
+    L 60 20
+    H 48
+    A 2 2 0 0 1 46 18
+    Z" fill="#edf2ff"/>
+
+  <!-- Barra lateral azul (estilo Word) -->
+  <rect x="15" y="20" width="15" height="37" rx="2" ry="2" fill="#1e62c9"/>
+
+  <!-- Rectángulo tipo título de documento -->
+  <rect x="33" y="24" width="24" height="4" rx="2" ry="2" fill="#c2cfea"/>
+  <rect x="33" y="32" width="20" height="3" rx="1.5" ry="1.5" fill="#dde5f7"/>
+  <rect x="33" y="39" width="20" height="3" rx="1.5" ry="1.5" fill="#dde5f7"/>
+
+  <!-- Letra W blanca dentro de la barra azul -->
+  <text x="22.5" y="44"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="13"
+        font-weight="bold"
+        fill="#ffffff">
+    W
+  </text>
+
+  <!-- Banda inferior azul más oscura para indicar tipo de archivo -->
+  <rect x="11" y="56" width="49" height="14" rx="3" ry="3" fill="#164a9f"/>
+
+  <!-- Texto DOC (o WORD) -> puedes cambiar el contenido -->
+  <text x="35.5" y="66"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="9"
+        font-weight="bold"
+        fill="#ffffff">
+    DOC
+  </text>
+</svg>
+  `.trim();
+
+  const iconSVGExcel = `<svg xmlns="http://www.w3.org/2000/svg"
+     width="75"
+     height="75"
+     viewBox="0 0 75 75">
+
+  <!-- Fondo transparente -->
+  <rect x="0" y="0" width="75" height="75" fill="none"/>
+
+  <!-- Sombra suave -->
+  <rect x="11" y="9" width="53" height="63" rx="4" ry="4" fill="#d6efe0"/>
+
+  <!-- Cuerpo del documento -->
+  <path d="
+    M 15 6
+    H 46
+    L 60 20
+    V 69
+    A 4 4 0 0 1 56 73
+    H 15
+    A 4 4 0 0 1 11 69
+    V 10
+    A 4 4 0 0 1 15 6
+    Z" fill="#ffffff"/>
+
+  <!-- Esquina doblada -->
+  <path d="
+    M 46 6
+    L 60 20
+    H 48
+    A 2 2 0 0 1 46 18
+    Z" fill="#e9f7ef"/>
+
+  <!-- Barra lateral verde (estilo Excel) -->
+  <rect x="15" y="20" width="15" height="37" rx="2" ry="2" fill="#1f7a3a"/>
+
+  <!-- Líneas tipo celdas / texto -->
+  <rect x="33" y="24" width="24" height="4" rx="2" fill="#cfe9db"/>
+  <rect x="33" y="32" width="20" height="3" rx="1.5" fill="#e1f3eb"/>
+  <rect x="33" y="39" width="20" height="3" rx="1.5" fill="#e1f3eb"/>
+
+  <!-- Letra X dentro de la barra verde -->
+  <text x="22.5" y="44"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="14"
+        font-weight="bold"
+        fill="#ffffff">
+    X
+  </text>
+
+  <!-- Banda inferior para indicar tipo de archivo -->
+  <rect x="11" y="56" width="49" height="14" rx="3" ry="3" fill="#15612d"/>
+
+  <!-- Texto XLS -->
+  <text x="35.5" y="66"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="9"
+        font-weight="bold"
+        fill="#ffffff">
+    XLS
+  </text>
+</svg>
+ `.trim();
+    
+ const iconSVGJSON = ` <svg xmlns="http://www.w3.org/2000/svg"
+     width="75"
+     height="75"
+     viewBox="0 0 75 75">
+
+  <!-- Fondo transparente -->
+  <rect width="75" height="75" fill="none"/>
+
+  <!-- Sombra -->
+  <rect x="13" y="10" width="50" height="60" rx="4" fill="#e6e6e6"/>
+
+  <!-- Documento base -->
+  <path d="
+    M 15 8
+    H 45
+    L 60 23
+    V 68
+    A 4 4 0 0 1 56 72
+    H 15
+    A 4 4 0 0 1 11 68
+    V 12
+    A 4 4 0 0 1 15 8
+    Z"
+    fill="#ffffff"/>
+
+  <!-- Esquina doblada -->
+  <path d="
+    M 45 8
+    L 60 23
+    H 48
+    A 3 3 0 0 1 45 20
+    Z"
+    fill="#f2f2f2"/>
+
+  <!-- Llaves decorativas estilo JSON -->
+  <text x="37.5" y="40"
+        text-anchor="middle"
+        font-family="Courier New, monospace"
+        font-size="22"
+        font-weight="bold"
+        fill="#4a9c6e">
+    { }
+  </text>
+
+  <!-- Barra inferior del tipo de archivo -->
+  <rect x="11" y="55" width="49" height="14" rx="3" fill="#3b7f55"/>
+
+  <!-- Texto JSON -->
+  <text x="35.5" y="65"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="9"
+        font-weight="bold"
+        fill="white">
+    JSON
+  </text>
+
+</svg>
+ `.trim();
+  
+  const iconSVGTXT=` <svg xmlns="http://www.w3.org/2000/svg"
+     width="75"
+     height="75"
+     viewBox="0 0 75 75">
+
+  <!-- Fondo transparente -->
+  <rect width="75" height="75" fill="none"/>
+
+  <!-- Sombra del documento -->
+  <rect x="13" y="10" width="50" height="60" rx="4" fill="#e5e5e5"/>
+
+  <!-- Cuerpo del documento -->
+  <path d="
+    M 15 8
+    H 45
+    L 60 23
+    V 68
+    A 4 4 0 0 1 56 72
+    H 15
+    A 4 4 0 0 1 11 68
+    V 12
+    A 4 4 0 0 1 15 8
+    Z"
+    fill="#ffffff"/>
+
+  <!-- Esquina doblada -->
+  <path d="
+    M 45 8
+    L 60 23
+    H 48
+    A 3 3 0 0 1 45 20
+    Z"
+    fill="#f3f3f3"/>
+
+  <!-- Líneas simulando texto -->
+  <rect x="19" y="26" width="30" height="3" rx="1.5" fill="#d0d0d0"/>
+  <rect x="19" y="33" width="26" height="3" rx="1.5" fill="#dddddd"/>
+  <rect x="19" y="40" width="29" height="3" rx="1.5" fill="#e5e5e5"/>
+  <rect x="19" y="47" width="22" height="3" rx="1.5" fill="#eeeeee"/>
+
+  <!-- Banda inferior para el tipo de archivo -->
+  <rect x="11" y="55" width="49" height="14" rx="3" fill="#777777"/>
+
+  <!-- Texto TXT -->
+  <text x="35.5" y="65"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="9"
+        font-weight="bold"
+        fill="#ffffff">
+    TXT
+  </text>
+
+</svg>
+`.trim();
+  
+   const iconSVG = `<svg xmlns="http://www.w3.org/2000/svg"
+     width="75"
+     height="75"
+     viewBox="0 0 75 75">
+
+  <!-- Fondo transparente -->
+  <rect width="75" height="75" fill="none"/>
+
+  <!-- Sombra del documento -->
+  <rect x="13" y="10" width="50" height="60" rx="4" fill="#e8e4ff"/>
+
+  <!-- Cuerpo del documento -->
+  <path d="
+    M 15 8
+    H 45
+    L 60 23
+    V 68
+    A 4 4 0 0 1 56 72
+    H 15
+    A 4 4 0 0 1 11 68
+    V 12
+    A 4 4 0 0 1 15 8
+    Z"
+    fill="#ffffff"/>
+
+  <!-- Esquina doblada -->
+  <path d="
+    M 45 8
+    L 60 23
+    H 48
+    A 3 3 0 0 1 45 20
+    Z"
+    fill="#f5f0ff"/>
+
+  <!-- Icono central: "< />" tipo código (representa SVG) -->
+  <text x="37.5" y="42"
+        text-anchor="middle"
+        font-family="Courier New, monospace"
+        font-size="18"
+        font-weight="bold"
+        fill="#7a45c9">
+    &lt;/&gt;
+  </text>
+
+  <!-- Banda inferior para el tipo de archivo -->
+  <rect x="11" y="55" width="49" height="14" rx="3" fill="#5b2ea5"/>
+
+  <!-- Texto SVG -->
+  <text x="35.5" y="65"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="9"
+        font-weight="bold"
+        fill="#ffffff">
+    SVG
+  </text>
+
+</svg>
+  `.trim();
+    
+const iconSVGUnknown = ` <svg xmlns="http://www.w3.org/2000/svg"
+     width="75"
+     height="75"
+     viewBox="0 0 75 75">
+
+  <!-- Fondo transparente -->
+  <rect width="75" height="75" fill="none"/>
+
+  <!-- Sombra del documento -->
+  <rect x="13" y="10" width="50" height="60" rx="4" fill="#e0e0e0"/>
+
+  <!-- Cuerpo del documento -->
+  <path d="
+    M 15 8
+    H 45
+    L 60 23
+    V 68
+    A 4 4 0 0 1 56 72
+    H 15
+    A 4 4 0 0 1 11 68
+    V 12
+    A 4 4 0 0 1 15 8
+    Z"
+    fill="#ffffff"/>
+
+  <!-- Esquina doblada -->
+  <path d="
+    M 45 8
+    L 60 23
+    H 48
+    A 3 3 0 0 1 45 20
+    Z"
+    fill="#f2f2f2"/>
+
+  <!-- Símbolo central: signo de interrogación -->
+  <text x="37.5" y="42"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="24"
+        font-weight="bold"
+        fill="#7d7d7d">
+    ?
+  </text>
+
+  <!-- Banda inferior gris -->
+  <rect x="11" y="55" width="49" height="14" rx="3" fill="#9b9b9b"/>
+
+  <!-- Texto UNKNOWN -->
+  <text x="35.5" y="65"
+        text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif"
+        font-size="8"
+        font-weight="bold"
+        fill="#ffffff">
+    UNKNOWN
+  </text>
+
+</svg>
+  `.trim(); 
+
+const iconSVGClose =` <div style='position: relative;top:1px;left:-3px;'><svg xmlns="http://www.w3.org/2000/svg"
+     
+     width="25"
+     height="25"
+     viewBox="0 0 25 25">
+  <!-- Fondo transparente -->
+  <rect x="0" y="0" width="15" height="15" fill="none"/>
+
+  <!-- X blanca centrada -->
+  <line x1="3" y1="3" x2="12" y2="12"
+        stroke="#ffffff"
+        stroke-width="2"
+        stroke-linecap="round"/>
+  <line x1="12" y1="3" x2="3" y2="12"
+        stroke="#ffffff"
+        stroke-width="2"
+        stroke-linecap="round"/>
+</svg></div>
+`.trim();
+
+     
+      const dropArea = document.getElementById('drop-area');
+      const fileInput = document.getElementById('file-input');
+      const messageDrag = document.getElementById('message-drag')
+      const previewContainer = document.getElementById('preview-container');
+
+      const placeCloseIcon = 'data:image/svg+xml;utf8,' + encodeURIComponent(iconSVGClose);
+      const placeholderIcon = 'data:image/svg+xml;utf8,' + encodeURIComponent(iconSVGUnknown);
+      const placePDFIcon = 'data:image/svg+xml;utf8,' + encodeURIComponent(iconSVGPDF);
+      
+
+      const placeWordIcon = 'data:image/svg+xml;utf8,' + encodeURIComponent(iconSVGWord);
+      const placeExcelIcon ='data:image/svg+xml;utf8,' + encodeURIComponent(iconSVGExcel);
+      const placeTXTIcon = 'data:image/svg+xml;utf8,' + encodeURIComponent(iconSVGTXT);
+      
+      const placeJsonIcon = 'data:image/svg+xml;utf8,' + encodeURIComponent(iconSVGJSON);
+      const placeSVGIcon = 'data:image/svg+xml;utf8,' + encodeURIComponent(iconSVG);
+      
+
+      let i = 0;
+      // Utility function to prevent default browser behavior
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      // Preventing default browser behavior when dragging a file over the container
+      dropArea.addEventListener('dragover', preventDefaults);
+      dropArea.addEventListener('dragenter', preventDefaults);
+      dropArea.addEventListener('dragleave', preventDefaults);
+
+      // Handling dropping files into the area
+      dropArea.addEventListener('drop', handleDrop);
+
+      dropArea.addEventListener('dragover', () => {
+        dropArea.classList.add('drag-over');
+        messageDrag.classList.add('show-message')
+        previewContainer.classList.add('hide');
+      });
+
+      dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('drag-over');
+        messageDrag.classList.remove('show-message')
+        previewContainer.classList.remove('hide');
+      });
+
+      function handleDrop(e) {
+        e.preventDefault();
+
+        // Getting the list of dragged files
+        const files = e.dataTransfer.files;
+
+        // Checking if there are any files
+        if (files.length) {
+          // Assigning the files to the hidden input from the first step
+          fileInput.files = files;
+
+          // Processing the files for previews (next step)
+          handleFiles(files);
+          dropArea.classList.remove('drag-over');
+          messageDrag.classList.remove('show-message');
+          previewContainer.classList.remove('hide');
+        }
+      }
+
+      function isValidFileType(file) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+        return allowedTypes.includes(file.type);
+      }
+
+
+
+      function handleFiles(files) {
+
+        for (const file of files) {
+          // Initializing the FileReader API and reading the file
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          //console.log(file);
+          // una vez el fichero se ha cargado iniciar la 
+          // creacion de elemenento visualmente
+          reader.onloadend = function (e) {
+            //Crear div container  
+            const containerFile = document.createElement('div');
+            containerFile.classList.add('container-file');
+
+            //containerFile.textContent = file.name;
+            const id = file.name + i;
+            containerFile.id = id;
+            //Crear img
+            const preview = document.createElement('img');
+            // Apply styling
+            preview.classList.add('preview-image');
+
+            //Crear boton de eliminacion
+            const closeButton = document.createElement('input');
+            closeButton.type="button"
+            closeButton.classList.add('close-button-file');
+            closeButton.value = "x";
+            //closeButton.innerHTML = iconSVGClose;
+
+            closeButton.onclick = (e) => {
+              console.dir(e.target.parentElement);
+              previewContainer.removeChild(e.target.parentElement);
+            }
+            
+            const fileName = document.createElement('div');
+            fileName.textContent = file.name;
+            fileName.classList.add('file-name');
+            console.log("tipo archivo:",file.type);
+            if (isValidFileType(file)) {
+              preview.src = e.target.result;
+            } else if (file.type == "application/pdf") {
+              preview.src = placePDFIcon;
+            } else if (file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"){
+              preview.src = placeWordIcon;
+            } else if (file.type == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+              preview.src = placeExcelIcon;
+            } else if (file.type == "text/plain") {
+              preview.src = placeTXTIcon;
+            } else if (file.type == "application/json"){
+              preview.src = placeJsonIcon;
+            } else if (file.type == "image/svg+xml"){
+              preview.src = placeSVGIcon;
+            } else{  
+              preview.src = placeholderIcon;
+            }
+            //Añadir boton y imagen al div contenedor
+            containerFile.appendChild(preview);
+            containerFile.appendChild(closeButton);
+            containerFile.appendChild(fileName);
+            //Añadir contenedor file al div de preview
+            previewContainer.appendChild(containerFile);
+
+          };
+          i += 1;
+        }
+      }
+
+    }
+    
+    chatIA();
+    
+    draganddrop();
+    
+    
+  </script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.7/uuid.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+</body>
+</html>
