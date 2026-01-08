@@ -741,14 +741,11 @@
   
           <!-- Top Menu Tabs -->
           <nav class="flex items-center gap-4 text-sm font-medium">
-            <button data-view="clientes"
+            <button data-view="detallecliente"
               class="top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
               Clientes
             </button>
-            <button data-view="detallecliente"
-              class="top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
-              Detalle del cliente
-            </button>
+           
            
             <button data-view="miembros"
               class="top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
@@ -767,7 +764,7 @@
     <!-- MAIN LAYOUT -->
     <div class="flex flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 gap-4">
        <!-- LEFT SIDEBAR: clientes -->
-       <!--
+       
        <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-sm font-semibold text-slate-800">Clientes</h2>
@@ -808,8 +805,8 @@
                       data-bind="text: name"></div>
 
                     <div class="mt-1 text-[11px] text-slate-500" style="text-align: left;">
-                      <span data-bind="text: $root.getClientMemberCount(id)"></span> miembros ·
-                      <span data-bind="text: $root.getClientProjectCount(id)"></span> proyectos
+                      <span data-bind="text: $root.getClientMemberCount(_id)"></span> miembros ·
+                      <span data-bind="text: $root.getClientProjectCount(_id)"></span> proyectos
                     </div>
                   </button>
 
@@ -818,9 +815,10 @@
             </div>
           </div>
         </aside>
-       --> 
+       
       
       <!-- LEFT SIDEBAR: PROYECTOS -->
+       <!--
       <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-sm font-semibold text-slate-800">Proyectos</h2>
@@ -830,7 +828,7 @@
           </button>
         </div>
   
-        <!-- Grid de proyectos (KO) -->
+        
         <div class="h-full">
           <div class="relative h-full overflow-hidden overflow-y-auto" >  
               <div id="projects-grid"  class="absolute overflow-hidden w-full top-0 left-0 grid-cols-1 gap-2 overflow-y-auto text-xs" data-bind="foreach: projects">
@@ -861,9 +859,148 @@
           </div>
         </div>
       </aside>
-      
+      -->
       <!-- MAIN CONTENT -->
       <main class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 overflow-y-auto">
+        <!--VIEW: DETALLE DEL CLIENTE -->
+        
+        <section id="view-detalle-cliente" class="view-section hidden">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h1 class="text-lg font-semibold text-slate-900">Detalle del cliente</h1>
+                <p class="text-xs text-slate-500">
+                  Proyectos y miembros asociados para el cliente seleccionado.
+                </p>
+              </div>
+            </div>
+
+            
+            <div data-bind="if: selectedClient">
+              <div class="mb-4 flex items-center gap-3" data-bind="with: selectedClient">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
+                  data-bind="text: $root.getInitials(name), css: $root.avatarClass('active')"></div>
+
+                <div class="w-full">
+                  <div class="text-sm font-semibold text-slate-900" data-bind="text: name"></div>
+                  <div class="text-[11px] text-slate-400 mt-1">
+                    <span data-bind="text: $root.getClientProjectCount(_id)"></span> proyectos ·
+                    <span data-bind="text: $root.getClientMemberCount(_id)"></span> miembros
+                  </div>
+                </div>
+              </div>
+
+              
+              <div id="listado-cliente" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+                
+                <div class="border border-slate-200 rounded-2xl p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Proyectos asociados</h2>
+                    <button id="btn-new-client-project"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+                      data-bind="click: $root.btnNewClientProject">
+                      + Nuevo
+                    </button>
+                  </div>
+
+                  <div class="overflow-x-auto">
+                    <table class="min-w-full text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Miembros</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Bases RAG</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: $root.filteredClientProjects">
+                        <tr class="hover:bg-slate-50/60">
+                          <td class="py-2 pr-3" data-bind="text: name"></td>
+                          <!--
+                          <td class="py-2 pr-3" data-bind="text: memberCount"></td>
+                          <td class="py-2 pr-3" data-bind="text: ragCount"></td>
+                          -->
+                          <td class="py-2 pr-3">
+                            <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale: 1.3" data-bind="click: $root.editClientProject"></p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteClientProject"></p>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <p class="text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !$root.filteredClientProjects || $root.filteredClientProjects.length === 0">
+                      Este cliente no tiene proyectos asociados.
+                    </p>
+                  </div>
+                </div>
+
+                
+                <div class="border border-slate-200 rounded-2xl p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Miembros asociados</h2>
+                    <button id="btn-new-client-member"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+                      data-bind="click: $root.btnNewClientMember">
+                      + Nuevo
+                    </button>
+                  </div>
+
+                  <div class="overflow-x-auto">
+                    <table class="min-w-full text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Email</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Rol</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: members">
+                        <tr class="hover:bg-slate-50/60">
+                          <td class="py-2 pr-3" data-bind="text: name"></td>
+                          <td class="py-2 pr-3" data-bind="text: email"></td>
+                          <td class="py-2 pr-3" data-bind="text: role"></td>
+                          <td class="py-2 pr-3">
+                            <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale: 1.3" data-bind="click: $root.editClientMember"></p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteClientMember"></p>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                    <p class="text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !members || members.length === 0">
+                      Este cliente no tiene miembros asociados.
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            
+            <div data-bind="ifnot: selectedClient" class="text-xs text-slate-400 mt-4">
+              Selecciona un cliente en la pestaña “Clientes” para ver su detalle aquí.
+            </div>
+          </section>
+
+        
+        
         <!-- VIEW: MIEMBROS -->
         <section id="view-miembros" class="view-section relative h-full">
           <div class="flex items-center justify-between mb-4">
@@ -1645,13 +1782,15 @@
     removeIfExists('footer.sticky-footer');
     //tanto el url como el port hay que ponerlo como undefined, para que quede como /api/projects y /api/members, el
     //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
+    const entorno = "local"  //dev//prod
     const url= 'localhost';
-    const port = '9982';
+    const port = '35164';
     const urlProject= (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
     const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
     
     async function AddProjectApi(project){
-        try {
+      if (entorno !=='local'){
+          try {
             const response = await fetch(urlProject + '/insert', {
               method: 'POST',
               headers: {
@@ -1684,9 +1823,13 @@
           } finally {
           
           }
+      }  
+      
+
     }
     async function UpdateProjectApi(project){
-       try {
+      if (entorno!=='local'){
+          try {
             const response = await fetch(urlProject + '/update', {
               method: 'POST',
               headers: {
@@ -1721,9 +1864,13 @@
           } finally {
           
           }
+      } 
+      
+
     }
     async function deleteProjectApi(project){
-       try {
+      if (entorno!=='local'){
+          try {
             const response = await fetch(urlProject + '/' + project.id, {
               method: 'DELETE',
               headers: {
@@ -1758,8 +1905,11 @@
           } finally {
           
           }
+      } 
+    
     }
     async function queryProjectApi(setProjects){
+      if (entorno!=='local'){
           try {
             const response = await fetch(urlProject + '/all', {
               method: 'GET',
@@ -1795,11 +1945,15 @@
           } finally {
           
           }
+
+      }    
+      
     }
     async function querySearchProjectApi(filter){
        
     }
     async function addMembersApi(member){
+      if (entorno!=='local'){
           try {
             const response = await fetch(urlMember + '/insert', {
               method: 'POST',
@@ -1833,9 +1987,12 @@
           } finally {
           
           }
+      }    
+      
     }
     async function updateMembersApi(member){
-       try {
+      if (entorno!=='local'){
+          try {
             const response = await fetch(urlMember + '/update', {
               method: 'POST',
               headers: {
@@ -1870,9 +2027,12 @@
           } finally {
           
           }
+      } 
+     
     }
     async function deleteMembersApi(member){
-        try {
+      if (entorno!=='local'){
+          try {
             const response = await fetch(urlMember + '/' + member.id, {
               method: 'DELETE',
               headers: {
@@ -1907,6 +2067,8 @@
           } finally {
           
           }
+      }
+
     } 
     async function queryMembersApi(){
        
@@ -1916,6 +2078,7 @@
     }
     async function queryMembersByID(id,setMembers){
        //console.log(id);
+       if (entorno!=='local'){
           try {
             const response = await fetch(urlProject + '/members/' + id, {
               method: 'GET',
@@ -1950,11 +2113,15 @@
           } finally {
           
           }
+       }   
+      
+
     }    
     //--------------------------------------------------------------------
     
         const tabs = document.querySelectorAll('.top-tab');
         const sections = {
+            detallecliente: document.getElementById('view-detalle-cliente'),
             miembros: document.getElementById('view-miembros'),
             detalle: document.getElementById('view-detalle'),
         };
@@ -1983,7 +2150,7 @@
             });
         });
 
-        setActiveTab('miembros');
+        setActiveTab('detallecliente');
         
 
          const iconSVGBack = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
@@ -1999,7 +2166,7 @@
         
         
         // ------- DATOS MOCK (proyectos, miembros, RAGs, tools) -------
-        let mockClientes = [
+        let mockClients = [
           {
             _id: "1",
             name: "cliente 1",
@@ -2012,7 +2179,8 @@
           },
           {
             _id:"3",
-            name: "cliente 3"
+            name: "cliente 3",
+            descripcion: "descripcion cliente 3"
           }
         ]
         
@@ -2025,8 +2193,8 @@
             description: "Sistema RAG para consulta inteligente de documentación financiera interna."
           },
           {
-            id: "1",
-            clientId: "client-001",
+            id: "proj-002",
+            clientId: "1",
             name: "Asistente Legal IA",
             description: "Asistente conversacional para apoyo jurídico basado en normativa vigente."
           },
@@ -2055,11 +2223,52 @@
             description: "Generación automática de informes a partir de datos estructurados y no estructurados."
           }
         ];
- 
+        let mockMembersClient =[
+           {
+                id: 1,
+                clientId:"1",
+                name: 'Andrés Pallares',
+                email: 'andres@mirrormind.ai',
+                role: 'Admin',
+                status: 'Activo',
+           },
+           {
+                id: 2,
+                clientId:"1",
+                name: 'María García',
+                email: 'maria.g@mirrormind.ai',
+                role: 'Editor',
+                status: 'Activo',
+           },
+           {
+                id: 3,
+                clientId:"2",
+                name: 'Juan López',
+                email: 'juan.lopez@mirrormind.ai',
+                role: 'Viewer',
+                status: 'Deshabilitado',
+           },
+           {
+                id: 4,
+                clientId:"2",
+                name: 'Laura Sánchez',
+                email: 'laura.s@mirrormind.ai',
+                role: 'Editor',
+                status: 'Activo',
+           },
+           {
+                id: 5,
+                clientId:"3",
+                name: 'Pedro Ruiz',
+                email: 'pedro.ruiz@mirrormind.ai',
+                role: 'Admin',
+                status: 'Activo',
+           }
+        ]
         let mockMembers = [
             {
                 id: 1,
-                projectId: 1,
+                projectId: "proj-001",
                 name: 'Andrés Pallares',
                 email: 'andres@mirrormind.ai',
                 role: 'Admin',
@@ -2077,7 +2286,7 @@
             },
             {
                 id: 2,
-                projectId: 1,
+                projectId: "proj-001",
                 name: 'María García',
                 email: 'maria.g@mirrormind.ai',
                 role: 'Editor',
@@ -2093,7 +2302,7 @@
             },
             {
                 id: 3,
-                projectId: 2,
+                projectId: "proj-002",
                 name: 'Juan López',
                 email: 'juan.lopez@mirrormind.ai',
                 role: 'Viewer',
@@ -2107,7 +2316,7 @@
             },
             {
                 id: 4,
-                projectId: 3,
+                projectId: "proj-003",
                 name: 'Laura Sánchez',
                 email: 'laura.s@mirrormind.ai',
                 role: 'Editor',
@@ -2123,7 +2332,7 @@
             },
             {
                 id: 5,
-                projectId: 4,
+                projectId: "proj-004",
                 name: 'Pedro Ruiz',
                 email: 'pedro.ruiz@mirrormind.ai',
                 role: 'Admin',
@@ -2322,8 +2531,9 @@
             self.descriptionProject= ko.observable("");
             self.cadBusquedaMiembros = ko.observable(false);
             
-            
+            self.clients = ko.observableArray(mockClients);
             self.projects = ko.observableArray(mockProjects);
+            self.membersClient = ko.observableArray(mockMembersClient);
             self.members = ko.observableArray(mockMembers);
             self.filterMembers = ko.observableArray([]);
             //console.log(self.projects.length);
@@ -2331,12 +2541,15 @@
               self.projects(projects);
             }
             
+            
+            self.actionClient = ko.observable("");
             self.actionProject = ko.observable("");
             self.actionMember = ko.observable("");
             self.actionRag = ko.observable("");
             self.actionTool = ko.observable("");
             self.actionBorrar = ko.observable("");
             
+            self.selectedClient = ko.observable();
             self.selectedProject = ko.observable();
             self.selectedMember = ko.observable();
             self.selectedRag = ko.observable();
@@ -2355,6 +2568,22 @@
             self.nameTool = ko.observable("");
             self.tipoTool = ko.observable("");
             self.permisoTool = ko.observable("");
+            
+            self.selectClient = function(client){
+               setActiveTab("detallecliente");
+               self.selectedClient(client);
+               console.log(self.selectedClient());
+               
+               
+                
+            }
+            self.editClient = function(client){
+                 
+            }
+            
+            self.deleteClient = function(client){
+               
+            }
             
             
             self.selectProject = async function (project) {
@@ -2396,6 +2625,25 @@
                 
                   
             });
+            self.filteredClientProjects = ko.computed(() =>{
+               
+              const client = self.selectedClient();
+
+              if (!client) return self.projects();
+
+              return self.projects().filter((f) => f.clientId === client._id);
+               
+                
+            });
+            
+            self.getClientMemberCount = function(cliendId){
+                return 0;
+                
+            }
+            self.getClientProjectCount = function(clientId){
+                return 0;
+                
+            }
             
             self.getProjectMemberCount = function (projectId) {
                 return self.members().filter((m) => m.projectId === projectId).length;
@@ -2417,6 +2665,9 @@
                     .join('');
             };
             
+            self.btnNewClient = function(){
+                      
+            } 
             self.btnNewMember = function(){
                 self.actionMember("new");
                 modalMember.classList.remove('hidden');
@@ -2521,6 +2772,18 @@
                } else if (self.actionMember() == "update"){
                   self.updateMember(model,e);
                }
+            }
+            self.addClientMember = function(model,e){
+                 
+            } 
+            self.updateClientMember = function(model,e){
+                
+            }
+            self.editClientMember = function(member){
+                
+            }
+            self.deleteClientMember = function(member){
+                
             }
             self.addMember = async function(model,e){
                 //console.log(model);
@@ -2762,11 +3025,11 @@
             };
 
             // inicialización
-            if (self.projects().length > 0) {
+           //if (self.projects().length > 0) {
                
-                self.selectMember(self.members()[0]);
-                 self.selectProject(self.projects()[0]);
-            }
+           //     self.selectMember(self.members()[0]);
+           //      self.selectProject(self.projects()[0]);
+           // }
             queryProjectApi(self.projects);
         }
         var viewModel = new AppViewModel();
@@ -2842,7 +3105,7 @@
         const btnBorrarMensajes = document.getElementById('btn-borrar-mensajes')
         let messages = [];
         const url =  'localhost';
-        const port= '9982';
+        const port= '35164';
         const urlChat =(url && port) ? `http://${url}:${port}/api/test` : '/api/test';
         // Función para añadir mensajes al div de salida
         function addMessage(content, type) {
