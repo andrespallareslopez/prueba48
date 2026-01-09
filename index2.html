@@ -776,7 +776,7 @@
               <div id="projects-grid"  class="absolute overflow-hidden w-full top-0 left-0 grid-cols-1 gap-2 overflow-y-auto text-xs" data-bind="foreach: projects">
                 <div
                   class="project-card text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 transition">
-                  <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">Proyecto
+                  <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400"><span data-bind="click: $root.selectProject" class="w-[100px] cursor-pointer">Proyecto</span>
                     <div class="flex items-center gap-1/2">
                       <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200" style="scale:1.3"
                         data-bind="click: $root.editProject">
@@ -791,11 +791,11 @@
                   </div>
                   <button data-bind="click: $root.selectProject">
                     <div style="text-align: left;" class="font-semibold text-slate-800 text-sm" data-bind="text: name"></div>
-                    <div class="mt-1 text-[11px] text-slate-500" style="text-align: left;">
-                      <span data-bind="text: $root.getProjectMemberCount(id)"></span> miembros ·
-                      <span data-bind="text: $root.getProjectRagCount(id)"></span> bases RAG
-                    </div>
+                     <div class="mt-1 text-[11px] text-slate-500" style="text-align: left;">
+                       <span data-bind="text: description"></span>
+                     </div>
                   </button>
+                 
                 </div>
               </div>
           </div>
@@ -1631,7 +1631,7 @@
     //tanto el url como el port hay que ponerlo como undefined, para que quede como /api/projects y /api/members, el
     //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
     const url= 'localhost';
-    const port = '35164';
+    const port = '14161';
     const urlProject= (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
     const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
     
@@ -2268,7 +2268,7 @@
                  self.cadBusquedaMiembros(true);
               else
                  self.cadBusquedaMiembros(false);
-                 //self.filteredMembers(filterMembers);
+                 
             });
 
             self.nameProject= ko.observable("");
@@ -2277,8 +2277,10 @@
             
             
             self.projects = ko.observableArray(mockProjects);
+           
             self.members = ko.observableArray(mockMembers);
             self.filterMembers = ko.observableArray([]);
+            
             //console.log(self.projects.length);
             this.setProjects = function(projects){
               self.projects(projects);
@@ -2350,10 +2352,25 @@
                   
             });
             
-            self.getProjectMemberCount = function (projectId) {
+            /*
+            self.getProjectMemberCount =ko.computed({
+              read: function (projectId) {
                 return self.members().filter((m) => m.projectId === projectId).length;
-            };
-             
+              },
+              write: function (projectId) {
+                return self.members().filter((m) => m.projectId === projectId).length;
+              },
+              owner: self
+            });
+            console.log(self.getProjectMemberCount)
+            */
+            
+             self.getProjectMemberCount =function (projectId) {
+                return self.members().filter((m) => m.projectId === projectId).length;
+             };
+            
+
+
             self.getProjectRagCount = function (projectId) {
                 return self.members()
                     .filter((m) => m.projectId === projectId)
@@ -2795,7 +2812,7 @@
         const btnBorrarMensajes = document.getElementById('btn-borrar-mensajes')
         let messages = [];
         const url =  'localhost';
-        const port= '35164';
+        const port= '14161';
         const urlChat =(url && port) ? `http://${url}:${port}/api/test` : '/api/test';
         // Función para añadir mensajes al div de salida
         function addMessage(content, type) {

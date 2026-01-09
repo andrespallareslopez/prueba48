@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- KnockoutJS -->
   <style>
   /* ===============================
        FONDO SVG DE AXET FLOW
@@ -805,8 +804,8 @@
                       data-bind="text: name"></div>
 
                     <div class="mt-1 text-[11px] text-slate-500" style="text-align: left;">
-                      <span data-bind="text: $root.getClientMemberCount(_id)"></span> miembros ·
-                      <span data-bind="text: $root.getClientProjectCount(_id)"></span> proyectos
+                      <span data-bind="text:description"></span>
+                     
                     </div>
                   </button>
 
@@ -816,7 +815,6 @@
           </div>
         </aside>
        
-      
       <!-- LEFT SIDEBAR: PROYECTOS -->
        <!--
       <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
@@ -883,8 +881,8 @@
                 <div class="w-full">
                   <div class="text-sm font-semibold text-slate-900" data-bind="text: name"></div>
                   <div class="text-[11px] text-slate-400 mt-1">
-                    <span data-bind="text: $root.getClientProjectCount(_id)"></span> proyectos ·
-                    <span data-bind="text: $root.getClientMemberCount(_id)"></span> miembros
+                    <span data-bind="text: $root.filteredClientProjects().length"></span> proyectos ·
+                    <span data-bind="text: $root.filteredClientMembers().length"></span> miembros
                   </div>
                 </div>
               </div>
@@ -898,7 +896,7 @@
                     <h2 class="text-sm font-semibold text-slate-800">Proyectos asociados</h2>
                     <button id="btn-new-client-project"
                       class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
-                      data-bind="click: $root.btnNewClientProject">
+                      data-bind="click: $root.btnNewProject">
                       + Nuevo
                     </button>
                   </div>
@@ -925,9 +923,9 @@
                             <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
                               <div class="flex items-center gap-1/2">
                                 <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
-                                  style="scale: 1.3" data-bind="click: $root.editClientProject"></p>
+                                  style="scale: 1.3" data-bind="click: $root.editProject"></p>
                                 <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
-                                  data-bind="click: $root.deleteClientProject"></p>
+                                  data-bind="click: $root.deleteProject"></p>
                               </div>
                             </div>
                           </td>
@@ -936,7 +934,7 @@
                     </table>
 
                     <p class="text-[11px] text-slate-400 mt-2"
-                      data-bind="visible: !$root.filteredClientProjects || $root.filteredClientProjects.length === 0">
+                      data-bind="visible: !$root.filteredClientProjects() || $root.filteredClientProjects().length === 0">
                       Este cliente no tiene proyectos asociados.
                     </p>
                   </div>
@@ -964,7 +962,7 @@
                         </tr>
                       </thead>
 
-                      <tbody class="divide-y divide-slate-100" data-bind="foreach: members">
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: filteredClientMembers ">
                         <tr class="hover:bg-slate-50/60">
                           <td class="py-2 pr-3" data-bind="text: name"></td>
                           <td class="py-2 pr-3" data-bind="text: email"></td>
@@ -984,7 +982,7 @@
                     </table>
 
                     <p class="text-[11px] text-slate-400 mt-2"
-                      data-bind="visible: !members || members.length === 0">
+                      data-bind="visible: !$root.filteredClientMembers() || $root.filteredClientMembers().length === 0">
                       Este cliente no tiene miembros asociados.
                     </p>
                   </div>
@@ -999,8 +997,6 @@
             </div>
           </section>
 
-        
-        
         <!-- VIEW: MIEMBROS -->
         <section id="view-miembros" class="view-section relative h-full">
           <div class="flex items-center justify-between mb-4">
@@ -1232,7 +1228,81 @@
             Selecciona un miembro en la pestaña “Miembros” para ver su detalle aquí.
           </div>
         </section>
-        
+        <!-- =============== MODAL: NUEVO CLIENTE =============== -->
+        <div id="modal-client"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+            <!-- Header -->
+            <div class="relative px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG azul -->
+                  <div class="icon-project grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+                   
+                  </div>
+  
+                  <div>
+                    <h2 id="modal-project-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nuevo cliente
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Crea un cliente y guarda su información principal
+                    </p>
+                  </div>
+                </div>
+  
+                <button type="button" data-close-client aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+  
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-client" class="space-y-4 text-sm">
+                <div>
+                  <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    Nombre del cliente
+                  </label>
+                  <div class="relative">
+                    <input type="text" name="clientName" required placeholder="Introduce Cliente de banca"
+                      data-bind="value: nameClient"
+                      class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                  </div>
+                  <p class="mt-1 text-[11px] text-slate-500">
+                    Usa un nombre claro y corto (lo verás en la lista de clientes).
+                  </p>
+                </div>
+  
+                <div>
+                  <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    Descripción breve
+                  </label>
+                  <textarea name="clientDescription" rows="3" placeholder="Resumen del Cliente..."
+                    data-bind="value: descriptionClient"
+                    class="w-full resize-none rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></textarea>
+                </div>
+  
+                <!-- Si quieres meter campos extra, aquí queda bien -->
+                <div class="grid grid-cols-2 gap-3"></div>
+  
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-client
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+  
+                  <button type="submit" data-bind="click: $root.saveProject"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar proyecto
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
         
         <!-- =============== MODAL: NUEVO PROYECTO =============== -->
         <div id="modal-project"
@@ -1310,6 +1380,122 @@
           </div>
         </div>
         
+        <!-- =============== MODAL: NUEVO MIEMBRO CLIENTE =============== -->
+        <div id="modal-member-client" class="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 hidden"
+          role="dialog" aria-modal="true" aria-labelledby="memberModalTitle">
+          <!-- Backdrop -->
+          <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+  
+          <!-- Panel -->
+          <div class="relative w-full max-w-xl mx-4">
+            <div class="bg-white/95 rounded-3xl shadow-2xl ring-1 ring-slate-900/10 overflow-hidden">
+              <!-- Header -->
+              <div class="px-6 py-5 border-b border-slate-200/70 bg-gradient-to-b from-slate-50 to-white">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex items-center gap-3">
+                    <!-- Logo SVG -->
+                    <div
+                      class="member-logo h-10 w-10 rounded-2xl bg-indigo-600 text-white grid place-items-center shadow-sm shadow-indigo-600/30">
+  
+                    </div>
+  
+                    <div>
+                      <h2 id="memberModalTitle" class="text-base font-semibold text-slate-900">
+                        Nuevo miembro del cliente
+                      </h2>
+                      <p class="text-xs text-slate-500 mt-0.5">
+                        Completa los datos para invitar a una persona al equipo.
+                      </p>
+                    </div>
+                  </div>
+  
+                  <button type="button"
+                    class="h-9 w-9 rounded-xl grid place-items-center text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition"
+                    data-close-member-client aria-label="Cerrar" title="Cerrar">
+                    <span class="text-xl leading-none">×</span>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Body -->
+              <form id="form-member-client" class="px-6 py-5 space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="md:col-span-1">
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Nombre</label>
+                    <div class="relative">
+                      <input type="text" name="memberName" required class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                              placeholder:text-slate-400
+                              focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                              transition" placeholder="Ej. Ana Pérez" data-bind="value: nameMember" />
+                    </div>
+                  </div>
+  
+                  <div class="md:col-span-1">
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Email</label>
+                    <input type="email" name="memberEmail" required class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                            placeholder:text-slate-400
+                            focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                            transition" placeholder="ana@mirrormind.ai" data-bind="value: emailMember" />
+                    <p class="mt-1 text-[11px] text-slate-500">Enviaremos una invitación a este correo.</p>
+                  </div>
+  
+                  <div>
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Rol</label>
+                    <div class="relative">
+                      <select name="memberRole" class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                              focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                              transition" data-bind="value: roleMember">
+                        <option value="Admin">Admin</option>
+                        <option value="Editor">Editor</option>
+                        <option value="Viewer">Viewer</option>
+                      </select>
+                      <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        
+                      </span>
+                    </div>
+                  </div>
+  
+                  <div>
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Estado</label>
+                    <div class="relative">
+                      <select name="memberStatus" class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                              focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                              transition" data-bind="value: estadoMember">
+                        <option value="Activo">Activo</option>
+                        <option value="Deshabilitado">Deshabilitado</option>
+                      </select>
+                      <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        
+                      </span>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- Footer -->
+                <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+                  <p class="text-[11px] text-slate-500">
+                    Al guardar, el miembro quedará asociado al cliente.
+                  </p>
+  
+                  <div class="flex justify-end gap-2">
+                    <button type="button" data-close-member-client class="px-4 py-2.5 rounded-2xl border border-slate-200 bg-white text-xs font-semibold
+                            text-slate-700 hover:bg-slate-50 active:scale-[0.99] transition">
+                      Cancelar
+                    </button>
+  
+                    <button type="submit" class="px-4 py-2.5 rounded-2xl bg-indigo-600 text-white text-xs font-semibold
+                            shadow-sm shadow-indigo-600/30 hover:bg-indigo-700 active:scale-[0.99] transition"
+                      data-bind="click: saveMember">
+                      Guardar miembro
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
         <!-- =============== MODAL: NUEVO MIEMBRO =============== -->
         <div id="modal-member" class="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 hidden"
           role="dialog" aria-modal="true" aria-labelledby="memberModalTitle">
@@ -1679,7 +1865,7 @@
         </div>
         
         
-        <!-- CUADRO DE DIÁLOGO CHAT -->
+        <!-- MODAL: CUADRO DE DIÁLOGO CHAT -->
         <div id="chat-box" class="chat-box">
   
           <div id="chat-container">
@@ -1756,8 +1942,8 @@
 
   <!-- JS: Tabs + Knockout + datos mock -->
   <script>
-    // ------- TABS SUPERIORES (igual que antes) -------
-    //let globalMiembro={};
+    
+    
     function getInitials(name) {
       if (!name) return '';
       return name
@@ -1770,6 +1956,7 @@
     
     window.getInitials=getInitials;
     window.globalMiembro={};
+
     addEventListener("DOMContentLoaded", (event) => {
         function removeIfExists (selector) {
           var x = document.querySelector(selector)
@@ -1780,6 +1967,7 @@
     removeIfExists('nav.navbar.navbar-expand');
     removeIfExists('ul.sidebar.navbar-nav');
     removeIfExists('footer.sticky-footer');
+    //#region VARIABLES GLOBALES PROYECTO URLs y PUERTO
     //tanto el url como el port hay que ponerlo como undefined, para que quede como /api/projects y /api/members, el
     //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
     const entorno = "local"  //dev//prod
@@ -1787,7 +1975,9 @@
     const port = '35164';
     const urlProject= (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
     const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
-    
+    //#endregion
+
+    //#region LLAMADAS AJAX APLICACION
     async function AddProjectApi(project){
       if (entorno !=='local'){
           try {
@@ -2114,11 +2304,10 @@
           
           }
        }   
-      
-
-    }    
+    }
+    //#endregion    
     //--------------------------------------------------------------------
-    
+        //#region NAVBAR-HEADER
         const tabs = document.querySelectorAll('.top-tab');
         const sections = {
             detallecliente: document.getElementById('view-detalle-cliente'),
@@ -2151,9 +2340,10 @@
         });
 
         setActiveTab('detallecliente');
+        //#endregion
         
-
-         const iconSVGBack = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+        //#region BOTON VOLVER ATRAS MIEMBRO
+        const iconSVGBack = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
                     <path d="M15 18l-6-6 6-6" />
                 </svg> <span>Volver Atrás</span>
                 `.trim();
@@ -2163,69 +2353,70 @@
         btnBackMembers.addEventListener('click',()=>{
             setActiveTab('miembros');  
         });
+        //#endregion
         
-        
-        // ------- DATOS MOCK (proyectos, miembros, RAGs, tools) -------
+        //#region DATOS MOCK ENTIDADTES
+        // ------- DATOS MOCK (clientes,proyectos,miembrosClientes miembros, RAGs, tools) -------
         let mockClients = [
           {
             _id: "1",
             name: "cliente 1",
-            descripcion:"descripcion cliente 1"
+            description:"descripcion cliente 1"
           },
           {
             _id:"2",
             name: "cliente 2",
-            descripcion: "descripcion cliente 2"
+            description: "descripcion cliente 2"
           },
           {
             _id:"3",
             name: "cliente 3",
-            descripcion: "descripcion cliente 3"
+            description: "descripcion cliente 3"
           }
         ]
         
 
-        var mockProjects = [
+        var mockProjectsClient = [
           {
-            id: "proj-001",
+            _id: "proj-001",
             clientId: "1",
             name: "Plataforma RAG Financiera",
             description: "Sistema RAG para consulta inteligente de documentación financiera interna."
           },
           {
-            id: "proj-002",
+            _id: "proj-002",
             clientId: "1",
             name: "Asistente Legal IA",
             description: "Asistente conversacional para apoyo jurídico basado en normativa vigente."
           },
           {
-            id: "proj-003",
+            _id: "proj-003",
             clientId: "2",
             name: "Motor de Búsqueda Semántica",
             description: "Búsqueda semántica avanzada sobre repositorios corporativos."
           },
           {
-            id: "proj-004",
+            _id: "proj-004",
             clientId: "2",
             name: "Chat Interno Corporativo",
             description: "Chat IA interno con control de permisos por rol."
           },
           {
-            id: "proj-005",
-            clientId: "3",
+            _id: "proj-005",
+            clientId: "2",
             name: "Análisis de Incidencias IT",
             description: "Clasificación automática de tickets e incidencias mediante IA."
           },
           {
-            id: "proj-006",
-            clientId: "3",
+            _id: "proj-006",
+            clientId: "2",
             name: "Generador de Informes Ejecutivos",
             description: "Generación automática de informes a partir de datos estructurados y no estructurados."
           }
         ];
         let mockMembersClient =[
            {
-                id: 1,
+                _id: "1",
                 clientId:"1",
                 name: 'Andrés Pallares',
                 email: 'andres@mirrormind.ai',
@@ -2233,7 +2424,7 @@
                 status: 'Activo',
            },
            {
-                id: 2,
+                _id: "2",
                 clientId:"1",
                 name: 'María García',
                 email: 'maria.g@mirrormind.ai',
@@ -2241,7 +2432,7 @@
                 status: 'Activo',
            },
            {
-                id: 3,
+                _id: "3",
                 clientId:"2",
                 name: 'Juan López',
                 email: 'juan.lopez@mirrormind.ai',
@@ -2249,7 +2440,7 @@
                 status: 'Deshabilitado',
            },
            {
-                id: 4,
+                _id: "4",
                 clientId:"2",
                 name: 'Laura Sánchez',
                 email: 'laura.s@mirrormind.ai',
@@ -2257,7 +2448,7 @@
                 status: 'Activo',
            },
            {
-                id: 5,
+                _id: "5",
                 clientId:"3",
                 name: 'Pedro Ruiz',
                 email: 'pedro.ruiz@mirrormind.ai',
@@ -2345,17 +2536,43 @@
                 ],
             },
         ];
-       
+    //#endregion
+    //#region MODAL NUEVO-EDIT CLIENTE 
+  // ------- MODAL NUEVO CLIENTE -------
+    const modalClient = document.getElementById('modal-client');
+    
+    const formClient = document.getElementById('form-client');
+    const inputNameClient = formClient.querySelector('input[name="clientName"]');
+    const inputDescriptionClient = formClient.querySelector('textarea[name="clientDescription"]');
+    
+
+    function openClientModal() {
+      modalClient.classList.remove('hidden');
+    }
+    
+    function closeClientModal() {
+      modalClient.classList.add('hidden');
+      formProject.reset();
+    }
+    modalClient.querySelectorAll('[data-close-client]').forEach((btn) => {
+      btn.addEventListener('click', closeClientModal);
+    });
+     
+    modalClient.addEventListener('click', (e) => {
+      if (e.target === modalClient) closeClientModal();
+    });
+    //#endregion
+    //#region MODAL NUEVO-EDIT PROYECTO
     // ------- MODAL NUEVO PROYECTO -------
     const modalProject = document.getElementById('modal-project');
-    const btnNewProject = document.getElementById('btn-new-project');
+    //const btnNewProject = document.getElementById('btn-new-project');
     const formProject = document.getElementById('form-project');
-    //const projectGrid = document.getElementById('projects-grid');
-
+    
+    
     const inputNameProject = formProject.querySelector('input[name="projectName"]');
     const inputDescriptionProject = formProject.querySelector('textarea[name="projectDescription"]');
     //console.log(inputDescriptionProject);
-
+    
     function openProjectModal() {
       modalProject.classList.remove('hidden');
     }
@@ -2369,6 +2586,8 @@
        openProjectModal()
     });
     */
+
+
     modalProject.querySelectorAll('[data-close-project]').forEach((btn) => {
       btn.addEventListener('click', closeProjectModal);
     });
@@ -2376,13 +2595,39 @@
     modalProject.addEventListener('click', (e) => {
       if (e.target === modalProject) closeProjectModal();
     });
+    //#endregion
+    //#region MODAL NUEVO-EDIT MIEMBRO CLIENTE
+    //---------- MODAL NUEVO MIEMBRO CLIENTE ---------------
+    const modalMemberClient = document.getElementById('modal-member-client');
+    const formMemberClient = document.getElementById('form-member-client'); 
+    const inputMemberClientName = formMemberClient.querySelector('input[name="memberName"]');
+    const inputMemberClientEmail = formMemberClient.querySelector('input[name="memberEmail"]');
+    const selectMemberClientRole = formMemberClient.querySelector('select[name="memberRole"]');
+    const selectMemberClientStatus = formMemberClient.querySelector('select[name="memberStatus"]');
     
+    
+    function openMemberClientModal() {
+      modalMemberClient.classList.remove('hidden');
+    }
+    
+    function closeMemberClientModal() {
+      modalMemberClient.classList.add('hidden');
+      formMemberClient.reset();
+    }
+    
+    modalMemberClient.querySelectorAll('[data-close-member-client]').forEach((btn) => {
+      btn.addEventListener('click', closeMemberClientModal);
+    });
+    
+    modalMemberClient.addEventListener('click', (e) => {
+      if (e.target === modalMemberClient) closeMemberClientModal();
+    });
+    //#endregion
+    //#region MODAL NUEVO-EDIT MIEMBRO
     // ------- MODAL NUEVO MIEMBRO -------
     const modalMember = document.getElementById('modal-member');
-    //const btnNewMember = document.getElementById('btn-new-member');
-    const formMember = document.getElementById('form-member');
-    const membersTbody = document.getElementById('members-tbody');
-    
+   
+    const formMember = document.getElementById('form-member'); 
     const inputMemberName = formMember.querySelector('input[name="memberName"]');
     const inputMemberEmail = formMember.querySelector('input[name="memberEmail"]');
     const selectMemberRole = formMember.querySelector('select[name="memberRole"]');
@@ -2407,7 +2652,8 @@
     modalMember.addEventListener('click', (e) => {
       if (e.target === modalMember) closeMemberModal();
     });
-    
+    //#endregion
+    //#region MODAL NUEVO-EDIT RAG
     //------------MODAL NUEVA BASE DE DATOS RAG-----------------------
               
     const modalRag = document.getElementById('modal-rag');
@@ -2431,7 +2677,8 @@
     modalRag.addEventListener('click',(e) =>{
          if (e.target === modalRag) closeRagModal();
     });
-    
+    //#endregion
+    //#region MODAL NUEVO-EDIT TOOL
     //--------------- MODAL NUEVO TOOL -----------------------------------
     const modalTool = document.getElementById('modal-tool');       
     
@@ -2452,9 +2699,9 @@
     modalTool.addEventListener('click',(e) =>{
          if (e.target === modalTool) closeToolModal();
     });
-    
+    //#endregion
+    //#region MODAL CUADRO-EDIT DIALOGO BORRAR
     //------------------ MODAL CUADRO DIALOGO BORRAR -------------------------
-    
     const modalBorrar = document.getElementById('modal-borrar');
     
     function openBorrarModal(){
@@ -2473,7 +2720,7 @@
     modalBorrar.addEventListener('click',(e) =>{
          if (e.target === modalTool) closeBorrarModal();
     });
-    
+    //#endregion
     
    
     function debounce(func, wait, immediate) {
@@ -2490,35 +2737,20 @@
                 if (callNow) func.apply(context, args);
             };
         }
-    let txtmiembros = document.getElementById('txtmiembros');
-    
-    txtmiembros.addEventListener("keydown",(e) =>{
-      //console.log(e);
-      //console.log(txtmiembros.value);
-    });
-    
-    txtmiembros.addEventListener("keyup",(e)=>{
-      //console.log(e);
-      //console.log(txtmiembros.value);
-      
-    });
-    
-   
-        
     
     
         // ------- VIEWMODEL KO -------
 
         function AppViewModel() {
             const self = this;
-            
+            //#region PROPIEDADES PARA HACER BINDING CON LAS DIFERENTES VISTAS HTMLS
             self.filtertext = ko.observable("");
             self.filtertext.subscribe((d)=>{
-              console.log(d);
+              //console.log(d);
               const project = self.selectedProject();
               if (!project) return self.members();
               
-              console.log(self.members().filter((m) => m.name.toLowerCase().includes(d.toLowerCase()) && m.projectId === project.id));
+              //console.log(self.members().filter((m) => m.name.toLowerCase().includes(d.toLowerCase()) && m.projectId === project.id));
               self.filterMembers(self.members().filter((m) => m.name.toLowerCase().includes(d.toLowerCase()) && m.projectId === project.id));
               if (d.length>0)
                  self.cadBusquedaMiembros(true);
@@ -2526,13 +2758,12 @@
                  self.cadBusquedaMiembros(false);
                  //self.filteredMembers(filterMembers);
             });
+            
 
-            self.nameProject= ko.observable("");
-            self.descriptionProject= ko.observable("");
-            self.cadBusquedaMiembros = ko.observable(false);
+           
             
             self.clients = ko.observableArray(mockClients);
-            self.projects = ko.observableArray(mockProjects);
+            self.projectsClient = ko.observableArray(mockProjectsClient);
             self.membersClient = ko.observableArray(mockMembersClient);
             self.members = ko.observableArray(mockMembers);
             self.filterMembers = ko.observableArray([]);
@@ -2544,6 +2775,7 @@
             
             self.actionClient = ko.observable("");
             self.actionProject = ko.observable("");
+            self.actionMemberClient = ko.observable("");
             self.actionMember = ko.observable("");
             self.actionRag = ko.observable("");
             self.actionTool = ko.observable("");
@@ -2551,66 +2783,37 @@
             
             self.selectedClient = ko.observable();
             self.selectedProject = ko.observable();
+            self.selectedMemberClient = ko.observable(); 
             self.selectedMember = ko.observable();
             self.selectedRag = ko.observable();
             self.selectedTool = ko.observable();
             
-
+            
+            
+            self.nameClient = ko.observable("");
+            self.descriptionClient = ko.observable("");
+            
+            self.nameProject= ko.observable("");
+            self.descriptionProject= ko.observable("");
+            
+            self.cadBusquedaMiembros = ko.observable(false);
             self.nameMember = ko.observable("");
             self.emailMember = ko.observable("");
             self.roleMember = ko.observable("");
             self.estadoMember = ko.observable("");
-
+            
             self.nameRag = ko.observable("");
             self.tipoRag = ko.observable("");
             self.fechaRag = ko.observable("");
-
+             
             self.nameTool = ko.observable("");
             self.tipoTool = ko.observable("");
             self.permisoTool = ko.observable("");
-            
-            self.selectClient = function(client){
-               setActiveTab("detallecliente");
-               self.selectedClient(client);
-               console.log(self.selectedClient());
-               
-               
-                
-            }
-            self.editClient = function(client){
-                 
-            }
-            
-            self.deleteClient = function(client){
-               
-            }
+            //#endregion
+           
             
             
-            self.selectProject = async function (project) {
-                setActiveTab('miembros');
-                self.filtertext("");
-                self.cadBusquedaMiembros(false);
-                self.filterMembers([]);
-                self.selectedProject(project);
-                await queryMembersByID(project._id,self.members);
-                const firstMember = self.members().find((m) => m.projectId === project.id);
-                self.selectedMember(firstMember || null);
-                //console.log(project);
-            };
-            
-            self.selectMember = function (member) {
-                self.selectedMember(member);
-                globalMiembro = member;
-                // opcional: cambiar a pestaña "Detalle" automáticamente
-                setActiveTab('detalle');
-            };
-            self.selectRag = function(rag){
-              self.selectedRag(rag);
-
-            }
-            self.selectTool = function(tool){
-              self.selectedTool(tool);
-            }
+            //#region PROPIEDADES o CAMPOS CALCULADOS Y DE SOLO LECTURA
             self.filteredMembers = ko.computed(function () {
                 //console.log("estoy en filtered")
                 const project = self.selectedProject();
@@ -2629,11 +2832,18 @@
                
               const client = self.selectedClient();
 
-              if (!client) return self.projects();
+              if (!client) return [];
 
-              return self.projects().filter((f) => f.clientId === client._id);
+              return self.projectsClient().filter((f) => f.clientId === client._id);
                
                 
+            });
+            self.filteredClientMembers = ko.computed(() =>{
+              const client = self.selectedClient();
+              
+              if (!client) return [];
+              //console.log( self.membersClient().filter((f) => f.clientId === client._id));
+              return self.membersClient().filter((f) => f.clientId === client._id);
             });
             
             self.getClientMemberCount = function(cliendId){
@@ -2664,50 +2874,64 @@
                     .map((n) => n[0].toUpperCase())
                     .join('');
             };
+            //#endregion
             
+           //#region ACCIONES CLIENTE
+            //--------- ACCIONES CLIENTE -----------------------
             self.btnNewClient = function(){
-                      
-            } 
-            self.btnNewMember = function(){
-                self.actionMember("new");
-                modalMember.classList.remove('hidden');
-                self.nameMember("");
-                self.emailMember("");
-                self.roleMember("")
-                self.estadoMember("");
+                self.actionClient("new");
+                modalClient.classList.remove('hidden');
+                
             }
-            self.btnNewRag= function(){
-               //console.log("estoy en click RAG");
-               self.actionRag("new");
-               modalRag.classList.remove('hidden');
-               self.nameRag("");
-               self.tipoRag("");
-               self.fechaRag("");
+            self.selectClient = function(client){
+               setActiveTab("detallecliente");
+               self.selectedClient(client);
+               console.log(self.selectedClient());
+               
+               
+                
             }
-            
-            self.btnNewTool = function(){
-              //console.log("opentoolmodal");
-                self.actionTool("new");
-                modalTool.classList.remove('hidden');
-                self.nameTool("");
-                self.tipoTool("");
-                self.permisoTool("");
+            self.addClient = function(model,e){
+                
             }
-             
+            self.updateClient = function(model,e){
+                
+            }
+            self.deleteClient = function(model,e){
+                
+            }
+            self.editClient = function(client){
+              console.log(client);
+                self.selectedClient(client)
+                modalClient.classList.remove('hidden');
+                self.actionClient("update");
+                console.log(inputNameClient);
+                inputNameClient.value = client.name;
+                inputDescriptionClient.value = client.description;
+            }
+            self.saveClient = function(model,e){
+
+            }
+            //#endregion
+           //#region ACCIONES PROYECTO
+            // ----------- ACCIONES PROYECTO ------------------
             self.btnNewProject = function(){
                 modalProject.classList.remove('hidden');
                 self.actionProject("new");
                 self.nameProject("");
                 self.descriptionProject("");
             }
-            self.saveProject = function(model,e){
-              //console.log(self.actionProject());
-              if (self.actionProject()==="new"){
-                  self.addProject(model,e);
-              }else if (self.actionProject()==="update"){
-                  self.updateProject(model,e);
-              }
-            }
+            self.selectProject = async function (project) {
+                setActiveTab('miembros');
+                self.filtertext("");
+                self.cadBusquedaMiembros(false);
+                self.filterMembers([]);
+                self.selectedProject(project);
+                await queryMembersByID(project._id,self.members);
+                const firstMember = self.members().find((m) => m.projectId === project.id);
+                self.selectedMember(firstMember || null);
+                //console.log(project);
+            };
             self.addProject = async function(model,e){
                 //console.log(model);
                  inputNameProject.reportValidity(); 
@@ -2766,12 +2990,31 @@
                  self.selectedProject(project);
                 openBorrarModal();
             }
-            self.saveMember = function(model,e){
-               if (self.actionMember() == "new"){
-                  self.addMember(model,e);
-               } else if (self.actionMember() == "update"){
-                  self.updateMember(model,e);
-               }
+            self.saveProject = function(model,e){
+              //console.log(self.actionProject());
+              if (self.actionProject()==="new"){
+                  self.addProject(model,e);
+              }else if (self.actionProject()==="update"){
+                  self.updateProject(model,e);
+              }
+            }
+            self.deleteRowProject = async function(){
+               let newProjects = [];
+               await deleteProjectApi(self.selectedProject());
+               newProjects = self.projects().filter( f => f.id !== self.selectedProject().id);
+               self.projects(newProjects);
+               //console.log(self.projects());
+               
+            }
+            //#endregion
+           //#region ACCIONES MIEMBRO CLIENTE 
+           //------ ACCIONES MIEMBRO CLIENTE ---------------
+            self.btnNewClientMember = function(){
+                self.actionMemberClient("new");
+                modalMemberClient.classList.remove('hidden');
+            }
+            self.selectMemberClient = function(memberClient){
+                
             }
             self.addClientMember = function(model,e){
                  
@@ -2785,6 +3028,23 @@
             self.deleteClientMember = function(member){
                 
             }
+          //#endregion
+           //#region ACCIONES MIEMBRO 
+           // ----------- ACCIONES MIEMBRO --------------------
+            self.btnNewMember = function(){
+                self.actionMember("new");
+                modalMember.classList.remove('hidden');
+                self.nameMember("");
+                self.emailMember("");
+                self.roleMember("")
+                self.estadoMember("");
+            }
+            self.selectMember = function (member) {
+                self.selectedMember(member);
+                globalMiembro = member;
+                // opcional: cambiar a pestaña "Detalle" automáticamente
+                setActiveTab('detalle');
+            };
             self.addMember = async function(model,e){
                 //console.log(model);
                 //console.log(self.selectedProject);
@@ -2839,13 +3099,33 @@
                 self.selectedMember(member);
                 openBorrarModal();
             }
-            
-            self.saveRag = function(model,e){
-                if (self.actionRag() === "new"){
-                    self.addRag(model,e);
-                }else if (self.actionRag() === "update"){
-                    self.updateRag(model,e);
-                }
+            self.saveMember = function(model,e){
+               if (self.actionMember() == "new"){
+                  self.addMember(model,e);
+               } else if (self.actionMember() == "update"){
+                  self.updateMember(model,e);
+               }
+            }
+            self.deleteRowMember = async function(){
+                let newMembers = [];
+                await deleteMembersApi(self.selectedMember());
+                newMembers = self.members().filter(f => f.id !== self.selectedMember().id);
+                self.members(newMembers);
+            }
+            //#endregion
+           //#region ACCIONES RAG 
+            //-------------- ACCIONES BASE DE DATOS RAG ---------------------
+            self.btnNewRag= function(){
+               //console.log("estoy en click RAG");
+               self.actionRag("new");
+               modalRag.classList.remove('hidden');
+               self.nameRag("");
+               self.tipoRag("");
+               self.fechaRag("");
+            }
+            self.selectRag = function(rag){
+              self.selectedRag(rag);
+
             }
             self.addRag = async function(model,e){
                 let selectedMember = self.selectedMember()
@@ -2899,12 +3179,36 @@
               openBorrarModal();
 
             }
-            self.saveTool = function(model,e){
-                 if (self.actionTool() === "new"){
-                    self.addTool(model,e);
-                 }else if (self.actionTool() === "update"){
-                    self.updateTool(model,e);
-                 }
+            self.saveRag = function(model,e){
+                if (self.actionRag() === "new"){
+                    self.addRag(model,e);
+                }else if (self.actionRag() === "update"){
+                    self.updateRag(model,e);
+                }
+            }
+            self.deleteRowRag = function(){
+                let newRagDatabases= [];
+                newRagDatabases = self.selectedMember().ragDatabases.filter(f => f.id !== self.selectedRag().id);
+                self.selectedMember().ragDatabases = newRagDatabases;
+                const selectedMember = self.selectedMember();
+                //aqui no borramos directamente el registro RAG, sino que como va embebido en miembros dentro de su array RagDatabases,
+                //lo que hacemos es actualizar el miembro y apareceran actualizados su array de RAGs asociados.
+                updateMembersApi(selectedMember);
+                self.selectedMember(selectedMember);
+            }
+            //#endregion
+           //#region ACCIONES TOOL 
+            //--------------- ACCIONES TOOL ---------------
+            self.btnNewTool = function(){
+              //console.log("opentoolmodal");
+                self.actionTool("new");
+                modalTool.classList.remove('hidden');
+                self.nameTool("");
+                self.tipoTool("");
+                self.permisoTool("");
+            }
+            self.selectTool = function(tool){
+              self.selectedTool(tool);
             }
             self.addTool = async function(model,e){
                 let selectedMember = self.selectedMember();
@@ -2953,6 +3257,26 @@
               self.selectedTool(tool);
               openBorrarModal();
             }
+            self.saveTool = function(model,e){
+                 if (self.actionTool() === "new"){
+                    self.addTool(model,e);
+                 }else if (self.actionTool() === "update"){
+                    self.updateTool(model,e);
+                 }
+            }
+            self.deleteRowTool = function(){
+                let newTools = [];
+                newTools = self.selectedMember().tools.filter(f =>f.id !== self.selectedTool().id);
+                self.selectedMember().tools = newTools;
+                const selectedMember = self.selectedMember(); 
+                //Aqui no borramos directamente el registro TOOL, 
+                // lo que hacemos es actualizar el registro miembro que lo habra quitado de su arrays de tools asociados
+                updateMembersApi(selectedMember);
+                self.selectedMember(selectedMember); 
+            }
+            //#endregion
+           //#region ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO 
+           //---------- ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO --------------------------
             self.saveBorrar = function(){
               if (self.actionBorrar() === "proyecto"){
                  self.deleteRowProject();
@@ -2965,40 +3289,10 @@
               }
               closeBorrarModal();
             }
-            self.deleteRowProject = async function(){
-               let newProjects = [];
-               await deleteProjectApi(self.selectedProject());
-               newProjects = self.projects().filter( f => f.id !== self.selectedProject().id);
-               self.projects(newProjects);
-               //console.log(self.projects());
-               
-            }
-            self.deleteRowMember = async function(){
-                let newMembers = [];
-                await deleteMembersApi(self.selectedMember());
-                newMembers = self.members().filter(f => f.id !== self.selectedMember().id);
-                self.members(newMembers);
-            }
-            self.deleteRowRag = function(){
-                let newRagDatabases= [];
-                newRagDatabases = self.selectedMember().ragDatabases.filter(f => f.id !== self.selectedRag().id);
-                self.selectedMember().ragDatabases = newRagDatabases;
-                const selectedMember = self.selectedMember();
-                //aqui no borramos directamente el registro RAG, sino que como va embebido en miembros dentro de su array RagDatabases,
-                //lo que hacemos es actualizar el miembro y apareceran actualizados su array de RAGs asociados.
-                updateMembersApi(selectedMember);
-                self.selectedMember(selectedMember);
-            }
-            self.deleteRowTool = function(){
-                let newTools = [];
-                newTools = self.selectedMember().tools.filter(f =>f.id !== self.selectedTool().id);
-                self.selectedMember().tools = newTools;
-                const selectedMember = self.selectedMember(); 
-                //Aqui no borramos directamente el registro TOOL, 
-                // lo que hacemos es actualizar el registro miembro que lo habra quitado de su arrays de tools asociados
-                updateMembersApi(selectedMember);
-                self.selectedMember(selectedMember); 
-            }
+            //#endregion
+           
+           
+            //#region FUNCIONES PARA BINDING CSS
             self.avatarClass = function (status) {
                 return status === 'Activo'
                     ? 'bg-indigo-100 text-indigo-700'
@@ -3023,6 +3317,7 @@
                 }
                 return 'bg-slate-50 text-slate-600 border-slate-200';
             };
+            //#endregion
 
             // inicialización
            //if (self.projects().length > 0) {
@@ -3041,21 +3336,7 @@
         loadViewModel();
         
         //queryProjectApi()
-        /* *********************************
-        // una vez renderizado el viewmodel aqui podemos terminar de retocar
-        // elementos html, los foreach de las plantillas estaran ya renderizados
-        * **********************************/
-        //console.log(document.querySelectorAll('[icon-edit]').length)
-        /*
-        document.querySelectorAll('[icon-edit]').forEach((btnEdit) => {
-           //btn.addEventListener('click', closeToolModal);
-           //console.log(btnEdit);
-           btnEdit.innerHTML = iconSVGEdit;
-        });
-        document.querySelectorAll('[icon-del]').forEach((btnDel) =>{
-           btnDel.innerHTML = iconSVGDelete;
-        });
-        */
+        
 
      })
 
