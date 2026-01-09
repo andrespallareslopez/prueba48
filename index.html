@@ -763,7 +763,6 @@
     <!-- MAIN LAYOUT -->
     <div class="flex flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 gap-4">
        <!-- LEFT SIDEBAR: clientes -->
-       
        <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
           <div class="flex items-center justify-between mb-3">
             <h2 class="text-sm font-semibold text-slate-800">Clientes</h2>
@@ -815,53 +814,9 @@
           </div>
         </aside>
        
-      <!-- LEFT SIDEBAR: PROYECTOS -->
-       <!--
-      <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
-        <div class="flex items-center justify-between mb-3">
-          <h2 class="text-sm font-semibold text-slate-800">Proyectos</h2>
-          <button id="btn-new-project" class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
-            data-bind="click: btnNewProject">
-            + Nuevo
-          </button>
-        </div>
-  
-        
-        <div class="h-full">
-          <div class="relative h-full overflow-hidden overflow-y-auto" >  
-              <div id="projects-grid"  class="absolute overflow-hidden w-full top-0 left-0 grid-cols-1 gap-2 overflow-y-auto text-xs" data-bind="foreach: projects">
-                <div
-                  class="project-card text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 transition">
-                  <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">Proyecto
-                    <div class="flex items-center gap-1/2">
-                      <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200" style="scale:1.3"
-                        data-bind="click: $root.editProject">
-        
-        
-                      </p>
-                      <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
-                        data-bind="click: $root.deleteProject">
-        
-                      </p>
-                    </div>
-                  </div>
-                  <button data-bind="click: $root.selectProject">
-                    <div style="text-align: left;" class="font-semibold text-slate-800 text-sm" data-bind="text: name"></div>
-                    <div class="mt-1 text-[11px] text-slate-500" style="text-align: left;">
-                      <span data-bind="text: $root.getProjectMemberCount(id)"></span> miembros ·
-                      <span data-bind="text: $root.getProjectRagCount(id)"></span> bases RAG
-                    </div>
-                  </button>
-                </div>
-              </div>
-          </div>
-        </div>
-      </aside>
-      -->
       <!-- MAIN CONTENT -->
       <main class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 overflow-y-auto">
         <!--VIEW: DETALLE DEL CLIENTE -->
-        
         <section id="view-detalle-cliente" class="view-section hidden">
             <div class="flex items-center justify-between mb-4">
               <div>
@@ -913,8 +868,8 @@
                       </thead>
 
                       <tbody class="divide-y divide-slate-100" data-bind="foreach: $root.filteredClientProjects">
-                        <tr class="hover:bg-slate-50/60">
-                          <td class="py-2 pr-3" data-bind="text: name"></td>
+                        <tr class="hover:bg-slate-50/60 cursor-pointer">
+                          <td data-bind="click: $root.selectProject" class="py-2 pr-3" ><span data-bind="text: name"></span></td>
                           <!--
                           <td class="py-2 pr-3" data-bind="text: memberCount"></td>
                           <td class="py-2 pr-3" data-bind="text: ragCount"></td>
@@ -963,7 +918,7 @@
                       </thead>
 
                       <tbody class="divide-y divide-slate-100" data-bind="foreach: filteredClientMembers ">
-                        <tr class="hover:bg-slate-50/60">
+                        <tr class="hover:bg-slate-50/60 cursor-pointer">
                           <td class="py-2 pr-3" data-bind="text: name"></td>
                           <td class="py-2 pr-3" data-bind="text: email"></td>
                           <td class="py-2 pr-3" data-bind="text: role"></td>
@@ -1001,7 +956,14 @@
         <section id="view-miembros" class="view-section relative h-full">
           <div class="flex items-center justify-between mb-4">
             <div>
-              <h1 class="text-lg font-semibold text-slate-900">Miembros</h1>
+              <h1 class="text-lg font-semibold text-slate-900 inline pr-7">Miembros</h1>
+              <span class="inline-block">
+                <button id="btn-new-member"
+                  class="px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 hover:bg-slate-50"
+                  data-bind="click: btnNewMember">
+                  + Añadir miembro
+                </button>
+              </span>
               <p class="text-xs text-slate-500">
                 Gestión de miembros del portal y sus configuraciones de IA.
               </p>
@@ -1010,11 +972,10 @@
                 <span class="font-semibold" data-bind="text: name"></span>
               </p>
             </div>
-            <button id="btn-new-member"
-              class="px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 hover:bg-slate-50"
-              data-bind="click: btnNewMember">
-              + Añadir miembro
-            </button>
+            <button id="btn-back-clients" type="button"
+                class="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              
+              </button>
           </div>
            
           <!-- Filtros / búsqueda (solo UI) -->
@@ -1939,7 +1900,7 @@
       </main>
     </div>
   </div>
-
+  
   <!-- JS: Tabs + Knockout + datos mock -->
   <script>
     
@@ -1956,7 +1917,7 @@
     
     window.getInitials=getInitials;
     window.globalMiembro={};
-
+    
     addEventListener("DOMContentLoaded", (event) => {
         function removeIfExists (selector) {
           var x = document.querySelector(selector)
@@ -1976,7 +1937,7 @@
     const urlProject= (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
     const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
     //#endregion
-
+    
     //#region LLAMADAS AJAX APLICACION
     async function AddProjectApi(project){
       if (entorno !=='local'){
@@ -2303,6 +2264,9 @@
           } finally {
           
           }
+       }else{
+          const mockMembersFilter = mockMembers.filter((f) => f.projectId === id);
+          setMembers(mockMembersFilter);
        }   
     }
     //#endregion    
@@ -2354,8 +2318,17 @@
             setActiveTab('miembros');  
         });
         //#endregion
+        //#region BOTON VOLVER ATRAS CLIENTE
+        const btnBackClients = document.getElementById('btn-back-clients');
+        btnBackClients.innerHTML = iconSVGBack;
         
-        //#region DATOS MOCK ENTIDADTES
+        btnBackClients.addEventListener('click',()=>{
+            setActiveTab('detallecliente');  
+        });
+        //#endregion
+
+
+        //#region DATOS MOCK ENTIDADES
         // ------- DATOS MOCK (clientes,proyectos,miembrosClientes miembros, RAGs, tools) -------
         let mockClients = [
           {
@@ -2376,7 +2349,7 @@
         ]
         
 
-        var mockProjectsClient = [
+        let mockProjectsClient = [
           {
             _id: "proj-001",
             clientId: "1",
@@ -2458,7 +2431,7 @@
         ]
         let mockMembers = [
             {
-                id: 1,
+                _id: "1",
                 projectId: "proj-001",
                 name: 'Andrés Pallares',
                 email: 'andres@mirrormind.ai',
@@ -2476,7 +2449,7 @@
                 ],
             },
             {
-                id: 2,
+                _id: "2",
                 projectId: "proj-001",
                 name: 'María García',
                 email: 'maria.g@mirrormind.ai',
@@ -2492,7 +2465,7 @@
                 ],
             },
             {
-                id: 3,
+                _id: "3",
                 projectId: "proj-002",
                 name: 'Juan López',
                 email: 'juan.lopez@mirrormind.ai',
@@ -2506,7 +2479,7 @@
                 ],
             },
             {
-                id: 4,
+                _id: "4",
                 projectId: "proj-003",
                 name: 'Laura Sánchez',
                 email: 'laura.s@mirrormind.ai',
@@ -2522,7 +2495,7 @@
                 ],
             },
             {
-                id: 5,
+                _id: "5",
                 projectId: "proj-004",
                 name: 'Pedro Ruiz',
                 email: 'pedro.ruiz@mirrormind.ai',
@@ -2537,7 +2510,8 @@
             },
         ];
     //#endregion
-    //#region MODAL NUEVO-EDIT CLIENTE 
+    
+    //#region MODAL INSERT-EDIT-UPDATE CLIENTE 
   // ------- MODAL NUEVO CLIENTE -------
     const modalClient = document.getElementById('modal-client');
     
@@ -2562,7 +2536,7 @@
       if (e.target === modalClient) closeClientModal();
     });
     //#endregion
-    //#region MODAL NUEVO-EDIT PROYECTO
+    //#region MODAL INSERT-EDIT-UPDATE PROYECTO
     // ------- MODAL NUEVO PROYECTO -------
     const modalProject = document.getElementById('modal-project');
     //const btnNewProject = document.getElementById('btn-new-project');
@@ -2596,7 +2570,7 @@
       if (e.target === modalProject) closeProjectModal();
     });
     //#endregion
-    //#region MODAL NUEVO-EDIT MIEMBRO CLIENTE
+    //#region MODAL INSERT-EDIT-UPDATE MIEMBRO CLIENTE
     //---------- MODAL NUEVO MIEMBRO CLIENTE ---------------
     const modalMemberClient = document.getElementById('modal-member-client');
     const formMemberClient = document.getElementById('form-member-client'); 
@@ -2623,7 +2597,7 @@
       if (e.target === modalMemberClient) closeMemberClientModal();
     });
     //#endregion
-    //#region MODAL NUEVO-EDIT MIEMBRO
+    //#region MODAL INSERT-EDIT-UPDATE MIEMBRO
     // ------- MODAL NUEVO MIEMBRO -------
     const modalMember = document.getElementById('modal-member');
    
@@ -2653,7 +2627,7 @@
       if (e.target === modalMember) closeMemberModal();
     });
     //#endregion
-    //#region MODAL NUEVO-EDIT RAG
+    //#region MODAL INSERT-EDIT-UPDATE RAG
     //------------MODAL NUEVA BASE DE DATOS RAG-----------------------
               
     const modalRag = document.getElementById('modal-rag');
@@ -2678,7 +2652,7 @@
          if (e.target === modalRag) closeRagModal();
     });
     //#endregion
-    //#region MODAL NUEVO-EDIT TOOL
+    //#region MODAL INSERT-EDIT-UPDATE TOOL
     //--------------- MODAL NUEVO TOOL -----------------------------------
     const modalTool = document.getElementById('modal-tool');       
     
@@ -2700,7 +2674,7 @@
          if (e.target === modalTool) closeToolModal();
     });
     //#endregion
-    //#region MODAL CUADRO-EDIT DIALOGO BORRAR
+    //#region MODAL CUADRO-EDIT-UPDATE DIALOGO BORRAR
     //------------------ MODAL CUADRO DIALOGO BORRAR -------------------------
     const modalBorrar = document.getElementById('modal-borrar');
     
@@ -2722,7 +2696,7 @@
     });
     //#endregion
     
-   
+    
     function debounce(func, wait, immediate) {
             var timeout;
             return function () {
@@ -2736,11 +2710,11 @@
                 timeout = setTimeout(later, wait);
                 if (callNow) func.apply(context, args);
             };
-        }
+    }
     
     
-        // ------- VIEWMODEL KO -------
-
+        // ------- VIEWMODEL KO KNOCKOUT JS -------
+        
         function AppViewModel() {
             const self = this;
             //#region PROPIEDADES PARA HACER BINDING CON LAS DIFERENTES VISTAS HTMLS
@@ -2750,7 +2724,7 @@
               const project = self.selectedProject();
               if (!project) return self.members();
               
-              //console.log(self.members().filter((m) => m.name.toLowerCase().includes(d.toLowerCase()) && m.projectId === project.id));
+              console.log(self.members().filter((m) => m.name.toLowerCase().includes(d.toLowerCase()) && m.projectId === project.id));
               self.filterMembers(self.members().filter((m) => m.name.toLowerCase().includes(d.toLowerCase()) && m.projectId === project.id));
               if (d.length>0)
                  self.cadBusquedaMiembros(true);
@@ -2810,8 +2784,6 @@
             self.tipoTool = ko.observable("");
             self.permisoTool = ko.observable("");
             //#endregion
-           
-            
             
             //#region PROPIEDADES o CAMPOS CALCULADOS Y DE SOLO LECTURA
             self.filteredMembers = ko.computed(function () {
@@ -2819,10 +2791,13 @@
                 const project = self.selectedProject();
                 if (!project) return self.members();
                 //console.log(self.members().filter((m) => m.projectId === project.id));
+                console.log(project._id);
                 console.log(self.filterMembers());
+                console.log(self.members());
                 console.log(self.cadBusquedaMiembros());
+                console.log(self.filterMembers().length==0 && !self.cadBusquedaMiembros());
                 if (self.filterMembers().length==0 && !self.cadBusquedaMiembros())
-                  return  self.members().filter((m) => m.projectId === project.id);
+                  return  self.members().filter((m) => m.projectId === project._id);
                 else 
                   return self.filterMembers()
                 
@@ -2876,7 +2851,7 @@
             };
             //#endregion
             
-           //#region ACCIONES CLIENTE
+           //#region MODAL ACCIONES CLIENTE
             //--------- ACCIONES CLIENTE -----------------------
             self.btnNewClient = function(){
                 self.actionClient("new");
@@ -2913,7 +2888,7 @@
 
             }
             //#endregion
-           //#region ACCIONES PROYECTO
+           //#region MODAL ACCIONES PROYECTO
             // ----------- ACCIONES PROYECTO ------------------
             self.btnNewProject = function(){
                 modalProject.classList.remove('hidden');
@@ -3007,7 +2982,7 @@
                
             }
             //#endregion
-           //#region ACCIONES MIEMBRO CLIENTE 
+           //#region MODAL ACCIONES MIEMBRO CLIENTE 
            //------ ACCIONES MIEMBRO CLIENTE ---------------
             self.btnNewClientMember = function(){
                 self.actionMemberClient("new");
@@ -3022,14 +2997,22 @@
             self.updateClientMember = function(model,e){
                 
             }
-            self.editClientMember = function(member){
-                
+            self.editClientMember = function(memberClient){
+                modalMemberClient.classList.remove('hidden');
+                self.selectedMemberClient(memberClient);
+                self.actionMemberClient("update");
+                inputMemberClientName.value = memberClient.name;
+                inputMemberClientEmail.value = memberClient.email;
+                selectMemberClientRole.value = memberClient.role;
+                selectMemberClientStatus.value = memberClient.status;
             }
-            self.deleteClientMember = function(member){
-                
+            self.deleteClientMember = function(memberClient){
+                self.actionBorrar("miembroCliente");
+                self.selectedMemberClient(memberClient);
+                openBorrarModal();
             }
           //#endregion
-           //#region ACCIONES MIEMBRO 
+           //#region MODAL ACCIONES MIEMBRO 
            // ----------- ACCIONES MIEMBRO --------------------
             self.btnNewMember = function(){
                 self.actionMember("new");
@@ -3113,7 +3096,7 @@
                 self.members(newMembers);
             }
             //#endregion
-           //#region ACCIONES RAG 
+           //#region MODAL ACCIONES RAG 
             //-------------- ACCIONES BASE DE DATOS RAG ---------------------
             self.btnNewRag= function(){
                //console.log("estoy en click RAG");
@@ -3197,7 +3180,7 @@
                 self.selectedMember(selectedMember);
             }
             //#endregion
-           //#region ACCIONES TOOL 
+           //#region MODAL ACCIONES TOOL 
             //--------------- ACCIONES TOOL ---------------
             self.btnNewTool = function(){
               //console.log("opentoolmodal");
@@ -3275,7 +3258,7 @@
                 self.selectedMember(selectedMember); 
             }
             //#endregion
-           //#region ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO 
+           //#region MODAL ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO 
            //---------- ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO --------------------------
             self.saveBorrar = function(){
               if (self.actionBorrar() === "proyecto"){
@@ -3292,7 +3275,7 @@
             //#endregion
            
            
-            //#region FUNCIONES PARA BINDING CSS
+            //#region FUNCIONES PARA BINDING CSS CON LAS VISTAS
             self.avatarClass = function (status) {
                 return status === 'Activo'
                     ? 'bg-indigo-100 text-indigo-700'
@@ -3318,17 +3301,17 @@
                 return 'bg-slate-50 text-slate-600 border-slate-200';
             };
             //#endregion
-
+           
             // inicialización
            //if (self.projects().length > 0) {
                
            //     self.selectMember(self.members()[0]);
            //      self.selectProject(self.projects()[0]);
            // }
-            queryProjectApi(self.projects);
+           queryProjectApi(self.projects);
         }
         var viewModel = new AppViewModel();
-
+        
         function loadViewModel(){
           
            ko.applyBindings(new AppViewModel());
@@ -3337,9 +3320,9 @@
         
         //queryProjectApi()
         
-
-     })
-
+        
+     }); //END OF addEventListener("DOMContentLoaded"
+    
   </script>
 
  <script>
