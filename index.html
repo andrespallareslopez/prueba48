@@ -1205,7 +1205,7 @@
                     <h2 class="text-sm font-semibold text-slate-800">Bases de datos RAG</h2>
                     <button id="btn-new-project-rag"
                       class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
-                      data-bind="click:  $root.btnNewRagProyectos">
+                      data-bind="click:  $root.btnNewRagProyecto">
                       + Nuevo
                     </button>
                   </div>
@@ -2038,7 +2038,7 @@
                   </div>
                 </div>
 
-                <button type="button" data-close-rag-proyectos aria-label="Cerrar"
+                <button type="button" data-close-rag-proyecto aria-label="Cerrar"
                   class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
                   <span class="text-xl leading-none">×</span>
                 </button>
@@ -2073,20 +2073,20 @@
                   <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre RAG</label>
-                      <input type="text" name="ragNameProyectos" placeholder="Ej. RAG Documentación"
-                        data-bind="value: nameRagProyectos"
+                      <input type="text" name="ragNameProyecto" placeholder="Ej. RAG Documentación"
+                        data-bind="value: nameRagProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
                     </div>
 
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
-                      <select name="ragTypeProyectos" data-bind="options: ragType, value: tipoRagProyectos"
+                      <select name="ragTypeProyecto" data-bind="options: ragType, value: tipoRagProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></select>
                     </div>
 
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Última actualización</label>
-                      <input type="date" name="ragLastUpdateProyectos" data-bind="value: fechaRagProyectos"
+                      <input type="date" name="ragLastUpdateProyecto" data-bind="value: fechaRagProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
                     </div>
                   </div>
@@ -2094,7 +2094,7 @@
 
                 <!-- Actions -->
                 <div class="flex items-center justify-end gap-2 pt-2">
-                  <button type="button" data-close-rag-proyectos
+                  <button type="button" data-close-rag-proyecto
                     class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
                     Cancelar
                   </button>
@@ -2110,6 +2110,108 @@
         <!-- #endregion -->
 
 
+        <!-- #region =============== MODAL: INSERTAR-EDIT-UPDATE TOOLS PARA PROYECTOS =============== -->
+        <div id="modal-tool-proyecto"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-tool-title">
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG -->
+                  <div
+                    class="icon-tool grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+
+                  </div>
+
+                  <div>
+                    <h2 id="modal-tool-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nueva Tool
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Registra los datos básicos y, si aplica, la configuración de la herramienta
+                    </p>
+                  </div>
+                </div>
+
+                <button type="button" data-close-tool-proyecto aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-tool-proyecto" class="space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Tus inputs básicos aquí -->
+                </div>
+
+                <!-- TOOL -->
+                <div class="rounded-3xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                      <h3 class="text-xs font-semibold text-slate-800">
+                        Registrar nueva tool <span class="text-slate-400 font-medium">(opcional)</span>
+                      </h3>
+                      <p class="mt-0.5 text-[11px] text-slate-500">
+                        Útil para documentar conectores, APIs, scripts o integraciones.
+                      </p>
+                    </div>
+                    <span
+                      class="inline-flex items-center rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-slate-200">
+                      TOOL
+                    </span>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre de la tool</label>
+                      <input type="text" name="toolNameProyecto" placeholder="Ej. Conector CRM"
+                        data-bind="value: nameToolProyecto"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                    </div>
+
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
+                      <input type="text" name="toolTypeProyecto" placeholder="API / Tool / Script..."
+                        data-bind="value: tipoToolProyecto"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                    </div>
+
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Permiso</label>
+                      <select name="toolPermissionProyecto" data-bind="value: permisoToolProyecto"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15">
+                        <option value="">Sin especificar</option>
+                        <option value="Lectura / Escritura">Lectura / Escritura</option>
+                        <option value="Solo lectura">Solo lectura</option>
+                        <option value="Restringido">Restringido</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-tool-proyecto
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+
+                  <button type="submit" data-bind="click: saveToolProject"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar tool
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- #endregion -->
 
         <!-- #region =============== MODAL: CUADRO DE DIALOGO BORRAR =============== -->
         <div id="modal-borrar"
@@ -3052,7 +3154,7 @@
         if (e.target === modalMember) closeMemberModal();
       });
       //#endregion
-      //#region MODAL INSERT-EDIT-UPDATE RAG
+      //#region MODAL INSERT-EDIT-UPDATE RAG MIEMBROS
 
 
       const modalRag = document.getElementById('modal-rag');
@@ -3077,7 +3179,7 @@
         if (e.target === modalRag) closeRagModal();
       });
       //#endregion
-      //#region MODAL INSERT-EDIT-UPDATE TOOL
+      //#region MODAL INSERT-EDIT-UPDATE TOOL MIEMBROS
 
       const modalTool = document.getElementById('modal-tool');
 
@@ -3101,30 +3203,52 @@
       //#endregion
       //#region MODAL INSERT_EDIT_UPDATE RAG PROYECTOS
 
-      const modalRagProyectos = document.getElementById('modal-rag-proyectos');
+      const modalRagProyecto = document.getElementById('modal-rag-proyectos');
 
-      const formRagProyectos = document.getElementById('form-rag-proyectos');
+      const formRagProyecto = document.getElementById('form-rag-proyectos');
 
-      const inputRagNameProyectos = formRagProyectos.querySelector('input[name="ragNameProyectos"]');
-      const selecttRagTypeProyectos = formRagProyectos.querySelector('select[name="ragTypeProyectos"]');
-      const inputRagLastUpdateProyectos = formRagProyectos.querySelector('input[name="ragLastUpdateProyectos"]');
+      const inputRagNameProyectos = formRagProyecto.querySelector('input[name="ragNameProyecto"]');
+      const selecttRagTypeProyectos = formRagProyecto.querySelector('select[name="ragTypeProyecto"]');
+      const inputRagLastUpdateProyectos = formRagProyecto.querySelector('input[name="ragLastUpdateProyecto"]');
 
 
 
-      function closeRagProyectosModal() {
-        modalRagProyectos.classList.add('hidden');
+      function closeRagProyectoModal() {
+        modalRagProyecto.classList.add('hidden');
       }
 
-      modalRagProyectos.querySelectorAll('[data-close-rag-proyectos]').forEach((btn) => {
-        btn.addEventListener('click', closeRagProyectosModal);
+      modalRagProyecto.querySelectorAll('[data-close-rag-proyecto]').forEach((btn) => {
+        btn.addEventListener('click', closeRagProyectoModal);
       });
 
-      modalRagProyectos.addEventListener('click', (e) => {
-        if (e.target === modalRagProyectos) closeRagProyectosModal();
+      modalRagProyecto.addEventListener('click', (e) => {
+        if (e.target === modalRagProyecto) closeRagProyectoModal();
       });
       //#endregion  
 
+      //#region MODAL INSERT-EDIT-UPDATE TOOL PROYECTOS
 
+      const modalToolProyecto = document.getElementById('modal-tool-proyecto');
+
+      const formToolProyecto = document.getElementById('form-tool-proyecto')
+
+      const inputToolNameProyecto = formToolProyecto.querySelector('input[name="toolNameProyecto"]');
+      const inputToolTypeProyecto = formToolProyecto.querySelector('input[name="toolTypeProyecto"]');
+      const inputSelectToolPermissionProyecto = formToolProyecto.querySelector('select[name="toolPermissionProyecto"]');
+
+      function closeToolProyectoModal() {
+        modalToolProyecto.classList.add('hidden');
+      }
+
+      modalToolProyecto.querySelectorAll('[data-close-tool-proyecto]').forEach((btn) => {
+        btn.addEventListener('click', closeToolProyectoModal);
+      });
+
+      modalToolProyecto.addEventListener('click', (e) => {
+        if (e.target === modalToolProyecto) closeToolProyectoModal();
+      });
+
+      //#endregion
 
 
       //#region MODAL CUADRO-EDIT-UPDATE DIALOGO BORRAR
@@ -3214,7 +3338,8 @@
         self.actionRag = ko.observable("");
         self.actionTool = ko.observable("");
         self.actionBorrar = ko.observable("");
-        self.actionRagProyectos = ko.observable("");
+        self.actionRagProyecto = ko.observable("");
+        self.actionToolProyecto = ko.observable("");
 
         self.selectedClient = ko.observable();  //se utiliza para seleccionar una cliente
         self.selectedProject = ko.observable(); //se utiliza para selecciona un proyecto
@@ -3223,7 +3348,7 @@
         self.selectedRag = ko.observable();
         self.selectedTool = ko.observable();
         self.selectedRagProyecto = ko.observable();
-
+        self.selectedToolProyecto = ko.observable();
 
         self.nameClient = ko.observable("");
         self.descriptionClient = ko.observable("");
@@ -3251,9 +3376,15 @@
         self.tipoTool = ko.observable("");
         self.permisoTool = ko.observable("");
 
-        self.nameRagProyectos = ko.observable("");
-        self.tipoRagProyectos = ko.observable("");
-        self.fechaRagProyectos = ko.observable("");
+        self.nameRagProyecto = ko.observable("");
+        self.tipoRagProyecto = ko.observable("");
+        self.fechaRagProyecto = ko.observable("");
+
+        self.nameToolProyecto = ko.observable("");
+        self.tipoToolProyecto = ko.observable("");
+        self.permisoToolProyecto = ko.observable("");
+
+
         //#endregion
 
         //#region PROPIEDADES o CAMPOS CALCULADOS Y DE SOLO LECTURA
@@ -3421,6 +3552,7 @@
         }
         self.selectProject = async function (project) {
           setActiveTab('miembros');
+          setActiveDetalleProyectoTab('proyectomiembros');
           //instrucciones para resetear los campos de filtro de miembro
           self.filtertext("");
           self.cadBusquedaMiembros(false);
@@ -3442,7 +3574,9 @@
               //id:uuid.v4(),
               name: model.nameProject(),
               clientId: client._id,
-              description: model.descriptionProject()
+              description: model.descriptionProject(),
+              ragDatabases: [],
+              tools: []
             };
             if (entorno === 'local') {
               project._id = uuid.v4();
@@ -3878,22 +4012,23 @@
         //#endregion
 
         //#region MODAL INSERT_EDIT_UPDATE RAG PROYECTOS
-        self.btnNewRagProyectos = function () {
+        self.btnNewRagProyecto = function () {
           //console.log("estoy en click RAG");
-          self.actionRagProyectos("new");
-          modalRagProyectos.classList.remove('hidden');
-          self.nameRagProyectos("");
-          self.tipoRagProyectos("");
-          self.fechaRagProyectos("");
+          self.actionRagProyecto("new");
+          modalRagProyecto.classList.remove('hidden');
+          self.nameRagProyecto("");
+          self.tipoRagProyecto("");
+          self.fechaRagProyecto("");
         }
         self.editProjectRag = function (ragProyectos) {
-          //console.log(tool);
-          modalRagProyectos.classList.remove('hidden');
+          console.log(ragProyectos);
+
+          modalRagProyecto.classList.remove('hidden');
           self.selectedRagProyecto(ragProyectos);
-          self.actionRagProyectos("update");
-          self.nameRagProyectos(ragProyectos.name)
-          self.tipoRagProyectos(ragProyectos.type);
-          self.fechaRagProyectos(ragProyectos.lastUpdate);
+          self.actionRagProyecto("update");
+          self.nameRagProyecto(ragProyectos.name)
+          self.tipoRagProyecto(ragProyectos.type);
+          self.fechaRagProyecto(ragProyectos.lastUpdate);
           inputRagNameProyectos.value = ragProyectos.name;
           selecttRagTypeProyectos.value = ragProyectos.type;
           inputRagLastUpdateProyectos.value = ragProyectos.lastUpdate;
@@ -3903,7 +4038,7 @@
           console.log(selectedProject);
           let memberId = selectedProject._id
           let ragDatabases = self.selectedProject().ragDatabases;
-          let newRag = { id: uuid.v4(), memberId: memberId, lastUpdate: self.fechaRagProyectos(), name: self.nameRagProyectos(), type: self.tipoRagProyectos() }
+          let newRag = { id: uuid.v4(), memberId: memberId, lastUpdate: self.fechaRagProyecto(), name: self.nameRagProyecto(), type: self.tipoRagProyecto() }
           ragDatabases.push(newRag);
           selectedProject.ragDatabases = ragDatabases;
           selectedProject = await AddProjectApi(selectedProject);
@@ -3913,7 +4048,7 @@
           //console.log(self.filteredProjects());
           //console.log(self.projects());
           //self.updateMemberArray(model);
-          closeRagProyectosModal();
+          closeRagProyectoModal();
         }
         self.updateRagProyectos = async function (model, e) {
           const oldProject = self.selectedProject();
@@ -3922,7 +4057,7 @@
           let newDababaseRag = [];
           oldProject.ragDatabases.forEach((el, i) => {
             if (el.id === oldRag.id) {
-              oldProject.ragDatabases[i] = { id: oldRag.id, memberId: oldProject._id, name: model.nameRagProyectos(), type: model.tipoRagProyectos(), lastUpdate: model.fechaRagProyectos() }
+              oldProject.ragDatabases[i] = { id: oldRag.id, memberId: oldProject._id, name: model.nameRagProyecto(), type: model.tipoRagProyecto(), lastUpdate: model.fechaRagProyecto() }
             }
             newDababaseRag.push(oldProject.ragDatabases[i]);
           });
@@ -3931,7 +4066,7 @@
           await UpdateProjectApi(selectedProject);
           self.selectedProject(selectedProject);
           //self.updateMemberArray(model);
-          closeRagProyectosModal();
+          closeRagProyectoModal();
 
         }
         self.deleteProjectRag = function (ragProyectos) {
@@ -3941,9 +4076,9 @@
           openBorrarModal();
         }
         self.saveRagProyectos = function (model, e) {
-          if (self.actionRagProyectos() === "new") {
+          if (self.actionRagProyecto() === "new") {
             self.addRagProyectos(model, e);
-          } else if (self.actionRagProyectos() === "update") {
+          } else if (self.actionRagProyecto() === "update") {
             self.updateRagProyectos(model, e);
           }
         }
@@ -3957,6 +4092,87 @@
           UpdateProjectApi(selectedProject);
           self.selectedProject(selectedProject);
         }
+        //#endregion
+
+        //#region MODAL ACCIONES TOOL PROYECTOS
+        //--------------- ACCIONES TOOL PROYECTOS ---------------
+        self.btnNewToolProyecto = function () {
+          //console.log("opentoolmodal");
+          self.actionToolProyecto("new");
+          modalToolProyecto.classList.remove('hidden');
+          self.nameToolProyecto("");
+          self.tipoToolProyecto("");
+          self.permisoToolProyecto("");
+        }
+        self.selectToolProyecto = function (tool) {
+          self.selectedToolProyecto(tool);
+        }
+        self.addToolProyecto = async function (model, e) {
+          let selectedProject = self.selectedProject();
+          let memberId = selectedProject._id;
+          let tools = self.selectedProject().tools;
+          let newTool = { id: uuid.v4(), memberId: memberId, name: model.nameToolProyecto(), type: model.tipoToolProyecto(), permission: model.permisoToolProyecto() }
+          tools.push(newTool);
+          selectedProject.tools = tools;
+          selectedProject = await AddProjectApi(selectedProject);
+          self.selectedProject(selectedProject);
+          //self.updateMemberArray(model);
+          closeToolProyectoModal();
+        }
+        self.updateToolProyecto = async function (model, e) {
+          const oldProject = self.selectedProject();
+          const oldTool = self.selectedToolProyecto();
+          let newTools = [];
+          self.selectedProject().tools.forEach((el, i) => {
+            if (el.name === oldTool.name) {
+              self.selectedProject().tools[i] = { id: oldTool.id, memberId: oldProject.id, name: model.nameToolProyecto(), type: model.tipoToolProyecto(), permission: model.permisoToolProyecto() }
+            }
+            newTools.push(self.selectedProject().tools[i])
+          });
+          self.selectedProject().tools = newTools;
+          let selectedProject = self.selectedProject();
+          await updateProjectApi(selectedProject);
+          self.selectedProject(selectedProject);
+          closeToolProyectoModal();
+
+        }
+        self.editToolProject = function (tool) {
+          //console.log(tool);
+          modalToolProyecto.classList.remove('hidden');
+          self.selectedToolProyecto(tool);
+          self.actionToolProyecto("update");
+          self.nameToolProyecto(tool.name);
+          self.tipoToolProyecto(tool.type);
+          self.permisoToolProyecto(tool.permission);
+          inputToolNameProyecto.value = tool.name;
+          inputToolTypeProyecto.value = tool.type;
+          inputSelectToolPermissionProyecto.value = tool.permission;
+        }
+
+        self.deleteToolProject = function (tool) {
+          //console.log(tool);
+          self.actionBorrar("tool");
+          self.selectedToolP(tool);
+          openBorrarModal();
+        }
+        self.saveToolProject = function (model, e) {
+          if (self.actionToolProyecto() === "new") {
+            self.addToolProyecto(model, e);
+          } else if (self.actionToolProyecto() === "update") {
+            self.updateToolProyecto(model, e);
+          }
+        }
+        self.deleteRowToolProject = function () {
+          let newTools = [];
+          newTools = self.selectedProject().tools.filter(f => f.id !== self.selectedToolProyecto().id);
+          self.selectedProject().tools = newTools;
+          const selectedProject = self.selectedProject();
+          //Aqui no borramos directamente el registro TOOL, 
+          // lo que hacemos es actualizar el registro miembro que lo habra quitado de su arrays de tools asociados
+          updateProjectApi(selectedProject);
+          self.selectedProject(selectedProject);
+        }
+
         //#endregion
 
         //#region MODAL ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO 
@@ -3980,7 +4196,6 @@
           closeBorrarModal();
         }
         //#endregion
-
 
         //#region FUNCIONES PARA BINDING CSS CON LAS VISTAS
         self.avatarClass = function (status) {
