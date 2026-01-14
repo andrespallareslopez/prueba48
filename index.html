@@ -1253,7 +1253,7 @@
                     <h2 class="text-sm font-semibold text-slate-800">Herramientas y permisos</h2>
                     <button id="btn-new-project-tools"
                       class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
-                      data-bind="click: $root.btnNewProjectTool">
+                      data-bind="click: $root.btnNewToolProject">
                       + Nuevo
                     </button>
                   </div>
@@ -1280,10 +1280,10 @@
                               class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
                               <div class="flex items-center gap-1/2">
                                 <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
-                                  style="scale:1.3" data-bind="click: $root.editProjectTool">
+                                  style="scale:1.3" data-bind="click: $root.editToolProject ">
                                 </p>
                                 <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
-                                  data-bind="click: $root.deleteProjectTool">
+                                  data-bind="click: $root.deleteToolProject ">
                                 </p>
                               </div>
                             </div>
@@ -3467,7 +3467,7 @@
         };
         //#endregion
 
-        //#region MODAL ACCIONES CLIENTE
+        //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE CLIENTE
         //--------- ACCIONES CLIENTE -----------------------
         self.btnNewClient = function () {
           self.actionClient("new");
@@ -3542,7 +3542,7 @@
 
         }
         //#endregion
-        //#region MODAL ACCIONES PROYECTO
+        //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE PROYECTO
         // ----------- ACCIONES PROYECTO ------------------
         self.btnNewProject = function () {
           modalProject.classList.remove('hidden');
@@ -3598,7 +3598,7 @@
           let newProjects = [];
           self.projectsClient().forEach((el, i) => {
             if (el.name === oldproject.name) {
-              const project = { id: oldproject._id, _id: oldproject._id, clientId: client._id, name: model.nameProject(), description: model.descriptionProject() }
+              const project = { id: oldproject._id, _id: oldproject._id, clientId: client._id, name: model.nameProject(), description: model.descriptionProject(), ragDatabases: oldproject.ragDatabases, tools: oldproject.tools }
 
               self.projectsClient()[i] = project;
               UpdateProjectApi(project);
@@ -3648,7 +3648,7 @@
 
         }
         //#endregion
-        //#region MODAL ACCIONES MIEMBRO CLIENTE 
+        //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE MIEMBRO CLIENTE 
         //------ ACCIONES MIEMBRO CLIENTE ---------------
         self.btnNewClientMember = function () {
           self.actionMemberClient("new");
@@ -3733,7 +3733,7 @@
           self.membersClient(newMembersClient);
         }
         //#endregion
-        //#region MODAL ACCIONES MIEMBRO 
+        //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE MIEMBRO 
         // ----------- ACCIONES MIEMBRO --------------------
         self.btnNewMember = function () {
           self.actionMember("new");
@@ -3839,11 +3839,11 @@
         self.deleteRowMember = async function () {
           let newMembers = [];
           await deleteMembersApi(self.selectedMember());
-          newMembers = self.members().filter(f => f.id !== self.selectedMember().id);
+          newMembers = self.members().filter(f => f._id !== self.selectedMember()._id);
           self.members(newMembers);
         }
         //#endregion
-        //#region MODAL ACCIONES RAG 
+        //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE RAG 
         //-------------- ACCIONES BASE DE DATOS RAG ---------------------
         self.btnNewRag = function () {
           //console.log("estoy en click RAG");
@@ -3931,7 +3931,7 @@
           self.selectedMember(selectedMember);
         }
         //#endregion
-        //#region MODAL ACCIONES TOOL 
+        //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE TOOL 
         //--------------- ACCIONES TOOL ---------------
         self.btnNewTool = function () {
           //console.log("opentoolmodal");
@@ -4011,7 +4011,7 @@
         }
         //#endregion
 
-        //#region MODAL INSERT_EDIT_UPDATE RAG PROYECTOS
+        //#region MODAL RAG PROYECTOS ACCIONES INSERT_EDIT_UPDATE 
         self.btnNewRagProyecto = function () {
           //console.log("estoy en click RAG");
           self.actionRagProyecto("new");
@@ -4094,9 +4094,9 @@
         }
         //#endregion
 
-        //#region MODAL ACCIONES TOOL PROYECTOS
+        //#region MODAL TOOL PROYECTOS ACCIONES INSERT EDIT UPDATE DELETE
         //--------------- ACCIONES TOOL PROYECTOS ---------------
-        self.btnNewToolProyecto = function () {
+        self.btnNewToolProject = function () {
           //console.log("opentoolmodal");
           self.actionToolProyecto("new");
           modalToolProyecto.classList.remove('hidden');
@@ -4131,7 +4131,7 @@
           });
           self.selectedProject().tools = newTools;
           let selectedProject = self.selectedProject();
-          await updateProjectApi(selectedProject);
+          await UpdateProjectApi(selectedProject);
           self.selectedProject(selectedProject);
           closeToolProyectoModal();
 
@@ -4152,7 +4152,7 @@
         self.deleteToolProject = function (tool) {
           //console.log(tool);
           self.actionBorrar("tool");
-          self.selectedToolP(tool);
+          self.selectedToolProyecto(tool);
           openBorrarModal();
         }
         self.saveToolProject = function (model, e) {
@@ -4169,7 +4169,7 @@
           const selectedProject = self.selectedProject();
           //Aqui no borramos directamente el registro TOOL, 
           // lo que hacemos es actualizar el registro miembro que lo habra quitado de su arrays de tools asociados
-          updateProjectApi(selectedProject);
+          UpdateProjectApi(selectedProject);
           self.selectedProject(selectedProject);
         }
 
