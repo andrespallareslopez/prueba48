@@ -8,6 +8,7 @@
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /*#region CODIGO CSS RELACIONADO CON EL CHAT IA*/
     /* ===============================
        FONDO SVG DE AXET FLOW
        =============================== */
@@ -797,13 +798,15 @@
     .open-search .btn-search-close {
       opacity: 1;
     }
+
+    /*#endregion*/
   </style>
 </head>
 
 <body class="bg-slate-100 text-slate-900">
 
   <div class="min-h-screen flex flex-col">
-    <!-- TOP NAVBAR -->
+    <!-- #region TOP NAVBAR -->
     <header class="bg-white shadow-sm border-b border-slate-200">
 
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -841,10 +844,10 @@
         </div>
       </div>
     </header>
-
-    <!-- MAIN LAYOUT -->
-    <div class="flex flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 gap-4">
-      <!-- LEFT SIDEBAR: clientes -->
+    <!-- #endregion -->
+    <!-- #region MAIN LAYOUT -->
+    <div class="flex flex-1 max-w-7xl mx-auto w-full px-2 sm:px-1 lg:px-1 py-1 gap-4">
+      <!-- #region LEFT SIDEBAR: clientes -->
       <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-sm font-semibold text-slate-800">Clientes</h2>
@@ -891,10 +894,11 @@
           </div>
         </div>
       </aside>
+      <!-- #endregion -->
 
-      <!-- MAIN CONTENT -->
+      <!-- #region MAIN CONTENT -->
       <main class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 overflow-y-auto">
-        <!--VIEW - TAB: DETALLE DEL CLIENTE -->
+        <!-- #region VIEW - TAB: DETALLE DEL CLIENTE -->
         <section id="view-detalle-cliente" class="view-section hidden">
           <div class="flex items-center justify-between mb-4">
             <div>
@@ -1036,10 +1040,12 @@
             Selecciona un cliente en la pestaña “Clientes” para ver su detalle aquí.
           </div>
         </section>
+        <!-- #endregion -->
 
-        <!-- VIEW - TAB: MIEMBROS -->
+        <!-- #region VIEW - TAB: MIEMBROS -->
         <section id="view-miembros" class="view-section relative h-full">
-          <div class="max-w-7xl mx-auto px-0 sm:px-0 lg:px-0">
+          <!-- #region NAVBAR MIEMBROS  -->
+          <div class="max-w-7xl mx-auto px-0  rounded-lg border border-slate-500 mb-4 sm:px-0 lg:px-0">
             <div class="flex items-center justify-between h-10">
               <nav class="flex items-center gap-4 text-sm font-medium">
                 <button data-view="proyectomiembros"
@@ -1053,6 +1059,8 @@
               </nav>
             </div>
           </div>
+          <!-- #endregion -->
+          <!-- #region VIEW DETALLE PROYECTO MIEMBROS  -->
           <div id="view-detalle-proyecto-miembros" class="view-section">
             <div class="relative h-full flex items-center justify-between mb-4">
               <div>
@@ -1157,12 +1165,151 @@
               </table>
             </div>
           </div>
-          <div id="view-detalle-proyecto-ragtool" class="view-section hidden">RAGs y Tools asociados al proyecto</div>
+          <!-- #endregion -->
+          <!-- #region VIEW DETALLE PROYECTO RAGs TOOLS  -->
+          <div id="view-detalle-proyecto-ragtool" class="view-section hidden">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h1 class="text-lg font-semibold text-slate-900">Detalle del proyecto</h1>
+                <p class="text-xs text-slate-500">
+                  Bases de datos RAG asociadas y herramientas registradas para el proyecto seleccionado.
+                </p>
+              </div>
+
+              <button id="btn-back-project-rag" type="button"
+                class="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                data-bind="click: btnVolverAtrasClientesRag">
+
+              </button>
+            </div>
+
+            <!-- Info del proyecto (KO) -->
+            <div data-bind="if: selectedProject">
+              <div class="mb-4 flex items-center gap-3" data-bind="with: selectedProject">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
+                  data-bind="text: $root.getInitials(name), css: $root.avatarClass('active')"></div>
+                <div>
+                  <div class="text-sm font-semibold text-slate-900" data-bind="text: name"></div>
+                  <div class="text-xs text-slate-500" data-bind="text: description"></div>
+                </div>
+              </div>
+
+              <!-- Dos listados pegados (RAG y Herramientas) -->
+
+              <div id="listado-rag-project" class="grid grid-cols-1 lg:grid-cols-2 gap-4"
+                data-bind="with: selectedProject">
+                <!-- RAGs asociadas -->
+                <div class="border border-slate-200 rounded-2xl p-4">
+
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Bases de datos RAG</h2>
+                    <button id="btn-new-project-rag"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+                      data-bind="click:  $root.btnNewRagProyectos">
+                      + Nuevo
+                    </button>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <table class="min-w-full text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Tipo</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Última actualización</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: ragDatabases">
+                        <tr class="hover:bg-slate-50/60">
+                          <td class="py-2 pr-3" data-bind="text: name"></td>
+                          <td class="py-2 pr-3" data-bind="text: type"></td>
+                          <td class="py-2 pr-3" data-bind="text: lastUpdate"></td>
+                          <td class="py-2 pr-3">
+                            <div
+                              class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale: 1.3" data-bind="click: $root.editProjectRag">
+                                </p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteProjectRag">
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p class="text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !ragDatabases || ragDatabases.length === 0">
+                      Este proyecto no tiene RAGs asociadas.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Herramientas / tools registradas -->
+                <div class="border border-slate-200 rounded-2xl p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Herramientas y permisos</h2>
+                    <button id="btn-new-project-tools"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+                      data-bind="click: $root.btnNewProjectTool">
+                      + Nuevo
+                    </button>
+                  </div>
+                  <div class="overflow-x-auto">
+                    <table class="min-w-full text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Herramienta</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Tipo</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Permiso</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: tools">
+                        <tr class="hover:bg-slate-50/60">
+                          <td class="py-2 pr-3" data-bind="text: name"></td>
+                          <td class="py-2 pr-3" data-bind="text: type"></td>
+                          <td class="py-2 pr-3">
+                            <span class="inline-flex px-2 py-1 rounded-full text-[10px] border"
+                              data-bind="text: permission, css: $root.permissionClass(permission)"></span>
+                          </td>
+                          <td class="py-2 pr-3">
+                            <div
+                              class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale:1.3" data-bind="click: $root.editProjectTool">
+                                </p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteProjectTool">
+                                </p>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p class="text-[11px] text-slate-400 mt-2" data-bind="visible: !tools || tools.length === 0">
+                      Este proyecto no tiene herramientas registradas.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mensaje cuando no hay proyecto seleccionado -->
+            <div data-bind="ifnot: selectedProject" class="text-xs text-slate-400 mt-4">
+              Selecciona un proyecto en la pestaña “Miembros” para ver su detalle aquí.
+            </div>
+          </div>
+          <!-- #endregion -->
         </section>
+        <!-- #endregion -->
 
-
-        <!-- VIEW - TAB: DETALLE DEL MIEMBRO -->
-        <section id="view-detalle" class="view-section hidden">
+        <!-- #region VIEW - TAB: DETALLE DEL MIEMBRO -->
+        <section id="view-detalle-miembro" class="view-section hidden">
           <div class="flex items-center justify-between mb-4">
             <div>
               <h1 class="text-lg font-semibold text-slate-900">Detalle del miembro</h1>
@@ -1303,7 +1450,9 @@
             Selecciona un miembro en la pestaña “Miembros” para ver su detalle aquí.
           </div>
         </section>
-        <!-- =============== MODAL: NUEVO-EDIT-UPDATE CLIENTE =============== -->
+        <!-- #endregion -->
+
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE CLIENTE =============== -->
         <div id="modal-client"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
           <div class="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
@@ -1379,8 +1528,9 @@
             </div>
           </div>
         </div>
+        <!-- #endregion -->
 
-        <!-- =============== MODAL: NUEVO-EDIT-UPDATE PROYECTO =============== -->
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE PROYECTO =============== -->
         <div id="modal-project"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
           <div class="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
@@ -1456,8 +1606,9 @@
             </div>
           </div>
         </div>
+        <!-- #endregion -->
 
-        <!-- =============== MODAL: NUEVO-EDIT-UPDATE MIEMBRO CLIENTE =============== -->
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE MIEMBRO CLIENTE =============== -->
         <div id="modal-member-client" class="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 hidden"
           role="dialog" aria-modal="true" aria-labelledby="memberClientModalTitle">
           <!-- Backdrop -->
@@ -1572,8 +1723,9 @@
             </div>
           </div>
         </div>
+        <!-- #endregion -->
 
-        <!-- =============== MODAL: NUEVO-EDIT-UPDATE MIEMBRO =============== -->
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE MIEMBRO =============== -->
         <div id="modal-member" class="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 hidden"
           role="dialog" aria-modal="true" aria-labelledby="memberModalTitle">
           <!-- Backdrop -->
@@ -1652,9 +1804,10 @@
 
           </div>
         </div>
+        <!-- #endregion -->
 
 
-        <!-- =============== MODAL: NUEVO-EDIT-UPDATE BASE DATOS RAG =============== -->
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE BASE DATOS RAG PARA MIEBROS =============== -->
         <div id="modal-rag"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
           <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
@@ -1756,9 +1909,9 @@
             </div>
           </div>
         </div>
+        <!-- #endregion -->
 
-
-        <!-- =============== MODAL: INSERTAR-EDIT-UPDATE TOOLS =============== -->
+        <!-- #region =============== MODAL: INSERTAR-EDIT-UPDATE TOOLS PARA MIEMBROS =============== -->
         <div id="modal-tool"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
           <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
@@ -1858,9 +2011,107 @@
             </div>
           </div>
         </div>
+        <!-- #endregion -->
+
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE BASE DATOS RAG PARA PROYECTOS =============== -->
+        <div id="modal-rag-proyectos"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-rag-proyectos-title">
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG -->
+                  <div
+                    class="icon-rag grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+
+                  </div>
+
+                  <div>
+                    <h2 id="modal-rag-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nueva base de datos RAG
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Registra la información básica y, si aplica, los detalles de la base RAG
+                    </p>
+                  </div>
+                </div>
+
+                <button type="button" data-close-rag-proyectos aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-rag-proyectos" class="space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Tus inputs básicos aquí -->
+                </div>
+
+                <!-- RAG -->
+                <div class="rounded-3xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                      <h3 class="text-xs font-semibold text-slate-800">
+                        Registrar nueva base de datos RAG <span class="text-slate-400 font-medium">(opcional)</span>
+                      </h3>
+                      <p class="mt-0.5 text-[11px] text-slate-500">
+                        Completa estos campos si quieres guardar metadatos de la base RAG.
+                      </p>
+                    </div>
+                    <span
+                      class="inline-flex items-center rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-slate-200">
+                      RAG
+                    </span>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre RAG</label>
+                      <input type="text" name="ragNameProyectos" placeholder="Ej. RAG Documentación"
+                        data-bind="value: nameRagProyectos"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                    </div>
+
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
+                      <select name="ragTypeProyectos" data-bind="options: ragType, value: tipoRagProyectos"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></select>
+                    </div>
+
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Última actualización</label>
+                      <input type="date" name="ragLastUpdateProyectos" data-bind="value: fechaRagProyectos"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-rag-proyectos
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+                  <button type="submit" data-bind="click: saveRagProyectos"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar RAG
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- #endregion -->
 
 
-        <!-- =============== MODAL: CUADRO DE DIALOGO BORRAR =============== -->
+
+        <!-- #region =============== MODAL: CUADRO DE DIALOGO BORRAR =============== -->
         <div id="modal-borrar"
           class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
           <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
@@ -1910,9 +2161,9 @@
             </form>
           </div>
         </div>
+        <!-- #endregion -->
 
-
-        <!-- MODAL: CUADRO DE DIÁLOGO CHAT -->
+        <!-- #region MODAL: CUADRO DE DIÁLOGO CHAT -->
         <div id="chat-box" class="chat-box">
 
           <div id="chat-container">
@@ -1972,8 +2223,9 @@
           </div>
 
         </div>
+        <!-- #endregion -->
 
-        <!-- BOTÓN FLOTANTE DEL CHAT -->
+        <!-- #region BOTÓN FLOTANTE DEL CHAT -->
         <button id="chat-toggle" class="chat-button" aria-label="Abrir chat">
           <svg width="75" height="75" viewBox="0 0 75 75" xmlns="http://www.w3.org/2000/svg">
             <circle cx="37.5" cy="37.5" r="37.5" class="chat-bg" />
@@ -1984,6 +2236,7 @@
             <circle cx="45" cy="35.5" r="2.2" class="chat-dot dot-3" />
           </svg>
         </button>
+        <!--#endregion  -->
       </main>
     </div>
   </div>
@@ -2369,9 +2622,9 @@
       const sections = {
         miembros: document.getElementById('view-miembros'),
         detallecliente: document.getElementById('view-detalle-cliente'),
-        detalle: document.getElementById('view-detalle')
+        detalle: document.getElementById('view-detalle-miembro')
       };
-
+      console.log(sections);
       function setActiveTab(view) {
         tabs.forEach((tab) => {
           const isActive = tab.dataset.view === view;
@@ -2401,7 +2654,7 @@
 
       //#region NAVBAR-HEADER_MIEMBROS
       const tabsProyectos = document.querySelectorAll('.top-tab-detalle-proyecto');
-      console.log(tabsProyectos);
+      //console.log(tabsProyectos);
       const sectionsProyectos = {
         proyectomiembros: document.getElementById('view-detalle-proyecto-miembros'),
         proyectoragtool: document.getElementById('view-detalle-proyecto-ragtool'),
@@ -2430,7 +2683,7 @@
         });
       });
 
-
+      setActiveDetalleProyectoTab('proyectomiembros');
       //#endregion
 
 
@@ -2456,7 +2709,15 @@
       });
       */
       //#endregion
-
+      //#region BOTON VOLVER ATRAS CLIENTE DESDE RAG TOOLS PROYECTO
+      const btnBackClientsRagTools = document.getElementById('btn-back-project-rag');
+      btnBackClientsRagTools.innerHTML = iconSVGBack;
+      /*
+      btnBackClientsRagTools.addEventListener('click',()=>{
+          setActiveTab('detallecliente');  
+      });
+      */
+      //#endregion
 
       //#region DATOS MOCK ENTIDADES
       // ------- DATOS MOCK (clientes,proyectos,miembrosClientes miembros, RAGs, tools) -------
@@ -2484,37 +2745,65 @@
           _id: "proj-001",
           clientId: "1",
           name: "Plataforma RAG Financiera",
-          description: "Sistema RAG para consulta inteligente de documentación financiera interna."
+          description: "Sistema RAG para consulta inteligente de documentación financiera interna.",
+          ragDatabases: [
+            { id: 1, memberId: 1, name: 'Documentacion Temis', type: 'Vectorial', lastUpdate: '2025-10-12' },
+            { id: 2, memberId: 1, name: 'Documentacion Inmobiliaria', type: 'Vectorial', lastUpdate: '2025-09-03' },
+            { id: 3, memberId: 1, name: 'Documentacion Financiera', type: 'Mixto', lastUpdate: '2025-08-25' },
+          ],
+          tools: [
+            { id: 1, memberId: 1, name: 'Conector Hacienda', type: 'API', permission: 'Lectura / Escritura' },
+            { id: 2, memberId: 1, name: 'Conector Confluence', type: 'API', permission: 'Solo lectura' },
+            { id: 3, memberId: 1, name: 'SQL Runner', type: 'Tool', permission: 'Restringido' },
+          ],
         },
         {
           _id: "proj-002",
           clientId: "1",
           name: "Asistente Legal IA",
-          description: "Asistente conversacional para apoyo jurídico basado en normativa vigente."
+          description: "Asistente conversacional para apoyo jurídico basado en normativa vigente.",
+          ragDatabases: [
+            { id: 1, memberId: 1, name: 'Documentacion RIMA4', type: 'Vectorial', lastUpdate: '2025-10-12' },
+            { id: 2, memberId: 1, name: 'Documentacion ORQUESTADOR', type: 'Vectorial', lastUpdate: '2025-09-03' },
+            { id: 3, memberId: 1, name: 'Documentacion ADA', type: 'Mixto', lastUpdate: '2025-08-25' },
+          ],
+          tools: [
+            { id: 1, memberId: 1, name: 'Conector CATASTRO', type: 'API', permission: 'Lectura / Escritura' },
+            { id: 2, memberId: 1, name: 'Conector INE', type: 'API', permission: 'Solo lectura' },
+            { id: 3, memberId: 1, name: 'PROCESO ARCANO', type: 'Tool', permission: 'Restringido' },
+          ],
         },
         {
           _id: "proj-003",
           clientId: "2",
           name: "Motor de Búsqueda Semántica",
-          description: "Búsqueda semántica avanzada sobre repositorios corporativos."
+          description: "Búsqueda semántica avanzada sobre repositorios corporativos.",
+          ragDatabases: [],
+          tools: []
         },
         {
           _id: "proj-004",
           clientId: "2",
           name: "Chat Interno Corporativo",
-          description: "Chat IA interno con control de permisos por rol."
+          description: "Chat IA interno con control de permisos por rol.",
+          ragDatabases: [],
+          tools: []
         },
         {
           _id: "proj-005",
           clientId: "2",
           name: "Análisis de Incidencias IT",
-          description: "Clasificación automática de tickets e incidencias mediante IA."
+          description: "Clasificación automática de tickets e incidencias mediante IA.",
+          ragDatabases: [],
+          tools: []
         },
         {
           _id: "proj-006",
           clientId: "2",
           name: "Generador de Informes Ejecutivos",
-          description: "Generación automática de informes a partir de datos estructurados y no estructurados."
+          description: "Generación automática de informes a partir de datos estructurados y no estructurados.",
+          ragDatabases: [],
+          tools: []
         }
       ];
       let mockMembersClient = [
@@ -2648,7 +2937,7 @@
       //#endregion
 
       //#region MODAL INSERT-EDIT-UPDATE CLIENTE 
-      // ------- MODAL NUEVO CLIENTE -------
+
       const modalClient = document.getElementById('modal-client');
 
       const formClient = document.getElementById('form-client');
@@ -2673,7 +2962,7 @@
       });
       //#endregion
       //#region MODAL INSERT-EDIT-UPDATE PROYECTO
-      // ------- MODAL NUEVO PROYECTO -------
+
       const modalProject = document.getElementById('modal-project');
       //const btnNewProject = document.getElementById('btn-new-project');
       const formProject = document.getElementById('form-project');
@@ -2707,7 +2996,7 @@
       });
       //#endregion
       //#region MODAL INSERT-EDIT-UPDATE MIEMBRO CLIENTE
-      //---------- MODAL NUEVO MIEMBRO CLIENTE ---------------
+
       const modalMemberClient = document.getElementById('modal-member-client');
       const formMemberClient = document.getElementById('form-member-client');
       const inputMemberClientName = formMemberClient.querySelector('input[name="memberNameClient"]');
@@ -2734,7 +3023,7 @@
       });
       //#endregion
       //#region MODAL INSERT-EDIT-UPDATE MIEMBRO
-      // ------- MODAL NUEVO MIEMBRO -------
+
       const modalMember = document.getElementById('modal-member');
 
       const formMember = document.getElementById('form-member');
@@ -2764,7 +3053,7 @@
       });
       //#endregion
       //#region MODAL INSERT-EDIT-UPDATE RAG
-      //------------MODAL NUEVA BASE DE DATOS RAG-----------------------
+
 
       const modalRag = document.getElementById('modal-rag');
 
@@ -2789,7 +3078,7 @@
       });
       //#endregion
       //#region MODAL INSERT-EDIT-UPDATE TOOL
-      //--------------- MODAL NUEVO TOOL -----------------------------------
+
       const modalTool = document.getElementById('modal-tool');
 
       const formTool = document.getElementById('form-tool')
@@ -2810,8 +3099,36 @@
         if (e.target === modalTool) closeToolModal();
       });
       //#endregion
+      //#region MODAL INSERT_EDIT_UPDATE RAG PROYECTOS
+
+      const modalRagProyectos = document.getElementById('modal-rag-proyectos');
+
+      const formRagProyectos = document.getElementById('form-rag-proyectos');
+
+      const inputRagNameProyectos = formRagProyectos.querySelector('input[name="ragNameProyectos"]');
+      const selecttRagTypeProyectos = formRagProyectos.querySelector('select[name="ragTypeProyectos"]');
+      const inputRagLastUpdateProyectos = formRagProyectos.querySelector('input[name="ragLastUpdateProyectos"]');
+
+
+
+      function closeRagProyectosModal() {
+        modalRagProyectos.classList.add('hidden');
+      }
+
+      modalRagProyectos.querySelectorAll('[data-close-rag-proyectos]').forEach((btn) => {
+        btn.addEventListener('click', closeRagProyectosModal);
+      });
+
+      modalRagProyectos.addEventListener('click', (e) => {
+        if (e.target === modalRagProyectos) closeRagProyectosModal();
+      });
+      //#endregion  
+
+
+
+
       //#region MODAL CUADRO-EDIT-UPDATE DIALOGO BORRAR
-      //------------------ MODAL CUADRO DIALOGO BORRAR -------------------------
+
       const modalBorrar = document.getElementById('modal-borrar');
 
       function openBorrarModal() {
@@ -2890,7 +3207,6 @@
           self.projects(projects);
         }
 
-
         self.actionClient = ko.observable("");
         self.actionProject = ko.observable("");
         self.actionMemberClient = ko.observable("");
@@ -2898,6 +3214,7 @@
         self.actionRag = ko.observable("");
         self.actionTool = ko.observable("");
         self.actionBorrar = ko.observable("");
+        self.actionRagProyectos = ko.observable("");
 
         self.selectedClient = ko.observable();  //se utiliza para seleccionar una cliente
         self.selectedProject = ko.observable(); //se utiliza para selecciona un proyecto
@@ -2905,7 +3222,7 @@
         self.selectedMember = ko.observable();
         self.selectedRag = ko.observable();
         self.selectedTool = ko.observable();
-
+        self.selectedRagProyecto = ko.observable();
 
 
         self.nameClient = ko.observable("");
@@ -2933,6 +3250,10 @@
         self.nameTool = ko.observable("");
         self.tipoTool = ko.observable("");
         self.permisoTool = ko.observable("");
+
+        self.nameRagProyectos = ko.observable("");
+        self.tipoRagProyectos = ko.observable("");
+        self.fechaRagProyectos = ko.observable("");
         //#endregion
 
         //#region PROPIEDADES o CAMPOS CALCULADOS Y DE SOLO LECTURA
@@ -3555,6 +3876,89 @@
           self.selectedMember(selectedMember);
         }
         //#endregion
+
+        //#region MODAL INSERT_EDIT_UPDATE RAG PROYECTOS
+        self.btnNewRagProyectos = function () {
+          //console.log("estoy en click RAG");
+          self.actionRagProyectos("new");
+          modalRagProyectos.classList.remove('hidden');
+          self.nameRagProyectos("");
+          self.tipoRagProyectos("");
+          self.fechaRagProyectos("");
+        }
+        self.editProjectRag = function (ragProyectos) {
+          //console.log(tool);
+          modalRagProyectos.classList.remove('hidden');
+          self.selectedRagProyecto(ragProyectos);
+          self.actionRagProyectos("update");
+          self.nameRagProyectos(ragProyectos.name)
+          self.tipoRagProyectos(ragProyectos.type);
+          self.fechaRagProyectos(ragProyectos.lastUpdate);
+          inputRagNameProyectos.value = ragProyectos.name;
+          selecttRagTypeProyectos.value = ragProyectos.type;
+          inputRagLastUpdateProyectos.value = ragProyectos.lastUpdate;
+        }
+        self.addRagProyectos = async function (model, e) {
+          let selectedProject = self.selectedProject()
+          console.log(selectedProject);
+          let memberId = selectedProject._id
+          let ragDatabases = self.selectedProject().ragDatabases;
+          let newRag = { id: uuid.v4(), memberId: memberId, lastUpdate: self.fechaRagProyectos(), name: self.nameRagProyectos(), type: self.tipoRagProyectos() }
+          ragDatabases.push(newRag);
+          selectedProject.ragDatabases = ragDatabases;
+          selectedProject = await AddProjectApi(selectedProject);
+          console.log(selectedProject);
+          self.selectedProject(selectedProject);
+          console.log("actualizacion añadir rag Proyecto");
+          //console.log(self.filteredProjects());
+          //console.log(self.projects());
+          //self.updateMemberArray(model);
+          closeRagProyectosModal();
+        }
+        self.updateRagProyectos = async function (model, e) {
+          const oldProject = self.selectedProject();
+          const oldRag = self.selectedRagProyecto();
+          console.log(oldProject);
+          let newDababaseRag = [];
+          oldProject.ragDatabases.forEach((el, i) => {
+            if (el.id === oldRag.id) {
+              oldProject.ragDatabases[i] = { id: oldRag.id, memberId: oldProject._id, name: model.nameRagProyectos(), type: model.tipoRagProyectos(), lastUpdate: model.fechaRagProyectos() }
+            }
+            newDababaseRag.push(oldProject.ragDatabases[i]);
+          });
+          oldProject.ragDatabases = newDababaseRag;
+          let selectedProject = oldProject;
+          await UpdateProjectApi(selectedProject);
+          self.selectedProject(selectedProject);
+          //self.updateMemberArray(model);
+          closeRagProyectosModal();
+
+        }
+        self.deleteProjectRag = function (ragProyectos) {
+
+          self.actionBorrar("ragProyecto");
+          self.selectedRagProyecto(ragProyectos);
+          openBorrarModal();
+        }
+        self.saveRagProyectos = function (model, e) {
+          if (self.actionRagProyectos() === "new") {
+            self.addRagProyectos(model, e);
+          } else if (self.actionRagProyectos() === "update") {
+            self.updateRagProyectos(model, e);
+          }
+        }
+        self.deleteRowRagProyecto = function () {
+          let newRagProyectos = [];
+          newRagProyectos = self.selectedProject().ragDatabases.filter(f => f.id !== self.selectedRagProyecto().id);
+          self.selectedProject().ragDatabases = newRagProyectos;
+          const selectedProject = self.selectedProject();
+          //Aqui no borramos directamente el registro TOOL, 
+          // lo que hacemos es actualizar el registro miembro que lo habra quitado de su arrays de tools asociados
+          UpdateProjectApi(selectedProject);
+          self.selectedProject(selectedProject);
+        }
+        //#endregion
+
         //#region MODAL ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO 
         //---------- ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO --------------------------
         self.saveBorrar = function () {
@@ -3570,6 +3974,8 @@
             self.deleteRowClient();
           } else if (self.actionBorrar() === "miembroCliente") {
             self.deleteRowMemberClient();
+          } else if (self.actionBorrar() === "ragProyecto") {
+            self.deleteRowRagProyecto();
           }
           closeBorrarModal();
         }
@@ -3617,7 +4023,8 @@
           self.members(memberstemp);
           setActiveTab('miembros');
         }
-        //este es el boton que hay en la vista de VIEW - TAB: MIEMBROS
+        //este es el boton que hay en la vista principal de VIEW - TAB: MIEMBROS
+        //este boton esta en la vista secundaria de Miembros, en la que esta  asociados a proyectos
         //para volver atras a la anterior vista
         self.btnVolverAtrasClientes = function () {
           //const client =  self.selectedClient()
@@ -3630,7 +4037,19 @@
           //self.projectsClient.valueHasMutated();
           setActiveTab('detallecliente');
         }
+        //este boton esta en la vista de RAGs y TOOLS asociados a proyectos
+        self.btnVolverAtrasClientesRag = function () {
+
+          const projects = self.projectsClient()
+          self.projectsClient([]);
+          self.projectsClient(projects);
+          //no funciona, pero es interesante para otros casos de uso 
+          //junto con el subscribe
+          //self.projectsClient.valueHasMutated();
+          setActiveTab('detallecliente');
+        }
         //#endregion
+
         // inicialización
         //if (self.projects().length > 0) {
 
@@ -3656,6 +4075,7 @@
   </script>
 
   <script>
+    //#region CODIGO RELACIONADO CON EL BOTON DEL CHAT
     const btnChat = document.getElementById("chat-toggle");
     const chatBox = document.getElementById("chat-box");
 
@@ -3686,10 +4106,11 @@
           ? "block"
           : "none";
     });
+    //#endregion
   </script>
 
   <script>
-
+    //#region CODIGO RELACIONADO CON EL CHAT IA
     const chatIA = function () {
       const form = document.getElementById('form');
       const questionInput = document.getElementById('question');
@@ -4494,7 +4915,7 @@
 
     draganddrop();
 
-
+    //#endregion
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.7/uuid.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
