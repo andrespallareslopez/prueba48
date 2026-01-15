@@ -807,6 +807,7 @@
 
   <div class="min-h-screen flex flex-col">
     <!-- #region TOP NAVBAR -->
+
     <header class="bg-white shadow-sm border-b border-slate-200">
 
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -845,6 +846,7 @@
       </div>
     </header>
     <!-- #endregion -->
+    
     <!-- #region MAIN LAYOUT -->
     <div class="flex flex-1 max-w-7xl mx-auto w-full px-2 sm:px-1 lg:px-1 py-1 gap-4">
       <!-- #region LEFT SIDEBAR: clientes -->
@@ -2374,14 +2376,354 @@
       //#region VARIABLES GLOBALES PROYECTO URLs y PUERTO
       //tanto el url como el port hay que ponerlo como undefined, para que quede como /api/projects y /api/members, el
       //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
-      const entorno = "local"  //dev//prod
+      const entorno = "dev"  //local -dev - prod
       const url = 'localhost';
-      const port = '35164';
+      const port = '45811';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
       const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
+      const urlClient = (url && port) ? `http://${url}:${port}/api/clients` : `/api/clients`;
+      const urlMemberClient = (url && port) ? `http://${url}:${port}/api/client/project` : `/api/client/project`;
       //#endregion
-
+      
       //#region LLAMADAS AJAX APLICACION
+      
+      //#region LLAMADAS Ajax API REST CLIENTS
+       async function addClientApi(client) {
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlClient + '/insert', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(client)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+              
+              //const id = result.data["0"]._id;
+              //const mockProject = { ...result.data["0"], id: id }
+              //return mockProject;
+              return result.data;
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            return { error: err };
+          } finally {
+
+          }
+        } else if (entorno === 'local') {
+          return project;
+        }
+      }  
+      async function updateClientApi(client) {
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlClient + '/update', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(client)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+
+              /*
+              const mockMembers = result.data.map((f)=>{
+                return {...f,id:f._id};
+              });
+              */
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+      }
+     }
+      async function deleteClientApi(client) {
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlClient + '/' + client._id, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(member)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+
+              /*
+              const mockMembers = result.data.map((f)=>{
+                return {...f,id:f._id};
+              });
+              */
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+        }
+      }
+        async function queryClientApi(setClients) {
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlClient + '/all', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+              
+              //const mockProjects = result.data.map((f) => {
+
+              //  return { ...f, id: f._id };
+              //});
+              setClients(result.data);
+
+              //loadViewModel()
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+
+        }
+
+      }
+      //#endregion
+      
+      //#region LLAMADAS Ajax API REST MEMBERSCLIENT
+      async function addMembersCientApi(member) {
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlMemberClient + '/insert', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(member)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+
+              //const id = result.data["0"]._id;
+              //const mockMembers = { ...result.data["0"], id: id }
+              return result.data["0"];
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+            return { error: err };
+          } finally {
+
+          }
+        } else if (entorno === 'local') {
+          return member;
+        }
+
+      }
+      async function updateMembersClientApi(member) {
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlMemberClient + '/update', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(member)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+
+              /*
+              const mockMembers = result.data.map((f)=>{
+                return {...f,id:f._id};
+              });
+              */
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+        }
+
+      }
+      async function deleteMembersClientApi(member) {
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlMemberClient + '/' + member._id, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(member)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+
+              /*
+              const mockMembers = result.data.map((f)=>{
+                return {...f,id:f._id};
+              });
+              */
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+        }
+
+      }
+      async function queryMembersClientApi() {
+
+      }
+      async function querySearchMembersClientApi(filter) {
+
+      }
+      async function queryMembersClientByID(id, setMembersClient) {
+        //console.log(id);
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlMemberClient + '/list/' + id, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+              //const mockMembers = result.data.map((f) => {
+              //  return { ...f, id: f._id };
+              //});
+              setMembersClient(result.data);
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+        } else if (entorno === 'local') {
+          //console.log("estoy en mockmembers");
+          //const mockMembersFilter = setMembers().filter((f) => f.projectId === id);
+          //setMembers(mockMembersFilter);
+        }
+      }    
+      
+      
+      //#endregion
+      
+      
+      //#region LLAMADAS Ajax API REST PROJECT 
       async function AddProjectApi(project) {
         if (entorno !== 'local') {
           try {
@@ -2403,10 +2745,10 @@
 
             if (result) {
 
-              const id = result.data["0"]._id;
-              const mockProject = { ...result.data["0"], id: id }
-              return mockProject;
-
+              //const id = result.data["0"]._id;
+              //const mockProject = { ...result.data["0"], id: id }
+              //return mockProject;
+              return result.data["0"];
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -2420,8 +2762,6 @@
         } else if (entorno === 'local') {
           return project;
         }
-
-
       }
       async function UpdateProjectApi(project) {
         if (entorno !== 'local') {
@@ -2467,7 +2807,7 @@
       async function deleteProjectApi(project) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlProject + '/' + project.id, {
+            const response = await fetch(urlProject + '/' + project._id, {
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json'
@@ -2548,6 +2888,52 @@
       async function querySearchProjectApi(filter) {
 
       }
+       async function queryProjectsByID(id, setProjects) {
+        //console.log(id);
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlProject + '/list/' + id, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+              //const mockProjects = result.data.map((f) => {
+
+              //  return { ...f, id: f._id };
+              //});
+              setProjects(result.data);
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+        } else if (entorno === 'local') {
+          //console.log("estoy en mockmembers");
+          //const mockMembersFilter = setMembers().filter((f) => f.projectId === id);
+          //setMembers(mockMembersFilter);
+        }
+      }
+      //#endregion
+      
+      //#region Llamadas Ajax API REST MEMBERS
       async function addMembersApi(member) {
         if (entorno !== 'local') {
           try {
@@ -2717,8 +3103,17 @@
           //setMembers(mockMembersFilter);
         }
       }
+      //#endregion 
+      
+
       //#endregion    
       //--------------------------------------------------------------------
+      //seleccionar elementos del DOM de la pagina, para poder manipular eventos click,
+      //establecer valores de entrada de tipo input o select  de los bloques HTML
+      //como MODAL o BOTON o NAVBAR o con VIEW - TAB
+      //que hemos etiquetado con el atributo region, en las distintas partes de la pagina
+      
+
       //#region NAVBAR-HEADER
       const tabs = document.querySelectorAll('.top-tab');
       const sections = {
@@ -3294,7 +3689,9 @@
 
       function AppViewModel() {
         const self = this;
-        //#region PROPIEDADES PARA HACER BINDING CON LAS DIFERENTES VISTAS HTMLS
+
+        //#region PROPIEDADES PARA HACER BINDING CON LAS DIFERENTES VISTAS HTML
+        
         self.filtertext = ko.observable("");
         self.filtertext.subscribe((d) => {
           //console.log(d);
@@ -3312,15 +3709,12 @@
 
 
 
-
+        //#region variables ARRAY para almacenar conjunto de valores
         self.clients = ko.observableArray(mockClients);
         self.projectsClient = ko.observableArray(mockProjectsClient);
         self.projectsClient.subscribe((d) => {
           //console.log("subscrito");  
           //console.log(d);
-
-
-
         });
         self.membersClient = ko.observableArray(mockMembersClient);
         self.members = ko.observableArray(mockMembers);
@@ -3330,7 +3724,10 @@
         this.setProjects = function (projects) {
           self.projects(projects);
         }
-
+        //#endregion
+        
+        //#region para establecer si es "new" o "update" y saber si tenemos
+        //que insertar o actualizar un dato
         self.actionClient = ko.observable("");
         self.actionProject = ko.observable("");
         self.actionMemberClient = ko.observable("");
@@ -3340,7 +3737,9 @@
         self.actionBorrar = ko.observable("");
         self.actionRagProyecto = ko.observable("");
         self.actionToolProyecto = ko.observable("");
+        //#endregion
 
+        //#region Extraer o establecer una fila del ARRAY 
         self.selectedClient = ko.observable();  //se utiliza para seleccionar una cliente
         self.selectedProject = ko.observable(); //se utiliza para selecciona un proyecto
         self.selectedMemberClient = ko.observable();
@@ -3349,6 +3748,7 @@
         self.selectedTool = ko.observable();
         self.selectedRagProyecto = ko.observable();
         self.selectedToolProyecto = ko.observable();
+        //#endregion
 
         self.nameClient = ko.observable("");
         self.descriptionClient = ko.observable("");
@@ -3475,17 +3875,18 @@
           self.nameClient("");
           self.descriptionClient("");
         }
-        self.selectClient = function (client) {
+        self.selectClient = async function (client) {
           setActiveTab("detallecliente");
           self.selectedClient(client);
           //console.log(self.selectedClient());
           //self.selectedClient(client);
-
+          await queryProjectsByID(client._id,self.projectsClient);
+          await queryMembersClientByID(client._id,self.membersClient);
           const firstProject = self.projectsClient().find((f) => f.clientId === client._id)
           self.selectedProject(firstProject || null);
-
+          
         }
-        self.addClient = function (model, e) {
+        self.addClient = async function (model, e) {
 
           let newClient = {
             name: model.nameClient(),
@@ -3494,7 +3895,7 @@
           if (entorno === "local") {
             newClient._id = uuid.v4()
           }
-          // newClient = await addClientsApi(newClient);
+          newClient = await addClientApi(newClient);
           self.clients.push(newClient);
           closeClientModal();
         }
@@ -3506,7 +3907,7 @@
             if (el._id === oldClient._id) {
               const client = { _id: oldClient._id, name: model.nameClient(), description: model.descriptionClient() };
               self.clients()[i] = client;
-              //UpdateClientApi(client);
+              updateClientApi(client);
             }
             newClients.push(self.clients()[i]);
           });
@@ -3536,7 +3937,7 @@
         }
         self.deleteRowClient = async function () {
           let newClients = [];
-          //await deleteClientApi(self.selectedProject());
+          await deleteClientApi(self.selectedClient());
           newClients = self.clients().filter(f => f._id !== self.selectedClient()._id);
           self.clients(newClients);
 
@@ -3583,7 +3984,10 @@
             }
             project = await AddProjectApi(project);
             self.projectsClient().push(project);
+            console.log(self.projectsClient());
+
             closeProjectModal();
+            //importante para que vuelta a consultar y nos devuelva via API todos los registros
             self.selectClient(client);
           } else {
 
@@ -3641,14 +4045,16 @@
         }
         self.deleteRowProject = async function () {
           let newProjects = [];
+          console.log(self.selectedProject());
           await deleteProjectApi(self.selectedProject());
           newProjects = self.projectsClient().filter(f => f._id !== self.selectedProject()._id);
+          console.log(newProjects);
           self.projectsClient(newProjects);
-          //console.log(self.projects());
+          
 
         }
         //#endregion
-        //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE MIEMBRO CLIENTE 
+        //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE MIEMBROS CLIENTE 
         //------ ACCIONES MIEMBRO CLIENTE ---------------
         self.btnNewClientMember = function () {
           self.actionMemberClient("new");
@@ -3664,7 +4070,7 @@
           // opcional: cambiar a pestaña "Detalle" automáticamente
           setActiveTab('detalle');
         }
-        self.addMemberClient = function (model, e) {
+        self.addMemberClient = async function (model, e) {
           const client = self.selectedClient();
 
           let memberClient = {
@@ -3680,10 +4086,11 @@
           if (entorno === "local") {
             memberClient._id = uuid.v4()
           }
-          //memberClient = await addMembersClientApi(memberClient);
+          memberClient = await addMembersCientApi(memberClient);
           self.membersClient.push(memberClient);
 
           closeMemberClientModal();
+          self.selectClient(client);
         }
         self.updateMemberClient = function (model, e) {
           const oldMemberClient = self.selectedMemberClient();
@@ -3692,9 +4099,9 @@
           let newMembersClient = [];
           self.membersClient().forEach((el, i) => {
             if (el._id === oldMemberClient._id) {
-              const memberClient = { id: oldMemberClient.id, _id: oldMemberClient.id, clientId: client._id, projectId: oldMemberClient.projectId, name: model.nameMemberClient(), email: model.emailMemberClient(), role: model.roleMemberClient(), status: model.estadoMemberClient() }
+              const memberClient = { _id: oldMemberClient._id, clientId: client._id, projectId: oldMemberClient.projectId, name: model.nameMemberClient(), email: model.emailMemberClient(), role: model.roleMemberClient(), status: model.estadoMemberClient() }
               self.membersClient()[i] = memberClient;
-              //updateMembersClientApi(memberClient); 
+              updateMembersClientApi(memberClient); 
             }
             newMembersClient.push(self.membersClient()[i]);
           });
@@ -4272,7 +4679,7 @@
         //      self.selectProject(self.projects()[0]);
         // }
         //queryProjectApi(self.projects);
-
+        queryClientApi(self.clients);
       }
       var viewModel = new AppViewModel();
 
