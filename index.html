@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <title>MirrorMind Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  
+ 
   <style>
     /*#region CODIGO CSS RELACIONADO CON EL CHAT IA*/
     /* ===============================
@@ -228,37 +228,6 @@
     }
 
     #send-btn {
-      /*
-      vertical-align: middle;
-      align-self: flex-end;
-      padding: 8px 16px;
-      font-size: 12px;
-      font-weight: 500;
-      border: none;
-      border-radius: 999px;
-      cursor: pointer;
-      text-align: center;
-      background: #1976d2;
-      color: white;
-      */
-      /* Azul corporativo (ajústalo a tu HEX) */
-      /*--corp-blue: #0057B8;*/
-      /*
-    appearance: none;
-    border: 0;
-    background: var(--corp-blue);
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(0,0,0,.18);
-    transition: transform .08s ease, filter .15s ease, box-shadow .15s ease;
-    */
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -309,28 +278,28 @@
     /*************************************************************************/
     #drop-area {
       /*width: 100%;*/
-      display: none;
-      height: 50px;
+      display: block;
+      /*height: 50px;*/
       padding: 10px;
       text-align: center;
-      line-height: 50px;
+      /*line-height: 50px;*/
       border: 2px dashed #ccc;
       cursor: pointer;
       border-radius: 16px;
     }
-
+    
     #preview-container {
       text-align: center;
     }
-
+    
     #preview-container.hide {
       display: none;
     }
-
+    
     #drop-area.drag-over {
       background-color: #eee;
     }
-
+    
     .preview-image {
 
       position: absolute;
@@ -349,7 +318,7 @@
       position: relative;
       object-fit: cover;
       width: 75px;
-      height: 115px;
+      height: 95px;
       text-align: center;
       line-height: 100px;
       margin: 5px;
@@ -359,13 +328,13 @@
       overflow: hidden;
       white-space: nowrap;
     }
-
+    
     .file-name {
       position: absolute;
       width: 75px;
-      height: 35px;
+      height: 25px;
       text-align: left;
-      line-height: 35px;
+      line-height: 25px;
       top: 76px;
       left: 0;
       text-overflow: ellipsis;
@@ -377,12 +346,17 @@
 
     .close-button-file {
       position: absolute;
-      width: 25px;
-      height: 25px;
-      top: 2px;
-      right: 2px;
+      width: 19px;
+      height: 19px;
+      top: 1px;
+      right: 1px;
       border-radius: 50%;
       background-color: rgb(90, 87, 87);
+      text-align:unset;
+      line-height: 0;
+      padding: 0;
+      margin: 0;
+      font-size: xx-small;
       color: white;
     }
 
@@ -395,10 +369,10 @@
     }
 
     #message-drag {
-      display: none;
+      display: block;
       width: 400px;
-      height: 150px;
-      margin: 5px auto;
+      height: 60px;
+      margin: 1px auto;
       text-align: center;
       /*line-height: 200px;*/
     }
@@ -440,7 +414,7 @@
       background-size: 28px 28px;
     }
 
-    .icon-project {
+    .icon-project-client {
       width: 48px;
       height: 48px;
       border-radius: 50%;
@@ -493,7 +467,46 @@
       background-position: center;
       background-size: 22px 22px;
     }
+    .icon-banca{
+      display: inline-block;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10' cy='10' r='3.5'/%3E%3Cpath d='M4 26c0-3.8 3-6.8 6-6.8s6 3 6 6.8'/%3E%3Cpath d='M10 16.5l-1.6 2.2L10 20.9l1.6-2.2L10 16.5z'/%3E%3Cpath d='M10 20.9l-1.2 4.1'/%3E%3Cpath d='M10 20.9l1.2 4.1'/%3E%3Cpath d='M18 12l6-3 6 3'/%3E%3Cpath d='M19 13h10'/%3E%3Cpath d='M20 13v9'/%3E%3Cpath d='M24 13v9'/%3E%3Cpath d='M28 13v9'/%3E%3Cpath d='M19 22h10'/%3E%3Cpath d='M18.5 25h11'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+       background-size: 32px 32px;
 
+      background-position: center;
+      
+      width: 32px;
+      height: 32px;
+      background-color: #ffffff; 
+    }
+    .icon-banca.toogle-icon{
+      background-color: black;
+      stroke: black;
+    }
+    .icon-project{
+      display: inline-block;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='6' width='24' height='20' rx='3'/%3E%3Cpath d='M4 11h24'/%3E%3Ccircle cx='8' cy='9' r='1'/%3E%3Ccircle cx='12' cy='9' r='1'/%3E%3Cpath d='M12.5 16l-3 3 3 3'/%3E%3Cpath d='M19.5 16l3 3-3 3'/%3E%3Cpath d='M16 15l-2 10'/%3E%3Cpath d='M20.5 23l2 2 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: 32px 32px;
+
+      background-position: center;
+      
+      width: 32px;
+      height: 32px;
+      background-color: #ffffff; 
+    }
+    .icon-member{
+       display: inline-block;
+       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='9' r='3.5'/%3E%3Cpath d='M4 24c0-4 3.5-7 7-7s7 3 7 7'/%3E%3Crect x='18' y='7' width='10' height='10' rx='2'/%3E%3Cpath d='M21 7v-2'/%3E%3Cpath d='M25 7v-2'/%3E%3Cpath d='M21 17v2'/%3E%3Cpath d='M25 17v2'/%3E%3Cpath d='M16 12h2'/%3E%3C/svg%3E");
+       background-repeat: no-repeat;
+       background-size: 32px 32px;
+       
+       background-position: center;
+      
+       width: 32px;
+       height: 32px;
+       background-color: #ffffff; 
+    }
     .progreso {
       width: 50px;
       height: 20px;
@@ -825,21 +838,21 @@
           </div>
 
           <!-- Top Menu Tabs -->
-          <nav class="flex items-center gap-4 text-sm font-medium">
+          <nav class="flex justify-center items-center gap-4 text-sm font-medium">
             <button data-view="detallecliente"
-              class="top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
-              Clientes
+              class="flex items-center top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+              <span class="icon-banca mr-1 rounded-2xl"></span> Clientes
             </button>
 
 
             <button data-view="miembros"
-              class="top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
-              Detalle del proyecto
+              class="flex items-center top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+              <span class="icon-project mr-1 rounded-2xl" ></span> Detalle del proyecto
             </button>
 
             <button data-view="detalle"
-              class="top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
-              Detalle del miembro
+              class="flex items-center top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+               <span class="icon-member mr-1 rounded-2xl" ></span>Detalle del miembro
             </button>
           </nav>
         </div>
@@ -848,7 +861,7 @@
     <!-- #endregion -->
     
     <!-- #region MAIN LAYOUT -->
-    <div class="flex flex-1 max-w-7xl mx-auto w-full px-2 sm:px-1 lg:px-1 py-1 gap-4">
+    <div class="flex flex-1 max-w-7xl mx-auto  w-full px-2 sm:px-1 lg:px-1 py-1 gap-4">
       <!-- #region LEFT SIDEBAR: clientes -->
       <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
         <div class="flex items-center justify-between mb-3">
@@ -866,7 +879,8 @@
               data-bind="foreach: clients">
 
               <div
-                class="client-card text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 transition">
+                class="client-card text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 transition"
+                data-bind="css: $root.selectedClientClass(_id)">
 
                 <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
                   Cliente
@@ -899,9 +913,9 @@
       <!-- #endregion -->
 
       <!-- #region MAIN CONTENT -->
-      <main class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 overflow-y-auto">
+      <main class="flex-1 bg-white rounded-2xl border  border-slate-200 shadow-sm p-5 ">
         <!-- #region VIEW - TAB: DETALLE DEL CLIENTE -->
-        <section id="view-detalle-cliente" class="view-section hidden">
+        <section id="view-detalle-cliente" class="h-full view-section hidden">
           <div class="flex items-center justify-between mb-4">
             <div>
               <h1 class="text-lg font-semibold text-slate-900">Detalle del cliente</h1>
@@ -910,9 +924,11 @@
               </p>
             </div>
           </div>
+           <div data-bind="ifnot: selectedClient" class="text-xs text-slate-400 mt-4">
+            Selecciona un cliente en la pestaña “Clientes” para ver su detalle aquí.
+          </div>
 
-
-          <div data-bind="if: selectedClient">
+          <div data-bind="if: selectedClient" style="height : calc(100% - 35.4px)" class="">
             <div class="mb-4 flex items-center gap-3" data-bind="with: selectedClient">
               <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
                 data-bind="text: $root.getInitials(name), css: $root.avatarClass('active')"></div>
@@ -927,120 +943,118 @@
             </div>
 
 
-            <div id="listado-cliente" class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div id="listado-cliente" style ="height: calc(100% - 80.5px);" class="relative  grid grid-cols-1 lg:grid-cols-2 gap-4">
 
 
-              <div class="border border-slate-200 rounded-2xl p-4">
-                <div class="flex items-center justify-between mb-3">
-                  <h2 class="text-sm font-semibold text-slate-800">Proyectos asociados</h2>
-                  <button id="btn-new-client-project"
-                    class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
-                    data-bind="click: $root.btnNewProject">
-                    + Nuevo
-                  </button>
-                </div>
+              <div class="relative  border border-slate-200 rounded-2xl p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Proyectos asociados</h2>
+                    <button id="btn-new-client-project"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+                      data-bind="click: $root.btnNewProject">
+                      + Nuevo
+                    </button>
+                  </div>
 
-                <div class="overflow-x-auto">
-                  <table class="min-w-full text-xs">
-                    <thead>
-                      <tr class="text-left border-b border-slate-200">
-                        <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
-                        <th class="py-2 pr-3 font-semibold text-slate-500">Miembros</th>
-                        <th class="py-2 pr-3 font-semibold text-slate-500">Bases RAG</th>
-                        <th class="py-2 pr-3 font-semibold text-slate-500">N. Tools</th>
-                        <th class="py-2 pr-3 font-semibold text-slate-500"></th>
-                      </tr>
-                    </thead>
+                  <div style ="height: calc(100% - 30.5px);" class="relative   overflow-x-auto ">
+                    <table class="absolute   min-w-full overflow-scroll table-auto text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Miembros</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Bases RAG</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">N. Tools</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
+                        </tr>
+                      </thead>
 
-                    <tbody class="divide-y divide-slate-100" data-bind="foreach: $root.filteredClientProjects()">
-                      <tr class="hover:bg-slate-50/60 cursor-pointer">
-                        <td data-bind="click: $root.selectProject" class="py-2 pr-3"><span
-                            data-bind="text: name"></span></td>
-                        <td class="py-2 pr-3" data-bind="text: $root.getProjectMemberCount(_id) "></td>
-                        <td class="py-2 pr-3" data-bind="text: $root.getProjectRagCount(_id)"></td>
-                        <td class="py-2 pr-3" data-bind="text: $root.getProjectToolCount(_id)"></td>
-                        <td class="py-2 pr-3" data-bind="text: Date.now()"></td>
-                        <td class="py-2 pr-3">
-                          <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
-                            <div class="flex items-center gap-1/2">
-                              <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
-                                style="scale: 1.3" data-bind="click: $root.editProject"></p>
-                              <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
-                                data-bind="click: $root.deleteProject"></p>
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: $root.filteredClientProjects()">
+                        <tr class="hover:bg-slate-50/60 cursor-pointer">
+                          <td data-bind="click: $root.selectProject" class="py-2 pr-3"><span
+                              data-bind="text: name"></span></td>
+                          <td class="py-2 pr-3" data-bind="text: $root.getProjectMemberCount(_id) "></td>
+                          <td class="py-2 pr-3" data-bind="text: $root.getProjectRagCount(_id)"></td>
+                          <td class="py-2 pr-3" data-bind="text: $root.getProjectToolCount(_id)"></td>
+                          <td class="py-2 pr-3" data-bind="text: Date.now()"></td>
+                          <td class="py-2 pr-3">
+                            <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale: 1.3" data-bind="click: $root.editProject"></p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteProject"></p>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
 
-                  <p class="text-[11px] text-slate-400 mt-2"
-                    data-bind="visible: !$root.filteredClientProjects() || $root.filteredClientProjects().length === 0">
-                    Este cliente no tiene proyectos asociados.
-                  </p>
-                </div>
-              </div>
-
-
-              <div class="border border-slate-200 rounded-2xl p-4">
-                <div class="flex items-center justify-between mb-3">
-                  <h2 class="text-sm font-semibold text-slate-800">Miembros asociados</h2>
-                  <button id="btn-new-client-member"
-                    class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
-                    data-bind="click: $root.btnNewClientMember">
-                    + Nuevo
-                  </button>
+                    <p class="text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !$root.filteredClientProjects() || $root.filteredClientProjects().length === 0">
+                      Este cliente no tiene proyectos asociados.
+                    </p>
+                  </div>
                 </div>
 
-                <div class="overflow-x-auto">
-                  <table class="min-w-full text-xs">
-                    <thead>
-                      <tr class="text-left border-b border-slate-200">
-                        <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
-                        <th class="py-2 pr-3 font-semibold text-slate-500">Email</th>
-                        <th class="py-2 pr-3 font-semibold text-slate-500">Rol</th>
-                        <th class="py-2 pr-3 font-semibold text-slate-500">status</th>
-                        <th class="py-2 pr-3 font-semibold text-slate-500"></th>
-                      </tr>
-                    </thead>
 
-                    <tbody class="divide-y divide-slate-100" data-bind="foreach: filteredClientMembers ">
-                      <tr class="hover:bg-slate-50/60 cursor-pointer">
-                        <td class="py-2 pr-3" data-bind="text: name"></td>
-                        <td class="py-2 pr-3" data-bind="text: email"></td>
-                        <td class="py-2 pr-3" data-bind="text: role"></td>
-                        <td data-bind="click: $root.selectMember" class="py-2 pl-0 text-right">
-                          <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium"
-                            data-bind="text: status, css: $root.statusClass(status)"></span>
-                        </td>
-                        <td class="py-2 pr-3">
-                          <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
-                            <div class="flex items-center gap-1/2">
-                              <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
-                                style="scale: 1.3" data-bind="click: $root.editClientMember"></p>
-                              <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
-                                data-bind="click: $root.deleteClientMember"></p>
+                <div class="border border-slate-200 rounded-2xl p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Miembros asociados</h2>
+                    <button id="btn-new-client-member"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
+                      data-bind="click: $root.btnNewClientMember">
+                      + Nuevo
+                    </button>
+                  </div>
+
+                  <div style ="height: calc(100% - 35.5px);" class="relative  overflow-x-auto">
+                    <table class="absolute overflow-scroll table-auto min-w-full text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Email</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Rol</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">status</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: filteredClientMembers ">
+                        <tr class="hover:bg-slate-50/60 cursor-pointer">
+                          <td class="py-2 pr-3" data-bind="text: name"></td>
+                          <td class="py-2 pr-3" data-bind="text: email"></td>
+                          <td class="py-2 pr-3" data-bind="text: role"></td>
+                          <td data-bind="click: $root.selectMember" class="py-2 pl-0 text-right">
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium"
+                              data-bind="text: status, css: $root.statusClass(status)"></span>
+                          </td>
+                          <td class="py-2 pr-3">
+                            <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale: 1.3" data-bind="click: $root.editClientMember"></p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteClientMember"></p>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
 
-                  <p class="text-[11px] text-slate-400 mt-2"
-                    data-bind="visible: !$root.filteredClientMembers() || $root.filteredClientMembers().length === 0">
-                    Este cliente no tiene miembros asociados.
-                  </p>
+                    <p class="text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !$root.filteredClientMembers() || $root.filteredClientMembers().length === 0">
+                      Este cliente no tiene miembros asociados.
+                    </p>
+                  </div>
                 </div>
-              </div>
 
             </div>
           </div>
 
 
-          <div data-bind="ifnot: selectedClient" class="text-xs text-slate-400 mt-4">
-            Selecciona un cliente en la pestaña “Clientes” para ver su detalle aquí.
-          </div>
+         
         </section>
         <!-- #endregion -->
 
@@ -1131,11 +1145,7 @@
                         </div>
                       </div>
                     </td>
-                    <!--
-                      <td data-bind="click: $root.selectMember" class="py-2 pr-4">
-                        <p data-bind="text: role"></p>
-                      </td>
-                      -->
+                    
                     <td data-bind="click: $root.selectMember" class="py-2 pr-4">
                       <p data-bind="text: ragDatabases ? ragDatabases.length : 0"></p>
                     </td>
@@ -1145,12 +1155,7 @@
                     <td data-bind="click: $root.selectMember" class="py-2 pr-4">
                       <p data-bind="text: Date.now()"></p>
                     </td>
-                    <!--
-                      <td data-bind="click: $root.selectMember" class="py-2 pl-4 text-right">
-                        <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium"
-                          data-bind="text: status, css: $root.statusClass(status)"></span>
-                      </td>
-                      -->
+                    
                     <td class="py-2 pl-4">
                       <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
                         <div class="flex items-center gap-1/2">
@@ -1465,7 +1470,7 @@
                 <div class="flex items-center gap-3">
                   <!-- Logo SVG azul -->
                   <div
-                    class="icon-project grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+                    class="icon-project-client grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
 
                   </div>
 
@@ -1543,7 +1548,7 @@
                 <div class="flex items-center gap-3">
                   <!-- Logo SVG azul -->
                   <div
-                    class="icon-project grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+                    class="icon-project-client grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
 
                   </div>
 
@@ -1658,6 +1663,7 @@
                               placeholder:text-slate-400
                               focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
                               transition" placeholder="Ej. Ana Pérez" data-bind="value: nameMemberClient" />
+                               <p class="mt-1 text-[11px] text-red-500">El correo no es correcto o esta vacio.</p>
                     </div>
                   </div>
 
@@ -1668,6 +1674,7 @@
                             focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
                             transition" placeholder="ana@mirrormind.ai" data-bind="value: emailMemberClient" />
                     <p class="mt-1 text-[11px] text-slate-500">Enviaremos una invitación a este correo.</p>
+                    <p class="mt-1 text-[11px] text-red-500">El correo no es correcto o esta vacio.</p>
                   </div>
 
                   <div>
@@ -1869,8 +1876,9 @@
                   <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre RAG</label>
-                      <input type="text" name="ragName" placeholder="Ej. RAG Documentación" data-bind="value: nameRag"
+                      <input type="text" name="ragName" required placeholder="Ej. RAG Documentación" data-bind="value: nameRag"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                     <p class="name-rag mt-1 text-[11px] text-red-500">El campo nombre es obligatorio.</p>
                     </div>
 
                     <div>
@@ -1973,8 +1981,9 @@
                   <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre de la tool</label>
-                      <input type="text" name="toolName" placeholder="Ej. Conector CRM" data-bind="value: nameTool"
+                      <input type="text" name="toolName" required placeholder="Ej. Conector CRM" data-bind="value: nameTool"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                      <p class="name-tool mt-1 text-[11px] text-red-500">El campo nombre es obligatorio.</p>
                     </div>
 
                     <div>
@@ -2048,8 +2057,8 @@
             </div>
 
             <!-- Body -->
-            <div class="px-6 py-5">
-              <form id="form-rag-proyectos" class="space-y-4 text-sm">
+            <div class="px-7 py-1">
+              <form id="form-rag-proyectos" class="space-y-1 text-sm">
                 <!-- Datos básicos -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <!-- Tus inputs básicos aquí -->
@@ -2075,10 +2084,11 @@
                   <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre RAG</label>
-                      <input type="text" name="ragNameProyecto" placeholder="Ej. RAG Documentación"
+                      <input type="text" required name="ragNameProyecto" placeholder="Ej. RAG Documentación"
                         data-bind="value: nameRagProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
-                    </div>
+                         <p class="name-rag-proyecto mt-1 text-[11px] text-red-500">El campo nombre es obligatorio.</p>
+                      </div>
 
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
@@ -2091,6 +2101,20 @@
                       <input type="date" name="ragLastUpdateProyecto" data-bind="value: fechaRagProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
                     </div>
+                    
+                  </div>
+                  <div id="form1">
+                      <div id="drop-area" class="mt-4">
+                        Suelta aqui para adjuntar archivo
+                      </div>
+                      <input type="file" id="file-input" multiple hidden />
+                      <div id="preview-container"></div>
+                      <div id="message-drag" class="">
+                        <img class="mx-auto" id="multiplesFicheros" src="" height="50" width="50" />
+                        <div>
+                          <h2 class="text-xs font-semibold text-slate-800">Añade archivos para añadir a BD RAG</h2>
+                        </div>
+                      </div>
                   </div>
                 </div>
 
@@ -2111,7 +2135,7 @@
         </div>
         <!-- #endregion -->
 
-
+        
         <!-- #region =============== MODAL: INSERTAR-EDIT-UPDATE TOOLS PARA PROYECTOS =============== -->
         <div id="modal-tool-proyecto"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
@@ -2172,11 +2196,11 @@
                   <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre de la tool</label>
-                      <input type="text" name="toolNameProyecto" placeholder="Ej. Conector CRM"
+                      <input type="text" required name="toolNameProyecto" placeholder="Ej. Conector CRM"
                         data-bind="value: nameToolProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
-                    </div>
-
+                       <p class="name-tool-proyecto mt-1 text-[11px] text-red-500">El campo nombre es obligatorio.</p>
+                      </div>
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
                       <input type="text" name="toolTypeProyecto" placeholder="API / Tool / Script..."
@@ -2294,19 +2318,7 @@
 
 
               <form id="form">
-                <div id="drop-area">
-                  Drag here to attach
-                </div>
-                <input type="file" id="file-input" multiple hidden>
-                <div id="preview-container"></div>
-                <div id="message-drag">
-                  <div><img id="multiplesFicheros" src="" height="50" width="50" /></div>
-                  <div>
-                    <h2 style="padding: 0; margin: 0;">Añade lo que quieras</h2>
-                  </div>
-                  <div style="margin: 5px;"><span>Suelta aqui cualquier archivo para añadirlo a la conversacion</span>
-                  </div>
-                </div>
+               
                 <!--
                 <textarea id="question" placeholder="Escribe tu pregunta aquí..."></textarea>
                 <button type="submit" id="send-btn">Enviar</button>
@@ -2412,7 +2424,7 @@
               //const id = result.data["0"]._id;
               //const mockProject = { ...result.data["0"], id: id }
               //return mockProject;
-              return result.data;
+              return result.data["0"];
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3109,16 +3121,12 @@
       //#endregion    
       //--------------------------------------------------------------------
       
-      
-      
       /************************************************************************************
       //seleccionar elementos del DOM de la pagina, para poder manipular eventos click,
       //establecer valores de entrada de tipo input o select  de los bloques HTML
       //como MODAL o BOTON o NAVBAR o con VIEW - TAB
       //que hemos etiquetado con el atributo region, en las distintas partes de la pagina
       **************************************************************************************/
-      
-      
       //#region NAVBAR-HEADER
       const tabs = document.querySelectorAll('.top-tab');
       const sections = {
@@ -3164,7 +3172,7 @@
       function setActiveDetalleProyectoTab(view) {
         tabsProyectos.forEach((tab) => {
           const isActive = tab.dataset.view === view;
-          tab.classList.toggle('bg-slate-900', isActive);
+          tab.classList.toggle('bg-slate-600', isActive);
           tab.classList.toggle('text-white', isActive);
           tab.classList.toggle('border-slate-900', isActive);
           tab.classList.toggle('hover:bg-slate-100', !isActive);
@@ -3672,6 +3680,11 @@
       });
       //#endregion
       
+      //#region validaciones modal
+      
+      
+      //#endregion
+
        
       function debounce(func, wait, immediate) {
         var timeout;
@@ -3693,7 +3706,7 @@
 
       function AppViewModel() {
         const self = this;
-
+        
         //#region PROPIEDADES PARA HACER BINDING CON LAS DIFERENTES VISTAS HTML
         
         self.filtertext = ko.observable("");
@@ -3893,6 +3906,7 @@
         self.addClient = async function (model, e) {
 
           let newClient = {
+
             name: model.nameClient(),
             description: model.descriptionClient()
           }
@@ -3928,7 +3942,7 @@
           self.selectedClient(client)
           modalClient.classList.remove('hidden');
           self.actionClient("update");
-          console.log(inputNameClient);
+          //console.log(inputNameClient);
           inputNameClient.value = client.name;
           inputDescriptionClient.value = client.description;
         }
@@ -4623,7 +4637,9 @@
             ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
             : 'bg-slate-100 text-slate-500 border border-slate-200';
         };
-
+        self.selectedClientClass = function(_id){
+          return (self.selectedClient() && _id && self.selectedClient()._id === _id) ? 'border-indigo-500 bg-slate-200' : 'bg-white border-slate-200';
+        }
         self.permissionClass = function (permission) {
           if (permission === 'Lectura / Escritura') {
             return 'bg-emerald-50 text-emerald-700 border-emerald-100';
@@ -5435,14 +5451,14 @@
 
       dropArea.addEventListener('dragover', () => {
         dropArea.classList.add('drag-over');
-        messageDrag.classList.add('show-message')
-        previewContainer.classList.add('hide');
+        //messageDrag.classList.add('show-message')
+        //previewContainer.classList.add('hide');
       });
 
       dropArea.addEventListener('dragleave', () => {
         dropArea.classList.remove('drag-over');
-        messageDrag.classList.remove('show-message')
-        previewContainer.classList.remove('hide');
+        //messageDrag.classList.remove('show-message')
+        //previewContainer.classList.remove('hide');
       });
 
       function handleDrop(e) {
@@ -5546,6 +5562,8 @@
 
     //#endregion
   </script>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.7/uuid.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
