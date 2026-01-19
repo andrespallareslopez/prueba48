@@ -385,6 +385,7 @@
       border-radius: 16px;
     }
 
+    /* #region ICONOS SVG  */
     .icon-edit {
       width: 20px;
       height: 20px;
@@ -564,14 +565,32 @@
     }
 
     .icon-spin {
-      width: 40px;
-      height: 40px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'%3E%3Cpath fill='%23000' d='M286.7 96.1C291.7 113 282.1 130.9 265.2 135.9C185.9 159.5 128.1 233 128.1 320C128.1 426 214.1 512 320.1 512C426.1 512 512.1 426 512.1 320C512.1 233.1 454.3 159.6 375 135.9C358.1 130.9 348.4 113 353.5 96.1C358.6 79.2 376.4 69.5 393.3 74.6C498.9 106.1 576 204 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320C64 204 141.1 106.1 246.9 74.6C263.8 69.6 281.7 79.2 286.7 96.1z'/%3E%3C/svg%3E");
+      width: 2rem;
+      height: 2rem;
+      margin:0;
+      padding: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'%3E%3Cpath fill='%230057b8' d='M286.7 96.1C291.7 113 282.1 130.9 265.2 135.9C185.9 159.5 128.1 233 128.1 320C128.1 426 214.1 512 320.1 512C426.1 512 512.1 426 512.1 320C512.1 233.1 454.3 159.6 375 135.9C358.1 130.9 348.4 113 353.5 96.1C358.6 79.2 376.4 69.5 393.3 74.6C498.9 106.1 576 204 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320C64 204 141.1 106.1 246.9 74.6C263.8 69.6 281.7 79.2 286.7 96.1z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-size: contain;
       background-position: center;
+      -webkit-animation: spin .75s linear infinite; 
+      -moz-animation: spin .75s linear infinite; 
+      -ms-animation: spin .75s linear infinite; 
+      -o-animation: spin .75s linear infinite; 
+      animation: spin .75s linear infinite; 
     }
-
+    @-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); }
+    }
+    @-moz-keyframes spin { 
+        100% { -moz-transform: rotate(360deg); }
+    }
+    @-o-keyframes spin { 
+        100% { -o-transform: rotate(360deg); }
+    }
+    @keyframes spin { 
+        100% { transform: rotate(360deg); }
+    }
     .icon-search {
       width: 32px;
       height: 32px;
@@ -617,7 +636,7 @@
         box-shadow: 32px 0 #5a4545, -32px 0 #FFF2;
       }
     }
-
+    /*#endregion*/
     .lds-ellipsis,
     .lds-ellipsis div {
       box-sizing: border-box;
@@ -811,7 +830,24 @@
     .open-search .btn-search-close {
       opacity: 1;
     }
-
+    :root{
+      --detalle_cli_resto1: 80.5px;
+      --detalle_cli_resto2: 35.4px;
+      --detalle_cli_resto3: 35.5px;
+      /*miembros del proyecto*/
+      --miembro-pro-resto1: 41.3px;
+      --miembro-pro-resto2: 64.5px;
+      --miembro-pro-resto3: 34.6px;
+      --miembro-pro-resto4: 33.3px;
+      /*rag tool del proyecto*/
+      --ragtool_proy-resto1: 31.3px;
+      --ragtool_proy_resto2: 44px;
+      --ragtool-proy_resto3: 36px;
+      /*rag tool de miembro*/
+      --ragtool-member-resto1: 44px;
+      --ragtool-member-resto2: 40.5px;
+      --ragtool-member-resto3: 0px;       
+    }
     /*#endregion*/
   </style>
 </head>
@@ -916,6 +952,7 @@
       <main class="flex-1 bg-white rounded-2xl border  border-slate-200 shadow-sm p-5 ">
         <!-- #region VIEW - TAB: DETALLE DEL CLIENTE -->
         <section id="view-detalle-cliente" class="h-full view-section hidden">
+          <!-- #region ENCABEZADO PANEL DETALLE CLIENTE -->
           <div class="flex items-center justify-between mb-4">
             <div>
               <h1 class="text-lg font-semibold text-slate-900">Detalle del cliente</h1>
@@ -927,8 +964,9 @@
            <div data-bind="ifnot: selectedClient" class="text-xs text-slate-400 mt-4">
             Selecciona un cliente en la pestaña “Clientes” para ver su detalle aquí.
           </div>
+          <!-- #endregion -->
 
-          <div data-bind="if: selectedClient" style="height : calc(100% - 35.4px)" class="">
+          <div data-bind="if: selectedClient" style="height : calc(100% - var(--detalle_cli_resto2))" class="">
             <div class="mb-4 flex items-center gap-3" data-bind="with: selectedClient">
               <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
                 data-bind="text: $root.getInitials(name), css: $root.avatarClass('active')"></div>
@@ -937,26 +975,29 @@
                 <div class="text-sm font-semibold text-slate-900" data-bind="text: name"></div>
                 <div class="text-[11px] text-slate-400 mt-1">
                   <span data-bind="text: $root.filteredClientProjects().length"></span> proyectos ·
-                  <span data-bind="text: $root.filteredClientMembers().length"></span> miembros
+                  <span data-bind="text: $root.filteredClientMembers().length"></span> miembros asociados al cliente
                 </div>
               </div>
             </div>
 
 
-            <div id="listado-cliente" style ="height: calc(100% - 80.5px);" class="relative  grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div id="listado-cliente" style ="height: calc(100% - var(--detalle_cli_resto1));" class="relative  grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-
+              <!--#region PANEL CON INFORMACION DE PROYECTOS ASOCIADOS A UN CLIENTE -->
               <div class="relative  border border-slate-200 rounded-2xl p-4">
                   <div class="flex items-center justify-between mb-3">
-                    <h2 class="text-sm font-semibold text-slate-800">Proyectos asociados</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Proyectos asociados al cliente</h2>
                     <button id="btn-new-client-project"
                       class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                       data-bind="click: $root.btnNewProject">
                       + Nuevo
                     </button>
                   </div>
-
-                  <div style ="height: calc(100% - 30.5px);" class="relative   overflow-x-auto ">
+                  <p class="relative text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !$root.filteredClientProjects() || $root.filteredClientProjects().length === 0">
+                      Este cliente no tiene proyectos asociados.
+                    </p>
+                  <div style ="height: calc(100% - var(--detalle_cli_resto3));" class="relative   overflow-x-auto ">
                     <table class="absolute   min-w-full overflow-scroll table-auto text-xs">
                       <thead>
                         <tr class="text-left border-b border-slate-200">
@@ -972,9 +1013,9 @@
                         <tr class="hover:bg-slate-50/60 cursor-pointer">
                           <td data-bind="click: $root.selectProject" class="py-2 pr-3"><span
                               data-bind="text: name"></span></td>
-                          <td class="py-2 pr-3" data-bind="text: $root.getProjectMemberCount(_id) "></td>
-                          <td class="py-2 pr-3" data-bind="text: $root.getProjectRagCount(_id)"></td>
-                          <td class="py-2 pr-3" data-bind="text: $root.getProjectToolCount(_id)"></td>
+                          <td class="py-2 pr-3" data-bind="text: memberCount"></td>
+                          <td class="py-2 pr-3" data-bind="text: ragCount"></td>
+                          <td class="py-2 pr-3" data-bind="text: toolCount"></td>
                           <td class="py-2 pr-3" data-bind="text: Date.now()"></td>
                           <td class="py-2 pr-3">
                             <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
@@ -989,26 +1030,24 @@
                         </tr>
                       </tbody>
                     </table>
-
-                    <p class="text-[11px] text-slate-400 mt-2"
-                      data-bind="visible: !$root.filteredClientProjects() || $root.filteredClientProjects().length === 0">
-                      Este cliente no tiene proyectos asociados.
-                    </p>
                   </div>
                 </div>
-
-
+                <!-- #endregion -->
+              <!--#region PANEL CON INFORMACION DE MIEMBROS ASOCIADOS A UN CLIENTE -->
                 <div class="border border-slate-200 rounded-2xl p-4">
                   <div class="flex items-center justify-between mb-3">
-                    <h2 class="text-sm font-semibold text-slate-800">Miembros asociados</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Miembros asociados al cliente</h2>
                     <button id="btn-new-client-member"
                       class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                       data-bind="click: $root.btnNewClientMember">
                       + Nuevo
                     </button>
                   </div>
-
-                  <div style ="height: calc(100% - 35.5px);" class="relative  overflow-x-auto">
+                    <p class="text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !$root.filteredClientMembers() || $root.filteredClientMembers().length === 0">
+                      Este cliente no tiene miembros asociados.
+                    </p>
+                  <div style ="height: calc(100% - var(--detalle_cli_resto3));" class="relative  overflow-x-auto">
                     <table class="absolute overflow-scroll table-auto min-w-full text-xs">
                       <thead>
                         <tr class="text-left border-b border-slate-200">
@@ -1042,19 +1081,12 @@
                         </tr>
                       </tbody>
                     </table>
-
-                    <p class="text-[11px] text-slate-400 mt-2"
-                      data-bind="visible: !$root.filteredClientMembers() || $root.filteredClientMembers().length === 0">
-                      Este cliente no tiene miembros asociados.
-                    </p>
                   </div>
                 </div>
-
+                <!-- #endregion -->
             </div>
           </div>
-
-
-         
+          
         </section>
         <!-- #endregion -->
 
@@ -1077,8 +1109,8 @@
           </div>
           <!-- #endregion -->
           <!-- #region VIEW DETALLE PROYECTO MIEMBROS  -->
-          <div id="view-detalle-proyecto-miembros" class="view-section">
-            <div class="relative h-full flex items-center justify-between mb-4">
+          <div id="view-detalle-proyecto-miembros" style="height: calc(100% - var(--miembro-pro-resto1));" class="view-section relative">
+            <div class="relative flex items-center justify-between mb-4">
               <div>
                 <h1 class="text-lg font-semibold text-slate-900 inline pr-7">Miembros asociados al proyecto</h1>
                 <span class="inline-block">
@@ -1112,7 +1144,7 @@
             </div>
 
             <!-- Tabla de miembros (KO) -->
-            <div class="border border-slate-200 rounded-2xl p-4 overflow-x-auto">
+            <div style="height: calc(100% - var(--miembro-pro-resto2) - var(--miembro-pro-resto3) - var(--miembro-pro-resto4));" class="relative  border border-slate-200 rounded-2xl p-4">
               <div class="flex items-center justify-between mb-3">
                 <h2 class="text-sm font-semibold text-slate-800">Miembros asociados</h2>
                 <button id="btn-new-member"
@@ -1121,8 +1153,8 @@
                   + Nuevo
                 </button>
               </div>
-
-              <table class="min-w-full table-auto overflow-scroll w-full text-xs">
+              <div style="height: calc(100% - var(--miembro-pro-resto3) - var(--miembro-pro-resto4) + 15px );" class="relative overflow-x-auto">
+              <table class="absolute  min-w-full table-auto overflow-scroll text-xs">
                 <thead>
                   <tr class="text-left border-b border-slate-200">
                     <th class="py-2 pr-4 font-semibold text-slate-500">Miembro</th>
@@ -1170,11 +1202,12 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
           <!-- #endregion -->
           <!-- #region VIEW DETALLE PROYECTO RAGs TOOLS  -->
-          <div id="view-detalle-proyecto-ragtool" class="view-section hidden">
+          <div id="view-detalle-proyecto-ragtool"  style="height: calc(100% - var(--miembro-pro-resto1) );" class="view-section hidden">
             <div class="flex items-center justify-between mb-4">
               <div>
                 <h1 class="text-lg font-semibold text-slate-900">Detalle del proyecto</h1>
@@ -1191,7 +1224,7 @@
             </div>
 
             <!-- Info del proyecto (KO) -->
-            <div data-bind="if: selectedProject">
+            <div class="relative" style="height: calc(100% - var(--ragtool_proy-resto1) - var(--ragtool_proy_resto2) );"  data-bind="if: selectedProject">
               <div class="mb-4 flex items-center gap-3" data-bind="with: selectedProject">
                 <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
                   data-bind="text: $root.getInitials(name), css: $root.avatarClass('active')"></div>
@@ -1203,21 +1236,26 @@
 
               <!-- Dos listados pegados (RAG y Herramientas) -->
 
-              <div id="listado-rag-project" class="grid grid-cols-1 lg:grid-cols-2 gap-4"
-                data-bind="with: selectedProject">
-                <!-- RAGs asociadas -->
-                <div class="border border-slate-200 rounded-2xl p-4">
+              <div id="listado-rag-project" style="height: calc(100% - var(--ragtool_proy-resto1) );" 
+                     class="relative grid grid-cols-1 lg:grid-cols-2 gap-4"
+                     data-bind="with: selectedProject">
+                <!-- #region RAGs asociadas -->
+                <div style="height: calc(100% - var(--ragtool_proy-resto1) + 15px );" class="relative border border-slate-200 rounded-2xl p-4">
 
                   <div class="flex items-center justify-between mb-3">
-                    <h2 class="text-sm font-semibold text-slate-800">Bases de datos RAG</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Bases de datos RAG del proyecto</h2>
                     <button id="btn-new-project-rag"
                       class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                       data-bind="click:  $root.btnNewRagProyecto">
                       + Nuevo
                     </button>
                   </div>
-                  <div class="overflow-x-auto">
-                    <table class="min-w-full text-xs">
+                      <p class="text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !ragDatabases || ragDatabases.length === 0">
+                      Este proyecto no tiene RAGs asociadas.
+                  </p>
+                  <div style="height: calc(100% - var(--ragtool_proy-resto1));" class="relative overflow-x-auto">
+                    <table class="absolute table-auto overflow-y-auto min-w-full text-xs">
                       <thead>
                         <tr class="text-left border-b border-slate-200">
                           <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
@@ -1247,25 +1285,25 @@
                         </tr>
                       </tbody>
                     </table>
-                    <p class="text-[11px] text-slate-400 mt-2"
-                      data-bind="visible: !ragDatabases || ragDatabases.length === 0">
-                      Este proyecto no tiene RAGs asociadas.
-                    </p>
+                
                   </div>
                 </div>
-
-                <!-- Herramientas / tools registradas -->
-                <div class="border border-slate-200 rounded-2xl p-4">
+                 <!-- #endregion -->
+                <!-- #region Herramientas / tools registradas -->
+                <div style="height: calc(100% - var(--ragtool_proy-resto1) + 15px);" class="border border-slate-200 rounded-2xl p-4">
                   <div class="flex items-center justify-between mb-3">
-                    <h2 class="text-sm font-semibold text-slate-800">Herramientas y permisos</h2>
+                    <h2 class="text-sm font-semibold text-slate-800">Herramientas y permisos del proyecto</h2>
                     <button id="btn-new-project-tools"
                       class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                       data-bind="click: $root.btnNewToolProject">
                       + Nuevo
                     </button>
                   </div>
-                  <div class="overflow-x-auto">
-                    <table class="min-w-full text-xs">
+                  <p class="text-[11px] text-slate-400 mt-2" data-bind="visible: !tools || tools.length === 0">
+                      Este proyecto no tiene herramientas registradas.
+                  </p>
+                  <div style="height: calc(100% - var(--ragtool_proy-resto1) );" class="relative overflow-x-auto">
+                    <table class="absolute table-auto overflow-y-auto min-w-full text-xs">
                       <thead>
                         <tr class="text-left border-b border-slate-200">
                           <th class="py-2 pr-3 font-semibold text-slate-500">Herramienta</th>
@@ -1298,11 +1336,10 @@
                         </tr>
                       </tbody>
                     </table>
-                    <p class="text-[11px] text-slate-400 mt-2" data-bind="visible: !tools || tools.length === 0">
-                      Este proyecto no tiene herramientas registradas.
-                    </p>
+                  
                   </div>
                 </div>
+                 <!-- #endregion -->
               </div>
             </div>
 
@@ -1314,9 +1351,10 @@
           <!-- #endregion -->
         </section>
         <!-- #endregion -->
-
+        
         <!-- #region VIEW - TAB: DETALLE DEL MIEMBRO -->
-        <section id="view-detalle-miembro" class="view-section hidden">
+        <section id="view-detalle-miembro" class="view-section h-full hidden">
+          <!-- #region ENCABEZADO-->
           <div class="flex items-center justify-between mb-4">
             <div>
               <h1 class="text-lg font-semibold text-slate-900">Detalle del miembro</h1>
@@ -1331,9 +1369,10 @@
 
             </button>
           </div>
-
-          <!-- Info del miembro (KO) -->
-          <div data-bind="if: selectedMember">
+          <!-- #endregion -->
+         
+          <div style="height: calc(100% - var(--ragtool-member-resto1) );"  data-bind="if: selectedMember">
+             <!-- #region Info del miembro (KO) -->
             <div class="mb-4 flex items-center gap-3" data-bind="with: selectedMember">
               <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
                 data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
@@ -1347,12 +1386,14 @@
                 </div>
               </div>
             </div>
-
+            <!-- #endregion -->
             <!-- Dos listados pegados (RAG y Herramientas) -->
 
-            <div id="listado-rag" class="grid grid-cols-1 lg:grid-cols-2 gap-4" data-bind="with: selectedMember">
-              <!-- RAGs asociadas -->
-              <div class="border border-slate-200 rounded-2xl p-4">
+            <div id="listado-rag" class="grid grid-cols-1 lg:grid-cols-2 gap-4" 
+            style="height: calc(100% - var(--ragtool-member-resto1) - var(--ragtool-member-resto2) + 15px);" 
+            data-bind="with: selectedMember">
+              <!-- #region RAGs asociadas a miembro -->
+              <div style="height: calc(100% - var(--ragtool-member-resto1) + 45px );" class="relative border border-slate-200 rounded-2xl p-2">
 
                 <div class="flex items-center justify-between mb-3">
                   <h2 class="text-sm font-semibold text-slate-800">Bases de datos RAG</h2>
@@ -1362,8 +1403,12 @@
                     + Nuevo
                   </button>
                 </div>
-                <div class="overflow-x-auto">
-                  <table class="min-w-full text-xs">
+                <p class="text-[11px] text-slate-400 mt-2"
+                    data-bind="visible: !ragDatabases || ragDatabases.length === 0">
+                    Este miembro no tiene RAGs asociadas.
+                </p>
+                <div  style="height: calc(100% - var(--ragtool-member-resto1) - var(--ragtool-member-resto2) + 45px );" class="relative overflow-x-auto">
+                  <table class="absolute min-w-full table-auto overflow-y-auto text-xs">
                     <thead>
                       <tr class="text-left border-b border-slate-200">
                         <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
@@ -1393,15 +1438,12 @@
                       </tr>
                     </tbody>
                   </table>
-                  <p class="text-[11px] text-slate-400 mt-2"
-                    data-bind="visible: !ragDatabases || ragDatabases.length === 0">
-                    Este miembro no tiene RAGs asociadas.
-                  </p>
+                 
                 </div>
               </div>
-
-              <!-- Herramientas / tools registradas -->
-              <div class="border border-slate-200 rounded-2xl p-4">
+               <!-- #endregion -->
+              <!-- #region Herramientas / tools registradas a miembro -->
+              <div style="height: calc(100% - var(--ragtool-member-resto1) + 45px );" class="relative border border-slate-200 rounded-2xl p-4">
                 <div class="flex items-center justify-between mb-3">
                   <h2 class="text-sm font-semibold text-slate-800">Herramientas y permisos</h2>
                   <button id="btn-new-tools"
@@ -1410,8 +1452,11 @@
                     + Nuevo
                   </button>
                 </div>
-                <div class="overflow-x-auto">
-                  <table class="min-w-full text-xs">
+                <p class="text-[11px] text-slate-400 mt-2" data-bind="visible: !tools || tools.length === 0">
+                    Este miembro no tiene herramientas registradas.
+                </p>
+                <div style="height: calc(100% - var(--ragtool-member-resto1) - var(--ragtool-member-resto2) + 45px );" class="relative overflow-x-auto">
+                  <table class="absolute table-auto overflow-y-auto min-w-full text-xs">
                     <thead>
                       <tr class="text-left border-b border-slate-200">
                         <th class="py-2 pr-3 font-semibold text-slate-500">Herramienta</th>
@@ -1443,22 +1488,20 @@
                         </td>
                       </tr>
                     </tbody>
-                  </table>
-                  <p class="text-[11px] text-slate-400 mt-2" data-bind="visible: !tools || tools.length === 0">
-                    Este miembro no tiene herramientas registradas.
-                  </p>
+                  </table> 
                 </div>
               </div>
+               <!-- #endregion -->
             </div>
           </div>
-
+          
           <!-- Mensaje cuando no hay miembro seleccionado -->
           <div data-bind="ifnot: selectedMember" class="text-xs text-slate-400 mt-4">
             Selecciona un miembro en la pestaña “Miembros” para ver su detalle aquí.
           </div>
         </section>
         <!-- #endregion -->
-
+        
         <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE CLIENTE =============== -->
         <div id="modal-client"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
@@ -1536,7 +1579,7 @@
           </div>
         </div>
         <!-- #endregion -->
-
+        
         <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE PROYECTO =============== -->
         <div id="modal-project"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
@@ -1608,13 +1651,14 @@
                     class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
                     Guardar proyecto
                   </button>
+                  <span id="save-project-spin" class="icon-spin hidden"></span>
                 </div>
               </form>
             </div>
           </div>
         </div>
         <!-- #endregion -->
-
+        
         <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE MIEMBRO CLIENTE =============== -->
         <div id="modal-member-client" class="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 hidden"
           role="dialog" aria-modal="true" aria-labelledby="memberClientModalTitle">
@@ -1663,7 +1707,7 @@
                               placeholder:text-slate-400
                               focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
                               transition" placeholder="Ej. Ana Pérez" data-bind="value: nameMemberClient" />
-                               <p class="mt-1 text-[11px] text-red-500">El correo no es correcto o esta vacio.</p>
+                               <p id="valid-name-member-client" class="mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                     </div>
                   </div>
 
@@ -1674,7 +1718,7 @@
                             focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
                             transition" placeholder="ana@mirrormind.ai" data-bind="value: emailMemberClient" />
                     <p class="mt-1 text-[11px] text-slate-500">Enviaremos una invitación a este correo.</p>
-                    <p class="mt-1 text-[11px] text-red-500">El correo no es correcto o esta vacio.</p>
+                    <p id="valid-email-member-client" class="mt-1 text-[11px] text-red-500 hidden">El correo no es correcto o esta vacio.</p>
                   </div>
 
                   <div>
@@ -1733,7 +1777,7 @@
           </div>
         </div>
         <!-- #endregion -->
-
+        
         <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE MIEMBRO =============== -->
         <div id="modal-member" class="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 hidden"
           role="dialog" aria-modal="true" aria-labelledby="memberModalTitle">
@@ -1783,8 +1827,9 @@
                         data-bind="options: filteredClientMembers(), optionsText: 'name', optionsValue:'_id', value: idMember, optionsCaption: 'Elegir Miembro...'"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></select>
                       <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
-                        ▾
+                        
                       </span>
+                      <p id="valid-name-member" class="mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                     </div>
                   </div>
                 </div>
@@ -1814,8 +1859,8 @@
           </div>
         </div>
         <!-- #endregion -->
-
-
+        
+         
         <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE BASE DATOS RAG PARA MIEBROS =============== -->
         <div id="modal-rag"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
@@ -1878,27 +1923,21 @@
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre RAG</label>
                       <input type="text" name="ragName" required placeholder="Ej. RAG Documentación" data-bind="value: nameRag"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
-                     <p class="name-rag mt-1 text-[11px] text-red-500">El campo nombre es obligatorio.</p>
+                     <p id="valid-name-rag-miembro" class="name-rag mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                     </div>
 
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
                       <select name="ragType" data-bind="options: ragType, value: tipoRag"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></select>
-                      <!--
-                      <select name="ragType" data-bind="value: tipoRag"
-                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15">
-                        <option value="">Sin especificar</option>
-                        <option value="Vectorial">Vectorial</option>
-                        <option value="Mixto">Mixto</option>
-                      </select>
-                      -->
+                       <p id="valid-type-rag-miembro" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">El campo no esta especif.</p>
                     </div>
 
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Última actualización</label>
                       <input type="date" name="ragLastUpdate" data-bind="value: fechaRag"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                      <p id="valid-fecha-rag-miembro" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">La fecha no es correcta</p>
                     </div>
                   </div>
                 </div>
@@ -1920,7 +1959,7 @@
           </div>
         </div>
         <!-- #endregion -->
-
+        
         <!-- #region =============== MODAL: INSERTAR-EDIT-UPDATE TOOLS PARA MIEMBROS =============== -->
         <div id="modal-tool"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
@@ -1983,9 +2022,9 @@
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre de la tool</label>
                       <input type="text" name="toolName" required placeholder="Ej. Conector CRM" data-bind="value: nameTool"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
-                      <p class="name-tool mt-1 text-[11px] text-red-500">El campo nombre es obligatorio.</p>
+                      <p id="valid-name-tool-miembro" class="name-tool mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                     </div>
-
+                    
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
                       <input type="text" name="toolType" placeholder="API / Tool / Script..."
@@ -2023,7 +2062,7 @@
           </div>
         </div>
         <!-- #endregion -->
-
+         
         <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE BASE DATOS RAG PARA PROYECTOS =============== -->
         <div id="modal-rag-proyectos"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
@@ -2087,20 +2126,22 @@
                       <input type="text" required name="ragNameProyecto" placeholder="Ej. RAG Documentación"
                         data-bind="value: nameRagProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
-                         <p class="name-rag-proyecto mt-1 text-[11px] text-red-500">El campo nombre es obligatorio.</p>
+                         <p id="valid-name-rag-proyecto" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                       </div>
 
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
                       <select name="ragTypeProyecto" data-bind="options: ragType, value: tipoRagProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></select>
-                    </div>
+                        <p id="valid-type-rag-proyecto" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">El campo no esta especif.</p>
+                      </div>
 
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Última actualización</label>
                       <input type="date" name="ragLastUpdateProyecto" data-bind="value: fechaRagProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
-                    </div>
+                        <p id="valid-fecha-rag-proyecto" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">La fecha no es correcta</p>
+                      </div>
                     
                   </div>
                   <div id="form1">
@@ -2128,13 +2169,14 @@
                     class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
                     Guardar RAG
                   </button>
+                  <span id="save-rag-project-spin" class="icon-spin hidden"></span>
                 </div>
               </form>
             </div>
           </div>
         </div>
         <!-- #endregion -->
-
+        
         
         <!-- #region =============== MODAL: INSERTAR-EDIT-UPDATE TOOLS PARA PROYECTOS =============== -->
         <div id="modal-tool-proyecto"
@@ -2199,7 +2241,7 @@
                       <input type="text" required name="toolNameProyecto" placeholder="Ej. Conector CRM"
                         data-bind="value: nameToolProyecto"
                         class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
-                       <p class="name-tool-proyecto mt-1 text-[11px] text-red-500">El campo nombre es obligatorio.</p>
+                       <p id="valid-name-tool-proyecto" class="name-tool-proyecto mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                       </div>
                     <div>
                       <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
@@ -2238,7 +2280,7 @@
           </div>
         </div>
         <!-- #endregion -->
-
+        
         <!-- #region =============== MODAL: CUADRO DE DIALOGO BORRAR =============== -->
         <div id="modal-borrar"
           class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
@@ -2285,12 +2327,13 @@
                   data-bind="click: saveBorrar">
                   Sí, eliminar
                 </button>
+                <span id="borrar-spin" class="icon-spin hidden"></span>
               </div>
             </form>
           </div>
         </div>
         <!-- #endregion -->
-
+        
         <!-- #region MODAL: CUADRO DE DIÁLOGO CHAT -->
         <div id="chat-box" class="chat-box">
 
@@ -2340,7 +2383,7 @@
 
         </div>
         <!-- #endregion -->
-
+        
         <!-- #region BOTÓN FLOTANTE DEL CHAT -->
         <button id="chat-toggle" class="chat-button" aria-label="Abrir chat">
           <svg width="75" height="75" viewBox="0 0 75 75" xmlns="http://www.w3.org/2000/svg">
@@ -2390,7 +2433,7 @@
       //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
       const entorno = "dev"  //local -dev - prod
       const url = 'localhost';
-      const port = '10569';
+      const port = '8105';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
       const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
       const urlClient = (url && port) ? `http://${url}:${port}/api/clients` : `/api/clients`;
@@ -2925,7 +2968,32 @@
 
               //  return { ...f, id: f._id };
               //});
-              setProjects(result.data);
+              //const data=[];
+              const data = result.data.map(async (e,i) =>{
+                
+                 
+                 return e.memberCount =await queryMembersByIDCount(e._id);
+                 //e.ragCount =  e.ragDatabases.length;
+                 //e.toolCount =  e.tools.length;
+                 
+                //return e;
+              });
+              console.log(data);
+              Promise.all(data).then((v) =>{
+                 console.log(v);
+                 const tempData = result.data.map( (e,i) =>{
+                    console.log(v[i]);
+                    //return e.memberCount =await queryMembersByIDCount(e._id);
+                    e.memberCount = v[i];
+                    e.ragCount =  e.ragDatabases.length;
+                    e.toolCount =  e.tools.length;
+                    console.log(e);
+                    return e;
+                 });
+
+                 setProjects(tempData);
+                }); 
+              //setProjects(data);
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3029,7 +3097,7 @@
       async function deleteMembersApi(member) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlMember + '/' + member.id, {
+            const response = await fetch(urlMember + '/' + member._id, {
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json'
@@ -3115,6 +3183,50 @@
           //setMembers(mockMembersFilter);
         }
       }
+      async function queryMembersByIDCount(id) {
+        //console.log(id);
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlProject + '/members/' + id, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            //console.log(result);
+
+
+            if (result) {
+              //const mockMembers = result.data.map((f) => {
+
+              //  return { ...f, id: f._id };
+              //});
+              console.log(result.data.length);
+              return result.data.length; //setMembers(result.data);
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+        } else if (entorno === 'local') {
+          //console.log("estoy en mockmembers");
+          //const mockMembersFilter = setMembers().filter((f) => f.projectId === id);
+          //setMembers(mockMembersFilter);
+        }
+      }
       //#endregion 
       
 
@@ -3134,7 +3246,7 @@
         detallecliente: document.getElementById('view-detalle-cliente'),
         detalle: document.getElementById('view-detalle-miembro')
       };
-      console.log(sections);
+      //console.log(sections);
       function setActiveTab(view) {
         tabs.forEach((tab) => {
           const isActive = tab.dataset.view === view;
@@ -3443,7 +3555,7 @@
           ],
         },
       ];
-      const mockRagType = ['Sin espeficiar', 'Vectorial', 'Mixto']
+      const mockRagType = ['sin especificar', 'Vectorial', 'Mixto']
       //#endregion
       
       //#region MODAL INSERT-EDIT-UPDATE CLIENTE 
@@ -3481,6 +3593,7 @@
       const inputNameProject = formProject.querySelector('input[name="projectName"]');
       const inputDescriptionProject = formProject.querySelector('textarea[name="projectDescription"]');
       //console.log(inputDescriptionProject);
+      const iconSaveProject = document.getElementById("save-project-spin");
 
       function openProjectModal() {
         modalProject.classList.remove('hidden');
@@ -3513,7 +3626,9 @@
       const inputMemberClientEmail = formMemberClient.querySelector('input[name="memberEmailClient"]');
       const selectMemberClientRole = formMemberClient.querySelector('select[name="memberRoleClient"]');
       const selectMemberClientStatus = formMemberClient.querySelector('select[name="memberStatusClient"]');
-
+      
+      const msgValidNameMemberClient = document.getElementById("valid-name-member-client");
+      const msgValidEmeailMemberClient = document.getElementById("valid-email-member-client");
 
       function openMemberClientModal() {
         modalMemberClient.classList.remove('hidden');
@@ -3533,14 +3648,14 @@
       });
       //#endregion
       //#region MODAL INSERT-EDIT-UPDATE MIEMBRO
-
+      
       const modalMember = document.getElementById('modal-member');
-
+      
       const formMember = document.getElementById('form-member');
-      const inputMemberName = formMember.querySelector('input[name="memberName"]');
-      const inputMemberEmail = formMember.querySelector('input[name="memberEmail"]');
-      const selectMemberRole = formMember.querySelector('select[name="memberRole"]');
-      const selectMemberStatus = formMember.querySelector('select[name="memberStatus"]');
+      const inputMemberName = formMember.querySelector('select[name="memberName"]');
+      
+
+      const msgValidNameMember = document.getElementById("valid-name-member");
 
 
       function openMemberModal() {
@@ -3563,26 +3678,29 @@
       });
       //#endregion
       //#region MODAL INSERT-EDIT-UPDATE RAG MIEMBROS
-
-
+       
+      
       const modalRag = document.getElementById('modal-rag');
-
+      
       const formRag = document.getElementById('form-rag');
-
+      
       const inputRagName = formRag.querySelector('input[name="ragName"]');
       const selecttRagType = formRag.querySelector('select[name="ragType"]');
       const inputRagLastUpdate = formRag.querySelector('input[name="ragLastUpdate"]');
-
-
-
+      
+      const msgValidNameRag = document.getElementById("valid-name-rag-miembro");
+      const msgValidTypeRag = document.getElementById("valid-type-rag-miembro");
+      const msgValidFechaRag = document.getElementById("valid-fecha-rag-miembro");
+      
+      
       function closeRagModal() {
         modalRag.classList.add('hidden');
       }
-
+      
       modalRag.querySelectorAll('[data-close-rag]').forEach((btn) => {
         btn.addEventListener('click', closeRagModal);
       });
-
+      
       modalRag.addEventListener('click', (e) => {
         if (e.target === modalRag) closeRagModal();
       });
@@ -3596,7 +3714,10 @@
       const inputToolName = formTool.querySelector('input[name="toolName"]');
       const inputToolType = formTool.querySelector('input[name="toolType"]');
       const inputSelectToolPermission = formTool.querySelector('select[name="toolPermission"]');
-
+      
+      
+      const msgValidNameTool = document.getElementById("valid-name-tool-miembro");
+       
       function closeToolModal() {
         modalTool.classList.add('hidden');
       }
@@ -3619,16 +3740,18 @@
       const selecttRagTypeProyectos = formRagProyecto.querySelector('select[name="ragTypeProyecto"]');
       const inputRagLastUpdateProyectos = formRagProyecto.querySelector('input[name="ragLastUpdateProyecto"]');
 
-
-
+      const msgValidNameRagProyecto = document.getElementById("valid-name-rag-proyecto");
+      const msgValidTypeRagProyecto = document.getElementById("valid-type-rag-proyecto");
+      const msgValidFechaRagProyecto = document.getElementById("valid-fecha-rag-proyecto");
+      
       function closeRagProyectoModal() {
         modalRagProyecto.classList.add('hidden');
       }
-
+      
       modalRagProyecto.querySelectorAll('[data-close-rag-proyecto]').forEach((btn) => {
         btn.addEventListener('click', closeRagProyectoModal);
       });
-
+      
       modalRagProyecto.addEventListener('click', (e) => {
         if (e.target === modalRagProyecto) closeRagProyectoModal();
       });
@@ -3644,6 +3767,10 @@
       const inputToolTypeProyecto = formToolProyecto.querySelector('input[name="toolTypeProyecto"]');
       const inputSelectToolPermissionProyecto = formToolProyecto.querySelector('select[name="toolPermissionProyecto"]');
 
+      const msgValidNameToolProyecto = document.getElementById("valid-name-tool-proyecto");
+      
+      const iconSaveRagProject = document.getElementById('save-rag-project-spin');
+      
       function closeToolProyectoModal() {
         modalToolProyecto.classList.add('hidden');
       }
@@ -3661,6 +3788,8 @@
       //#region MODAL CUADRO-EDIT-UPDATE DIALOGO BORRAR
 
       const modalBorrar = document.getElementById('modal-borrar');
+
+      const iconBorrar = document.getElementById('borrar-spin');
 
       function openBorrarModal() {
         modalBorrar.classList.remove('hidden');
@@ -3700,8 +3829,11 @@
           if (callNow) func.apply(context, args);
         };
       }
-
-
+      
+      function isDateValid(dateStr) {
+        return !isNaN(new Date(dateStr));
+      }
+      
       // ------- VIEWMODEL KO KNOCKOUT JS -------
 
       function AppViewModel() {
@@ -3727,14 +3859,31 @@
 
 
         //#region variables ARRAY para almacenar conjunto de valores
-        self.clients = ko.observableArray(mockClients);
-        self.projectsClient = ko.observableArray(mockProjectsClient);
+        if (entorno === "local"){
+            self.clients = ko.observableArray(mockClients);
+            self.projectsClient = ko.observableArray(mockProjectsClient);
+            self.membersClient = ko.observableArray(mockMembersClient);
+            self.members = ko.observableArray(mockMembers);
+        }else {
+            self.clients = ko.observableArray([]);
+            self.projectsClient = ko.observableArray([]);
+            self.membersClient = ko.observableArray([]);
+            self.members = ko.observableArray([]);
+        }
+         
         self.projectsClient.subscribe((d) => {
           //console.log("subscrito");  
-          //console.log(d);
+          console.log(d);
+          //return d.map((e, i) => {
+          //  e.memberCount = self.getProjectMemberCount(e._id);
+          //  e.ragCount = e.ragDatabases.length;
+          //  e.toolCount = e.tools.length;
+            //console.log(e);
+          //  return e;
+          //});
         });
-        self.membersClient = ko.observableArray(mockMembersClient);
-        self.members = ko.observableArray(mockMembers);
+       
+       
         self.filterMembers = ko.observableArray([]);
         self.ragType = ko.observableArray(mockRagType);
         //console.log(self.projects.length);
@@ -3756,7 +3905,7 @@
         self.actionToolProyecto = ko.observable("");
         //#endregion
 
-        //#region Extraer o establecer una fila del ARRAY 
+        //#region obtener el objeto seleccionado en los insert-update-edit  
         self.selectedClient = ko.observable();  //se utiliza para seleccionar una cliente
         self.selectedProject = ko.observable(); //se utiliza para selecciona un proyecto
         self.selectedMemberClient = ko.observable();
@@ -3767,6 +3916,7 @@
         self.selectedToolProyecto = ko.observable();
         //#endregion
 
+        //#region asociar variables para hacer binding con componentes inputs HMML  
         self.nameClient = ko.observable("");
         self.descriptionClient = ko.observable("");
 
@@ -3800,10 +3950,10 @@
         self.nameToolProyecto = ko.observable("");
         self.tipoToolProyecto = ko.observable("");
         self.permisoToolProyecto = ko.observable("");
-
-
         //#endregion
 
+        //#endregion
+        
         //#region PROPIEDADES o CAMPOS CALCULADOS Y DE SOLO LECTURA
         self.filteredMembers = ko.computed(function () {
           //console.log("estoy en filtered")
@@ -3830,11 +3980,12 @@
           const client = self.selectedClient();
 
           if (!client) return [];
-          console.log(self.projectsClient().filter((f) => f.clientId === client._id));
+          //console.log(self.projectsClient().filter((f) => f.clientId === client._id));
           return self.projectsClient().filter((f) => f.clientId === client._id).map((e, i) => {
-            e.memberCount = self.getProjectMemberCount(e._id);
-            e.ragCount = self.getProjectRagCount(e._id);
-            e.toolCount = self.getProjectToolCount(e._id);
+            //e.memberCount =(self.members().length ===0 ) ? e.memberCount : self.getProjectMemberCount(e._id);
+            
+            e.ragCount = self.getClientProjectRagCount(e._id);
+            e.toolCount = self.getClientProjectToolCount(e._id);
             //console.log(e);
             return e;
           });
@@ -3858,9 +4009,19 @@
             
         }
         */
-
+        
+        self.getClientProjectRagCount = function(projectId){
+            return self.projectsClient().find(f => f._id === projectId).ragDatabases.length;
+        }
+        self.getClientProjectToolCount = function(projectId){
+             return self.projectsClient().find(f => f._id === projectId).tools.length;
+        }
         self.getProjectMemberCount = function (projectId) {
-          return self.members().filter((m) => m.projectId === projectId).length;
+        
+             return self.members().filter((m) => m.projectId === projectId).length;
+          
+             //return await queryMembersByIDCount(projectId, self.members);
+            
         };
 
         self.getProjectRagCount = function (projectId) {
@@ -3883,7 +4044,7 @@
             .join('');
         };
         //#endregion
-
+        
         //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE CLIENTE
         //--------- ACCIONES CLIENTE -----------------------
         self.btnNewClient = function () {
@@ -3996,14 +4157,17 @@
               clientId: client._id,
               description: model.descriptionProject(),
               ragDatabases: [],
-              tools: []
+              tools: [],
+              memberCount: 0,
+              ragCount: 0,
+              toolCount: 0
             };
             if (entorno === 'local') {
               project._id = uuid.v4();
             }
             project = await AddProjectApi(project);
             self.projectsClient().push(project);
-            console.log(self.projectsClient());
+            //console.log(self.projectsClient());
 
             closeProjectModal();
             //importante para que vuelta a consultar y nos devuelva via API todos los registros
@@ -4054,12 +4218,16 @@
           self.selectedProject(project);
           openBorrarModal();
         }
-        self.saveProject = function (model, e) {
+        self.saveProject = async function (model, e) {
           //console.log(self.actionProject());
+          iconSaveProject.classList.remove("hidden");
           if (self.actionProject() === "new") {
-            self.addProject(model, e);
+            await self.addProject(model, e);
           } else if (self.actionProject() === "update") {
-            self.updateProject(model, e);
+            await self.updateProject(model, e);
+          }
+          if (!iconSaveProject.classList.contains("hidden")){
+            iconSaveProject.classList.add("hidden");
           }
         }
         self.deleteRowProject = async function () {
@@ -4090,8 +4258,10 @@
           setActiveTab('detalle');
         }
         self.addMemberClient = async function (model, e) {
-          const client = self.selectedClient();
+          if (!self.validacionMemberClient(model)) return;
 
+          const client = self.selectedClient();
+          
           let memberClient = {
             //id:uuid.v4(),
             projectId: self.selectedProject()._id,
@@ -4111,7 +4281,28 @@
           closeMemberClientModal();
           self.selectClient(client);
         }
+        self.validacionMemberClient = function(model){
+           let validacion = true
+           
+           if (model.nameMemberClient().length === 0){
+            msgValidNameMemberClient.classList.remove("hidden");
+            validacion = false;
+           } else if (!msgValidNameMemberClient.classList.contains("hidden")){
+            msgValidNameMemberClient.classList.add("hidden");
+           } 
+           
+           if (model.emailMemberClient().length === 0 || !inputMemberClientEmail.checkValidity()){
+            msgValidEmeailMemberClient.classList.remove("hidden");
+            validacion = false
+           } else if (!msgValidEmeailMemberClient.classList.contains("hidden")){
+            msgValidEmeailMemberClient.classList.add("hidden");
+           }
+           
+            
+           return validacion;
+        }
         self.updateMemberClient = function (model, e) {
+          if (!self.validacionMemberClient(model)) return;
           const oldMemberClient = self.selectedMemberClient();
           const client = self.selectedClient();
           console.log(oldMemberClient);
@@ -4154,7 +4345,7 @@
         }
         self.deleteRowMemberClient = async function () {
           let newMembersClient = [];
-          //await deleteMembersClientApi(self.selectedMember());
+          await deleteMembersClientApi(self.selectedMemberClient());
           newMembersClient = self.membersClient().filter(f => f._id !== self.selectedMemberClient()._id);
           self.membersClient(newMembersClient);
         }
@@ -4171,7 +4362,7 @@
         }
         self.selectMember = function (member) {
           self.selectedMember(member);
-          console.log(self.selectedMember());
+          //console.log(self.selectedMember());
           globalMiembro = member;
           // opcional: cambiar a pestaña "Detalle" automáticamente
           setActiveTab('detalle');
@@ -4180,6 +4371,7 @@
           //console.log(model);
           //console.log(self.selectedProject);
           //cogemos el id del combo de miembros
+          if (!self.validacionMember(model)) return;
           const _idMember = self.idMember();
           const tempMember = self.filteredClientMembers().find((f) => f._id === _idMember);
           if (tempMember) {
@@ -4207,10 +4399,22 @@
 
           //console.log(self.members())
           closeMemberModal();
+          await queryProjectsByID(self.selectedClient()._id,self.projectsClient);
         }
         self.updateMember = function (model, e) {
+          if (!self.validacionMember(model)) return;
           const oldMember = self.selectedMember();
           console.log(oldMember);
+          
+          const _idMember = self.idMember();
+          const tempMember = self.filteredClientMembers().find((f) => f._id === _idMember);
+          if (tempMember) {
+            self.nameMember(tempMember.name);
+            self.emailMember(tempMember.email);
+            self.roleMember(tempMember.role);
+            self.estadoMember(tempMember.status);
+          }
+          
           let newMembers = [];
           self.members().forEach((el, i) => {
             if (el._id === oldMember._id) {
@@ -4231,22 +4435,52 @@
 
         }
         self.deleteMemberArray = function (model) {
-
-
+         
         }
         self.editMember = function (member) {
-          //console.log(member)
+          console.log(member)
           modalMember.classList.remove('hidden');
+          
+          /*
+          let member = {
+            //id:uuid.v4(),
+            projectId: self.selectedProject()._id,
+            name: self.nameMember(),
+            email: self.emailMember(),
+            role: self.roleMember(),
+            status: self.estadoMember(),
+            ragDatabases: [],
+            tools: []
+          };
+          if (entorno === 'local') {
+            member._id = uuid.v4()
+          }
+          */
           self.selectedMember(member);
           self.actionMember("update");
           self.nameMember(member.name);
           self.emailMember(member.email);
           self.roleMember(member.role)
           self.estadoMember(member.status);
-          inputMemberName.value = member.name;
-          inputMemberEmail.value = member.email;
-          selectMemberRole.value = member.role;
-          selectMemberStatus.value = member.status;
+          //inputMemberName.value = member.name;
+          //inputMemberEmail.value = member.email;
+          //selectMemberRole.value = member.role;
+          //selectMemberStatus.value = member.status;
+        }
+        self.validacionMember = function(model){
+          let validacion = true
+          
+          console.log(inputMemberName.value);
+          if (inputMemberName.value.length === 0){
+             msgValidNameMember.classList.remove("hidden");
+             validacion = false;
+          } else if (!msgValidNameMember.classList.contains("hidden")){
+            msgValidNameMember.classList.add("hidden");
+           } 
+          
+          //console.log(inputMemberName.value);
+          return validacion;
+          //return false;
         }
         self.deleteMember = function (member) {
           //console.log(member);
@@ -4255,7 +4489,7 @@
           openBorrarModal();
         }
         self.saveMember = function (model, e) {
-          console.log(model.nameMember());
+          //console.log(model.nameMember());
 
           if (self.actionMember() == "new") {
             self.addMember(model, e);
@@ -4266,6 +4500,7 @@
         self.deleteRowMember = async function () {
           let newMembers = [];
           await deleteMembersApi(self.selectedMember());
+          await queryProjectsByID(self.selectedClient()._id,self.projectsClient);
           newMembers = self.members().filter(f => f._id !== self.selectedMember()._id);
           self.members(newMembers);
         }
@@ -4277,14 +4512,18 @@
           self.actionRag("new");
           modalRag.classList.remove('hidden');
           self.nameRag("");
-          self.tipoRag("");
+          self.tipoRag("sin especificar");
           self.fechaRag("");
+          inputRagName.value ="";
+          selecttRagType.value = "sin especificar";
+          inputRagLastUpdate.value = "";
         }
         self.selectRag = function (rag) {
           self.selectedRag(rag);
 
         }
         self.addRag = async function (model, e) {
+          if (!self.validacionRag(model)) return;
           let selectedMember = self.selectedMember()
           console.log(selectedMember);
           let memberId = selectedMember._id
@@ -4293,18 +4532,19 @@
           ragDatabases.push(newRag);
           selectedMember.ragDatabases = ragDatabases;
           selectedMember = await addMembersApi(selectedMember);
-          console.log(selectedMember);
+          //console.log(selectedMember);
           self.selectedMember(selectedMember);
-          console.log("actualizacion añadir rag");
-          console.log(self.filteredMembers());
-          console.log(self.members());
+          //console.log("actualizacion añadir rag");
+          //console.log(self.filteredMembers());
+          //console.log(self.members());
           //self.updateMemberArray(model);
           closeRagModal()
         }
         self.updateRag = async function (model, e) {
+          if (!self.validacionRag(model)) return;
           const oldMember = self.selectedMember();
           const oldRag = self.selectedRag();
-          console.log(oldRag);
+          //console.log(oldRag);
           let newDababaseRag = [];
           self.selectedMember().ragDatabases.forEach((el, i) => {
             if (el.id === oldRag.id) {
@@ -4319,6 +4559,30 @@
           //self.updateMemberArray(model);
           closeRagModal()
 
+        }
+        self.validacionRag = function(model){
+           let validate = true;
+           
+           if (self.nameRag().length === 0){
+              msgValidNameRag.classList.remove("hidden");
+              validate = false;
+            } else if (!msgValidNameRag.classList.contains("hidden")){
+              msgValidNameRag.classList.add("hidden");
+           }
+           if (self.tipoRag() === "sin especificar"){
+              msgValidTypeRag.classList.remove("hidden"); 
+              validate = false;
+           } else if(!msgValidTypeRag.classList.contains("hidden")){
+              msgValidTypeRag.classList.add("hidden")
+           }
+           if(!isDateValid(self.fechaRag())){
+              msgValidFechaRag.classList.remove("hidden");
+              validate = false;
+           } else if (!msgValidFechaRag.classList.contains("hidden")){
+              msgValidFechaRag.classList.add("hidden");
+           }
+           
+           return validate;
         }
         self.editRag = function (rag) {
           //console.log(rag);
@@ -4372,6 +4636,7 @@
           self.selectedTool(tool);
         }
         self.addTool = async function (model, e) {
+          if (!self.validacionTool(model)) return;
           let selectedMember = self.selectedMember();
           let memberId = selectedMember._id;
           let tools = self.selectedMember().tools;
@@ -4385,6 +4650,7 @@
           closeToolModal();
         }
         self.updateTool = async function (model, e) {
+          if (!self.validacionTool(model)) return;
           const oldMember = self.selectedMember();
           const oldTool = self.selectedTool();
           let newTools = [];
@@ -4400,6 +4666,19 @@
           self.selectedMember(selectedMember);
           closeToolModal();
 
+        }
+        self.validacionTool = function(model){
+          let validacion = true;
+          
+          if (self.nameTool().length ===0){
+            
+            msgValidNameTool.classList.remove("hidden");
+            validacion = false;
+          } else if (!msgValidNameTool.classList.contains("hidden")){
+            msgValidNameTool.classList.add("hidden");
+          }
+            
+          return validacion;
         }
         self.editTool = function (tool) {
           //console.log(tool);
@@ -4442,15 +4721,21 @@
         //#region MODAL RAG PROYECTOS ACCIONES INSERT_EDIT_UPDATE 
         self.btnNewRagProyecto = function () {
           //console.log("estoy en click RAG");
+          msgValidNameRagProyecto.classList.add("hidden");
+          msgValidTypeRagProyecto.classList.add("hidden"); 
+          msgValidFechaRagProyecto.classList.add("hidden");
           self.actionRagProyecto("new");
           modalRagProyecto.classList.remove('hidden');
           self.nameRagProyecto("");
-          self.tipoRagProyecto("");
+          self.tipoRagProyecto("sin especificar");
           self.fechaRagProyecto("");
         }
-        self.editProjectRag = function (ragProyectos) {
-          console.log(ragProyectos);
 
+        self.editProjectRag = function (ragProyectos) {
+          //console.log(ragProyectos);
+          msgValidNameRagProyecto.classList.add("hidden");
+          msgValidTypeRagProyecto.classList.add("hidden"); 
+          msgValidFechaRagProyecto.classList.add("hidden");
           modalRagProyecto.classList.remove('hidden');
           self.selectedRagProyecto(ragProyectos);
           self.actionRagProyecto("update");
@@ -4462,26 +4747,32 @@
           inputRagLastUpdateProyectos.value = ragProyectos.lastUpdate;
         }
         self.addRagProyectos = async function (model, e) {
-          let selectedProject = self.selectedProject()
-          console.log(selectedProject);
+        
+          if (!self.validacionRagProyecto(model)) return;
+
+          let selectedProject = self.selectedProject();
+        
+          
           let memberId = selectedProject._id
           let ragDatabases = self.selectedProject().ragDatabases;
           let newRag = { id: uuid.v4(), memberId: memberId, lastUpdate: self.fechaRagProyecto(), name: self.nameRagProyecto(), type: self.tipoRagProyecto() }
           ragDatabases.push(newRag);
           selectedProject.ragDatabases = ragDatabases;
           selectedProject = await AddProjectApi(selectedProject);
-          console.log(selectedProject);
+          //console.log(selectedProject);
           self.selectedProject(selectedProject);
-          console.log("actualizacion añadir rag Proyecto");
+          //console.log("actualizacion añadir rag Proyecto");
           //console.log(self.filteredProjects());
           //console.log(self.projects());
           //self.updateMemberArray(model);
-          closeRagProyectoModal();
+          //closeRagProyectoModal();
         }
         self.updateRagProyectos = async function (model, e) {
+          if (!self.validacionRagProyecto(model)) return;
+
           const oldProject = self.selectedProject();
           const oldRag = self.selectedRagProyecto();
-          console.log(oldProject);
+          //console.log(oldProject);
           let newDababaseRag = [];
           oldProject.ragDatabases.forEach((el, i) => {
             if (el.id === oldRag.id) {
@@ -4494,8 +4785,32 @@
           await UpdateProjectApi(selectedProject);
           self.selectedProject(selectedProject);
           //self.updateMemberArray(model);
-          closeRagProyectoModal();
+          //closeRagProyectoModal();
 
+        }
+        self.validacionRagProyecto = function(model){
+           let validate = true;
+           
+           if (self.nameRagProyecto().length === 0){
+             msgValidNameRagProyecto.classList.remove("hidden");
+             validate = false;
+            } else if (!msgValidNameRagProyecto.classList.contains("hidden")){
+             msgValidNameRagProyecto.classList.add("hidden");
+           }
+           if (self.tipoRagProyecto() === "sin especificar"){
+            msgValidTypeRagProyecto.classList.remove("hidden"); 
+            validate = false;
+           } else if(!msgValidTypeRagProyecto.classList.contains("hidden")){
+            msgValidTypeRagProyecto.classList.add("hidden")
+           }
+           if(!isDateValid(self.fechaRagProyecto())){
+            msgValidFechaRagProyecto.classList.remove("hidden");
+            validate = false;
+           } else if (!msgValidFechaRagProyecto.classList.contains("hidden")){
+            msgValidFechaRagProyecto.classList.add("hidden");
+           }
+           
+           return validate;
         }
         self.deleteProjectRag = function (ragProyectos) {
 
@@ -4503,11 +4818,19 @@
           self.selectedRagProyecto(ragProyectos);
           openBorrarModal();
         }
-        self.saveRagProyectos = function (model, e) {
+        self.saveRagProyectos = async function (model, e) {
+          iconSaveRagProject.classList.remove("hidden");
           if (self.actionRagProyecto() === "new") {
-            self.addRagProyectos(model, e);
+            await self.addRagProyectos(model, e);
           } else if (self.actionRagProyecto() === "update") {
-            self.updateRagProyectos(model, e);
+            await self.updateRagProyectos(model, e);
+          }
+          if (!iconSaveRagProject.classList.contains("hidden")){
+            setTimeout(()=>{
+              iconSaveRagProject.classList.add("hidden");
+              closeRagProyectoModal();
+            },800);
+           
           }
         }
         self.deleteRowRagProyecto = function () {
@@ -4521,7 +4844,6 @@
           self.selectedProject(selectedProject);
         }
         //#endregion
-        
         //#region MODAL TOOL PROYECTOS ACCIONES INSERT EDIT UPDATE DELETE
         //--------------- ACCIONES TOOL PROYECTOS ---------------
         self.btnNewToolProject = function () {
@@ -4536,6 +4858,7 @@
           self.selectedToolProyecto(tool);
         }
         self.addToolProyecto = async function (model, e) {
+          if (!self.validacionToolProyecto(model)) return;
           let selectedProject = self.selectedProject();
           let memberId = selectedProject._id;
           let tools = self.selectedProject().tools;
@@ -4548,6 +4871,7 @@
           closeToolProyectoModal();
         }
         self.updateToolProyecto = async function (model, e) {
+          if (!self.validacionToolProyecto(model)) return;
           const oldProject = self.selectedProject();
           const oldTool = self.selectedToolProyecto();
           let newTools = [];
@@ -4562,7 +4886,19 @@
           await UpdateProjectApi(selectedProject);
           self.selectedProject(selectedProject);
           closeToolProyectoModal();
-
+        }
+        self.validacionToolProyecto = function(model){
+          let validacion = true;
+          
+          if (self.nameToolProyecto().length ===0){
+            
+            msgValidNameToolProyecto.classList.remove("hidden");
+            validacion = false;
+          } else if (!msgValidNameToolProyecto.classList.contains("hidden")){
+            msgValidNameToolProyecto.classList.add("hidden");
+          }
+            
+          return validacion;
         }
         self.editToolProject = function (tool) {
           //console.log(tool);
@@ -4579,7 +4915,7 @@
 
         self.deleteToolProject = function (tool) {
           //console.log(tool);
-          self.actionBorrar("tool");
+          self.actionBorrar("toolProject");
           self.selectedToolProyecto(tool);
           openBorrarModal();
         }
@@ -4605,22 +4941,29 @@
         
         //#region MODAL ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO 
         //---------- ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO --------------------------
-        self.saveBorrar = function () {
+        self.saveBorrar = async function () {
+          iconBorrar.classList.remove("hidden");
           if (self.actionBorrar() === "proyecto") {
-            self.deleteRowProject();
+            await self.deleteRowProject();
           } else if (self.actionBorrar() === "miembro") {
-            self.deleteRowMember();
+            await self.deleteRowMember();
           } else if (self.actionBorrar() === "rag") {
-            self.deleteRowRag();
+            await self.deleteRowRag();
           } else if (self.actionBorrar() === "tool") {
-            self.deleteRowTool();
+            await self.deleteRowTool();
           } else if (self.actionBorrar() === "cliente") {
-            self.deleteRowClient();
+            await self.deleteRowClient();
           } else if (self.actionBorrar() === "miembroCliente") {
-            self.deleteRowMemberClient();
+            await self.deleteRowMemberClient();
           } else if (self.actionBorrar() === "ragProyecto") {
-            self.deleteRowRagProyecto();
+            await self.deleteRowRagProyecto();
+          } else if (self.actionBorrar() === "toolProject"){
+            await self.deleteRowToolProject();
           }
+          if (!iconBorrar.classList.contains("hidden")){
+             iconBorrar.classList.add("hidden")
+          }
+         
           closeBorrarModal();
         }
         //#endregion
@@ -4704,7 +5047,7 @@
         //queryProjectApi(self.projects);
         queryClientApi(self.clients);
       }
-      var viewModel = new AppViewModel();
+      //var viewModel = new AppViewModel();
 
       function loadViewModel() {
 
@@ -4765,7 +5108,7 @@
       const btnBorrarMensajes = document.getElementById('btn-borrar-mensajes')
       let messages = [];
       const url = 'localhost';
-      const port = '35164';
+      const port = '8105';
       const urlChat = (url && port) ? `http://${url}:${port}/api/test` : '/api/test';
       // Función para añadir mensajes al div de salida
       function addMessage(content, type) {
