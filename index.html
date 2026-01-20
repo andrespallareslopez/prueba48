@@ -1089,17 +1089,18 @@
           
         </section>
         <!-- #endregion -->
-
+        
         <!-- #region VIEW - TAB: MIEMBROS -->
         <section id="view-miembros" class="view-section relative h-full">
           <!-- #region NAVBAR MIEMBROS  -->
           <div class="max-w-7xl mx-auto px-0  rounded-lg border border-slate-500 mb-4 sm:px-0 lg:px-0">
             <div class="flex items-center justify-between h-10">
-              <nav class="flex items-center gap-4 text-sm font-medium">
+              <nav class="flex items-center gap-2 text-sm font-medium">
                 <button data-view="proyectomiembros"
                   class="top-tab-detalle-proyecto px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
                   Miembros
                 </button>
+                <div class="inline-block relative min-h-full bg-slate-500 text-slate-500">|</div>
                 <button data-view="proyectoragtool"
                   class="top-tab-detalle-proyecto px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
                   RAGs y Tools
@@ -1549,6 +1550,7 @@
                   <p class="mt-1 text-[11px] text-slate-500">
                     Usa un nombre claro y corto (lo verás en la lista de clientes).
                   </p>
+                   <p id="valid-name-client" class="mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                 </div>
 
                 <div>
@@ -1573,6 +1575,7 @@
                     class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
                     Guardar proyecto
                   </button>
+                  <span id="save-client-spin" class="icon-spin hidden"></span>
                 </div>
               </form>
             </div>
@@ -1627,6 +1630,7 @@
                   <p class="mt-1 text-[11px] text-slate-500">
                     Usa un nombre claro y corto (lo verás en la lista de proyectos).
                   </p>
+                  <p id="valid-name-project" class="mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                 </div>
 
                 <div>
@@ -1768,8 +1772,9 @@
                     <button type="submit" class="px-4 py-2.5 rounded-2xl bg-indigo-600 text-white text-xs font-semibold
                             shadow-sm shadow-indigo-600/30 hover:bg-indigo-700 active:scale-[0.99] transition"
                       data-bind="click: saveMemberClient">
-                      Guardar miembro
+                      Guardar
                     </button>
+                     <span id="save-member-client-spin" class="icon-spin hidden"></span>
                   </div>
                 </div>
               </form>
@@ -1849,8 +1854,9 @@
                     <button type="submit" class="px-4 py-2.5 rounded-2xl bg-indigo-600 text-white text-xs font-semibold
                             shadow-sm shadow-indigo-600/30 hover:bg-indigo-700 active:scale-[0.99] transition"
                       data-bind="click: saveMember">
-                      Guardar miembro
+                      Guardar
                     </button>
+                     <span id="save-member-spin" class="icon-spin hidden"></span>
                   </div>
                 </div>
               </form>
@@ -1859,7 +1865,6 @@
           </div>
         </div>
         <!-- #endregion -->
-        
          
         <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE BASE DATOS RAG PARA MIEBROS =============== -->
         <div id="modal-rag"
@@ -1953,6 +1958,7 @@
                     class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
                     Guardar RAG
                   </button>
+                   <span id="save-rag-member-spin" class="icon-spin hidden"></span>
                 </div>
               </form>
             </div>
@@ -2056,6 +2062,7 @@
                     class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
                     Guardar tool
                   </button>
+                  <span id="save-tool-member-spin" class="icon-spin hidden"></span>
                 </div>
               </form>
             </div>
@@ -2177,7 +2184,6 @@
         </div>
         <!-- #endregion -->
         
-        
         <!-- #region =============== MODAL: INSERTAR-EDIT-UPDATE TOOLS PARA PROYECTOS =============== -->
         <div id="modal-tool-proyecto"
           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
@@ -2272,8 +2278,9 @@
 
                   <button type="submit" data-bind="click: saveToolProject"
                     class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
-                    Guardar tool
+                    Guardar
                   </button>
+                  <span id="save-tool-project-spin" class="icon-spin hidden"></span>
                 </div>
               </form>
             </div>
@@ -2324,7 +2331,7 @@
 
                 <button type="submit"
                   class="px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-medium hover:bg-red-700"
-                  data-bind="click: saveBorrar">
+                  data-bind="click: btnDelete">
                   Sí, eliminar
                 </button>
                 <span id="borrar-spin" class="icon-spin hidden"></span>
@@ -2423,8 +2430,8 @@
         var x = document.querySelector(selector)
         if (x) x.remove()
       }
-
-
+      
+      
       removeIfExists('nav.navbar.navbar-expand');
       removeIfExists('ul.sidebar.navbar-nav');
       removeIfExists('footer.sticky-footer');
@@ -2433,15 +2440,20 @@
       //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
       const entorno = "dev"  //local -dev - prod
       const url = 'localhost';
-      const port = '8105';
+      const port = '29429';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
       const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
       const urlClient = (url && port) ? `http://${url}:${port}/api/clients` : `/api/clients`;
       const urlMemberClient = (url && port) ? `http://${url}:${port}/api/client/project` : `/api/client/project`;
+      const timeoutProgress= 600;
       //#endregion
       
       //#region LLAMADAS AJAX APLICACION
       
+      //---------------------------------------------------------------
+      //regiones con las llamadas ajax api de las diferentes identidades
+      //de la aplicacion
+
       //#region LLAMADAS Ajax API REST CLIENTS
        async function addClientApi(client) {
         if (entorno !== 'local') {
@@ -2547,6 +2559,7 @@
                 return {...f,id:f._id};
               });
               */
+              
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -2560,6 +2573,7 @@
           }
         }
       }
+      
         async function queryClientApi(setClients) {
         if (entorno !== 'local') {
           try {
@@ -2605,7 +2619,7 @@
       //#endregion
       
       //#region LLAMADAS Ajax API REST MEMBERSCLIENT
-      async function addMembersCientApi(member) {
+      async function addMembersClientApi(member) {
         if (entorno !== 'local') {
           try {
             const response = await fetch(urlMemberClient + '/insert', {
@@ -2960,7 +2974,7 @@
             }
 
             const result = await response.json();
-            console.log(result);
+            //console.log(result);
 
 
             if (result) {
@@ -2978,16 +2992,16 @@
                  
                 //return e;
               });
-              console.log(data);
+              //console.log(data);
               Promise.all(data).then((v) =>{
-                 console.log(v);
+                 //console.log(v);
                  const tempData = result.data.map( (e,i) =>{
-                    console.log(v[i]);
+                    //console.log(v[i]);
                     //return e.memberCount =await queryMembersByIDCount(e._id);
                     e.memberCount = v[i];
                     e.ragCount =  e.ragDatabases.length;
                     e.toolCount =  e.tools.length;
-                    console.log(e);
+                    //console.log(e);
                     return e;
                  });
 
@@ -3208,7 +3222,7 @@
 
               //  return { ...f, id: f._id };
               //});
-              console.log(result.data.length);
+              //console.log(result.data.length);
               return result.data.length; //setMembers(result.data);
 
             } else {
@@ -3229,15 +3243,17 @@
       }
       //#endregion 
       
-
+      //-----------------------------------------------------------------
       //#endregion    
-      //--------------------------------------------------------------------
       
       /************************************************************************************
-      //seleccionar elementos del DOM de la pagina, para poder manipular eventos click,
-      //establecer valores de entrada de tipo input o select  de los bloques HTML
-      //como MODAL o BOTON o NAVBAR o con VIEW - TAB
-      //que hemos etiquetado con el atributo region, en las distintas partes de la pagina
+      En las siguientes regiones vamos a seleccionar los siguientes tipos elementos HTML:
+      - Seleccionar elementos del DOM , para poder manipular eventos click de los cuadros
+        de dialogos modales, ocultar cuadro de dialgo, boton cancelar, boton guardar.
+      - Seleccionar INPUT o SELECT establecer valores de entrada de tipo input o select de 
+        los bloques HTML.
+      - Seleccionar ciertos botones de cuadros de dialogo modal, o ciertos botones de 
+        ciertas vistas
       **************************************************************************************/
       //#region NAVBAR-HEADER
       const tabs = document.querySelectorAll('.top-tab');
@@ -3559,18 +3575,21 @@
       //#endregion
       
       //#region MODAL INSERT-EDIT-UPDATE CLIENTE 
-
+      
       const modalClient = document.getElementById('modal-client');
-
+      
       const formClient = document.getElementById('form-client');
       const inputNameClient = formClient.querySelector('input[name="clientName"]');
       const inputDescriptionClient = formClient.querySelector('textarea[name="clientDescription"]');
-
-
+      
+      const msgValidNameClient = document.getElementById("valid-name-client");
+      
+      const iconSaveClient = document.getElementById("save-client-spin")
+      
       function openClientModal() {
         modalClient.classList.remove('hidden');
       }
-
+      
       function closeClientModal() {
         modalClient.classList.add('hidden');
         formProject.reset();
@@ -3578,7 +3597,7 @@
       modalClient.querySelectorAll('[data-close-client]').forEach((btn) => {
         btn.addEventListener('click', closeClientModal);
       });
-
+      
       modalClient.addEventListener('click', (e) => {
         if (e.target === modalClient) closeClientModal();
       });
@@ -3593,6 +3612,9 @@
       const inputNameProject = formProject.querySelector('input[name="projectName"]');
       const inputDescriptionProject = formProject.querySelector('textarea[name="projectDescription"]');
       //console.log(inputDescriptionProject);
+      
+      const msgValidNameProject = document.getElementById("valid-name-project");
+      
       const iconSaveProject = document.getElementById("save-project-spin");
 
       function openProjectModal() {
@@ -3629,7 +3651,13 @@
       
       const msgValidNameMemberClient = document.getElementById("valid-name-member-client");
       const msgValidEmeailMemberClient = document.getElementById("valid-email-member-client");
+      
+      
+      const iconSaveMemberClient = document.getElementById("save-member-client-spin");
 
+
+      console.log(iconSaveMemberClient);
+      
       function openMemberClientModal() {
         modalMemberClient.classList.remove('hidden');
       }
@@ -3654,10 +3682,11 @@
       const formMember = document.getElementById('form-member');
       const inputMemberName = formMember.querySelector('select[name="memberName"]');
       
-
+      
       const msgValidNameMember = document.getElementById("valid-name-member");
-
-
+      
+      const iconSaveMember = document.getElementById("save-member-spin");
+       
       function openMemberModal() {
         modalMember.classList.remove('hidden');
       }
@@ -3692,6 +3721,7 @@
       const msgValidTypeRag = document.getElementById("valid-type-rag-miembro");
       const msgValidFechaRag = document.getElementById("valid-fecha-rag-miembro");
       
+      const iconSaveRagMember = document.getElementById("save-rag-member-spin");
       
       function closeRagModal() {
         modalRag.classList.add('hidden');
@@ -3715,9 +3745,11 @@
       const inputToolType = formTool.querySelector('input[name="toolType"]');
       const inputSelectToolPermission = formTool.querySelector('select[name="toolPermission"]');
       
-      
       const msgValidNameTool = document.getElementById("valid-name-tool-miembro");
-       
+      
+      const iconSaveToolMember = document.getElementById("save-tool-member-spin");
+    
+      
       function closeToolModal() {
         modalTool.classList.add('hidden');
       }
@@ -3744,6 +3776,8 @@
       const msgValidTypeRagProyecto = document.getElementById("valid-type-rag-proyecto");
       const msgValidFechaRagProyecto = document.getElementById("valid-fecha-rag-proyecto");
       
+      const iconSaveRagProject = document.getElementById('save-rag-project-spin');
+
       function closeRagProyectoModal() {
         modalRagProyecto.classList.add('hidden');
       }
@@ -3756,7 +3790,6 @@
         if (e.target === modalRagProyecto) closeRagProyectoModal();
       });
       //#endregion  
-      
       //#region MODAL INSERT-EDIT-UPDATE TOOL PROYECTOS
 
       const modalToolProyecto = document.getElementById('modal-tool-proyecto');
@@ -3769,8 +3802,8 @@
 
       const msgValidNameToolProyecto = document.getElementById("valid-name-tool-proyecto");
       
-      const iconSaveRagProject = document.getElementById('save-rag-project-spin');
       
+      const iconSaveToolProject = document.getElementById("save-tool-project-spin");
       function closeToolProyectoModal() {
         modalToolProyecto.classList.add('hidden');
       }
@@ -3813,10 +3846,10 @@
       
       
       //#endregion
-
+      
        
       function debounce(func, wait, immediate) {
-        var timeout;
+        let timeout;
         return function () {
           var context = this, args = arguments;
           var later = function () {
@@ -3835,7 +3868,7 @@
       }
       
       // ------- VIEWMODEL KO KNOCKOUT JS -------
-
+      
       function AppViewModel() {
         const self = this;
         
@@ -3873,7 +3906,7 @@
          
         self.projectsClient.subscribe((d) => {
           //console.log("subscrito");  
-          console.log(d);
+          //console.log(d);
           //return d.map((e, i) => {
           //  e.memberCount = self.getProjectMemberCount(e._id);
           //  e.ragCount = e.ragDatabases.length;
@@ -3999,16 +4032,7 @@
           //console.log( self.membersClient().filter((f) => f.clientId === client._id));
           return self.membersClient().filter((f) => f.clientId === client._id);
         });
-        /*
-        self.getClientMemberCount = function(cliendId){
-            return 0;
-            
-        }
-        self.getClientProjectCount = function(clientId){
-            return 0;
-            
-        }
-        */
+       
         
         self.getClientProjectRagCount = function(projectId){
             return self.projectsClient().find(f => f._id === projectId).ragDatabases.length;
@@ -4048,10 +4072,13 @@
         //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE CLIENTE
         //--------- ACCIONES CLIENTE -----------------------
         self.btnNewClient = function () {
+          self.deleteMsgValidacionClient();
           self.actionClient("new");
           modalClient.classList.remove('hidden');
           self.nameClient("");
           self.descriptionClient("");
+          inputNameClient.value = "";
+          inputDescriptionClient.value = "";
         }
         self.selectClient = async function (client) {
           setActiveTab("detallecliente");
@@ -4065,7 +4092,7 @@
           
         }
         self.addClient = async function (model, e) {
-
+          if (!self.validacionClient(model)) return;
           let newClient = {
 
             name: model.nameClient(),
@@ -4076,9 +4103,10 @@
           }
           newClient = await addClientApi(newClient);
           self.clients.push(newClient);
-          closeClientModal();
+          //closeClientModal();
         }
         self.updateClient = function (model, e) {
+          if (!self.validacionClient(model)) return;
           const oldClient = self.selectedClient()
 
           let newClients = [];
@@ -4091,8 +4119,27 @@
             newClients.push(self.clients()[i]);
           });
           self.clients(newClients);
-          closeClientModal();
+          //closeClientModal();
         }
+        self.validacionClient = function(model){
+           let validacion = true;
+           if (model.nameClient().length === 0){
+            validacion = false;
+            msgValidNameClient.classList.remove("hidden");
+           } else if (!msgValidNameClient.classList.contains("hidden")){
+            msgValidNameClient.classList.add("hidden");
+           }
+
+           return validacion;
+        }
+        self.deleteMsgValidacionClient = function(){
+            if  (!msgValidNameClient.classList.contains("hidden")){
+                 msgValidNameClient.classList.add("hidden");
+            }
+            if (!iconSaveClient.classList.contains("hidden")){
+               iconSaveClient.classList.add("hidden");
+            }
+        } 
         self.deleteClient = function (client) {
           self.actionBorrar("cliente");
           self.selectedClient(client);
@@ -4100,18 +4147,29 @@
         }
         self.editClient = function (client) {
           //console.log(client);
+          self.deleteMsgValidacionClient();
           self.selectedClient(client)
           modalClient.classList.remove('hidden');
           self.actionClient("update");
           //console.log(inputNameClient);
+          self.nameClient(client.name);
+          slef.descriptionClient(client.description);
           inputNameClient.value = client.name;
           inputDescriptionClient.value = client.description;
         }
         self.saveClient = function (model, e) {
+          if (!self.validacionClient(model)) return;
+          iconSaveClient.classList.remove("hidden");
           if (self.actionClient() == "new") {
             self.addClient(model, e);
           } else if (self.actionClient() == "update") {
             self.updateClient(model, e);
+          }
+          if (!iconSaveClient.classList.contains("hidden")){
+            setTimeout(()=>{
+               iconSaveClient.classList.add("hidden");
+               closeClientModal();
+            },timeoutProgress);
           }
         }
         self.deleteRowClient = async function () {
@@ -4121,14 +4179,34 @@
           self.clients(newClients);
 
         }
+        self.deleteClientApiAll= async function(client) {
+          await queryProjectsByID(client._id,self.projectsClient);
+          await queryMembersClientByID(client._id,self.membersClient);
+          let deleteProjectsClient = self.projectsClient().map(async (e,i)=>{
+            const proyect = e;   
+            //await deleteProjectApi(e);
+            
+            
+          });
+          let deleteMembersClient = self.membersClient().map(async (e,i)=>{
+            const memberClient = e;  
+            
+            
+          });
+          
+        }
         //#endregion
         //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE PROYECTO
         // ----------- ACCIONES PROYECTO ------------------
         self.btnNewProject = function () {
+          self.deleteMsgValidacionProject();
           modalProject.classList.remove('hidden');
           self.actionProject("new");
           self.nameProject("");
           self.descriptionProject("");
+          inputNameProject.value = ""
+          inputDescriptionProject.innerHTML = ""
+          
         }
         self.selectProject = async function (project) {
           setActiveTab('miembros');
@@ -4142,11 +4220,12 @@
           await queryMembersByID(project._id, self.members);
           const firstMember = self.members().find((m) => m.projectId === project.id);
           self.selectedMember(firstMember || null);
-
+          
           //console.log(project);
         };
         self.addProject = async function (model, e) {
           //console.log(model);
+          
           inputNameProject.reportValidity();
           //console.log(inputNameProject.validity.valid);
           const client = self.selectedClient();
@@ -4168,8 +4247,8 @@
             project = await AddProjectApi(project);
             self.projectsClient().push(project);
             //console.log(self.projectsClient());
-
-            closeProjectModal();
+            
+            //closeProjectModal();
             //importante para que vuelta a consultar y nos devuelva via API todos los registros
             self.selectClient(client);
           } else {
@@ -4185,7 +4264,16 @@
           let newProjects = [];
           self.projectsClient().forEach((el, i) => {
             if (el.name === oldproject.name) {
-              const project = { id: oldproject._id, _id: oldproject._id, clientId: client._id, name: model.nameProject(), description: model.descriptionProject(), ragDatabases: oldproject.ragDatabases, tools: oldproject.tools }
+              const project = { id: oldproject._id,
+                               _id: oldproject._id, 
+                               clientId: client._id, 
+                               name: model.nameProject(), 
+                               description: model.descriptionProject(), 
+                               ragDatabases: oldproject.ragDatabases, 
+                               tools: oldproject.tools,
+                               memberCount: self.getProjectMemberCount(oldproject._id),
+                               ragCount: oldproject.ragDatabases.length,
+                               toolCount: oldproject.tools.length }
 
               self.projectsClient()[i] = project;
               UpdateProjectApi(project);
@@ -4194,9 +4282,30 @@
           })
           //console.log(self.projects());
           self.projectsClient(newProjects);
-          closeProjectModal();
+          //closeProjectModal();
         }
+        self.validacionProject = function(model){
+          let validacion = true;
+          
+          if (self.nameProject().length === 0){
+             validacion = false;
+             msgValidNameProject.classList.remove("hidden");
+          } else {
+            self.deleteMsgValidacionProject();
+          }
+          
+          return validacion;
+        }
+        self.deleteMsgValidacionProject = function(){
+            if  (!msgValidNameProject.classList.contains("hidden")){
+                 msgValidNameProject.classList.add("hidden");
+            }
+            if (!iconSaveProject.classList.contains("hidden")){
+              iconSaveProject.classList.add("hidden");
+            }
+        } 
         self.editProject = function (project) {
+          self.deleteMsgValidacionProject();
           self.actionProject("update");
           //console.log(project);
           //console.log(self.projects());
@@ -4209,9 +4318,8 @@
           //console.log(inputDescriptionProject);
           inputNameProject.value = project.name;
           inputDescriptionProject.innerHTML = project.description;
-
         }
-
+         
         self.deleteProject = function (project) {
           //console.log(project);
           self.actionBorrar("proyecto");
@@ -4220,6 +4328,8 @@
         }
         self.saveProject = async function (model, e) {
           //console.log(self.actionProject());
+          //console.log(e);
+          if (!self.validacionProject(model)) return ;
           iconSaveProject.classList.remove("hidden");
           if (self.actionProject() === "new") {
             await self.addProject(model, e);
@@ -4227,7 +4337,10 @@
             await self.updateProject(model, e);
           }
           if (!iconSaveProject.classList.contains("hidden")){
-            iconSaveProject.classList.add("hidden");
+            setTimeout(()=>{
+              iconSaveProject.classList.add("hidden");
+              closeProjectModal();
+            },timeoutProgress);
           }
         }
         self.deleteRowProject = async function () {
@@ -4244,12 +4357,18 @@
         //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE MIEMBROS CLIENTE 
         //------ ACCIONES MIEMBRO CLIENTE ---------------
         self.btnNewClientMember = function () {
+          self.deleteMsgValidacionMemberClient();
           self.actionMemberClient("new");
           modalMemberClient.classList.remove('hidden');
           self.nameMemberClient("");
           self.emailMemberClient("");
           self.roleMemberClient("")
           self.estadoMemberClient("");
+          inputMemberClientName.value = "";
+          inputMemberClientEmail.value = "";
+          selectMemberClientRole.value = "Admin";
+          selectMemberClientStatus.value = "Activo";
+           
         }
         self.selectMemberClient = function (memberClient) {
           self.selectedMemberClient(memberClient);
@@ -4259,12 +4378,12 @@
         }
         self.addMemberClient = async function (model, e) {
           if (!self.validacionMemberClient(model)) return;
-
+          
           const client = self.selectedClient();
           
           let memberClient = {
             //id:uuid.v4(),
-            projectId: self.selectedProject()._id,
+            //projectId: self.selectedProject()._id,
             clientId: client._id,
             name: model.nameMemberClient(),
             email: model.emailMemberClient(),
@@ -4275,10 +4394,10 @@
           if (entorno === "local") {
             memberClient._id = uuid.v4()
           }
-          memberClient = await addMembersCientApi(memberClient);
+          memberClient = await addMembersClientApi(memberClient);
           self.membersClient.push(memberClient);
 
-          closeMemberClientModal();
+          //closeMemberClientModal();
           self.selectClient(client);
         }
         self.validacionMemberClient = function(model){
@@ -4295,12 +4414,23 @@
             msgValidEmeailMemberClient.classList.remove("hidden");
             validacion = false
            } else if (!msgValidEmeailMemberClient.classList.contains("hidden")){
-            msgValidEmeailMemberClient.classList.add("hidden");
+               msgValidEmeailMemberClient.classList.add("hidden");
            }
            
-            
            return validacion;
         }
+         self.deleteMsgValidacionMemberClient = function(){
+            if  (!msgValidNameMemberClient.classList.contains("hidden")){
+                  msgValidNameMemberClient.classList.add("hidden");
+            }
+            
+            if (!msgValidEmeailMemberClient.classList.contains("hidden")){
+               msgValidEmeailMemberClient.classList.add("hidden");
+            }
+            if (!iconSaveMemberClient.classList.contains("hidden")){
+               iconSaveMemberClient.classList.add("hidden");
+          }
+        } 
         self.updateMemberClient = function (model, e) {
           if (!self.validacionMemberClient(model)) return;
           const oldMemberClient = self.selectedMemberClient();
@@ -4309,16 +4439,23 @@
           let newMembersClient = [];
           self.membersClient().forEach((el, i) => {
             if (el._id === oldMemberClient._id) {
-              const memberClient = { _id: oldMemberClient._id, clientId: client._id, projectId: oldMemberClient.projectId, name: model.nameMemberClient(), email: model.emailMemberClient(), role: model.roleMemberClient(), status: model.estadoMemberClient() }
+              const memberClient = { _id: oldMemberClient._id,
+                                     clientId: client._id, 
+                                     //projectId: oldMemberClient.projectId, 
+                                     name: model.nameMemberClient(), 
+                                     email: model.emailMemberClient(), 
+                                     role: model.roleMemberClient(), 
+                                     status: model.estadoMemberClient() }
               self.membersClient()[i] = memberClient;
               updateMembersClientApi(memberClient); 
             }
             newMembersClient.push(self.membersClient()[i]);
           });
           self.membersClient(newMembersClient);
-          closeMemberClientModal();
+          //closeMemberClientModal();
         }
         self.editClientMember = function (memberClient) {
+          self.deleteMsgValidacionMemberClient();
           modalMemberClient.classList.remove('hidden');
           self.selectedMemberClient(memberClient);
           self.actionMemberClient("update");
@@ -4336,12 +4473,21 @@
           self.selectedMemberClient(memberClient);
           openBorrarModal();
         }
-        self.saveMemberClient = function (model, e) {
+        self.saveMemberClient = async function (model, e) {
+          if (!self.validacionMemberClient(model)) return;
+          iconSaveMemberClient.classList.remove("hidden");         
           if (self.actionMemberClient() == "new") {
-            self.addMemberClient(model, e);
+            await self.addMemberClient(model, e);
           } else if (self.actionMemberClient() == "update") {
-            self.updateMemberClient(model, e);
+            await self.updateMemberClient(model, e);
           }
+          if (!iconSaveMemberClient.classList.contains("hidden")){
+            setTimeout(()=>{
+               iconSaveMemberClient.classList.add("hidden");
+               closeMemberClientModal();
+            },timeoutProgress)
+          }
+
         }
         self.deleteRowMemberClient = async function () {
           let newMembersClient = [];
@@ -4353,12 +4499,14 @@
         //#region MODAL ACCIONES INSERT EDIT UPDATE DELETE MIEMBRO 
         // ----------- ACCIONES MIEMBRO --------------------
         self.btnNewMember = function () {
+          self.deleteMsgValidacionMember();
           self.actionMember("new");
           modalMember.classList.remove('hidden');
           self.nameMember("");
           self.emailMember("");
           self.roleMember("")
           self.estadoMember("");
+
         }
         self.selectMember = function (member) {
           self.selectedMember(member);
@@ -4398,7 +4546,7 @@
           self.members.push(member);
 
           //console.log(self.members())
-          closeMemberModal();
+          //closeMemberModal();
           await queryProjectsByID(self.selectedClient()._id,self.projectsClient);
         }
         self.updateMember = function (model, e) {
@@ -4425,7 +4573,7 @@
             newMembers.push(self.members()[i]);
           });
           self.members(newMembers);
-          closeMemberModal();
+          //closeMemberModal();
         }
         self.updateMemberArray = function (model) {
           const oldMember = self.selectedMember();
@@ -4438,39 +4586,23 @@
          
         }
         self.editMember = function (member) {
-          console.log(member)
+          //console.log(member)
+          self.deleteMsgValidacionMember();
           modalMember.classList.remove('hidden');
           
-          /*
-          let member = {
-            //id:uuid.v4(),
-            projectId: self.selectedProject()._id,
-            name: self.nameMember(),
-            email: self.emailMember(),
-            role: self.roleMember(),
-            status: self.estadoMember(),
-            ragDatabases: [],
-            tools: []
-          };
-          if (entorno === 'local') {
-            member._id = uuid.v4()
-          }
-          */
+          
           self.selectedMember(member);
           self.actionMember("update");
           self.nameMember(member.name);
           self.emailMember(member.email);
           self.roleMember(member.role)
           self.estadoMember(member.status);
-          //inputMemberName.value = member.name;
-          //inputMemberEmail.value = member.email;
-          //selectMemberRole.value = member.role;
-          //selectMemberStatus.value = member.status;
+         
         }
         self.validacionMember = function(model){
           let validacion = true
           
-          console.log(inputMemberName.value);
+          //console.log(inputMemberName.value);
           if (inputMemberName.value.length === 0){
              msgValidNameMember.classList.remove("hidden");
              validacion = false;
@@ -4482,20 +4614,37 @@
           return validacion;
           //return false;
         }
+        self.deleteMsgValidacionMember = function(){
+           if (!msgValidNameMember.classList.contains("hidden")){
+            msgValidNameMember.classList.add("hidden");
+           }
+           if (!iconSaveMember.classList.contains("hidden")){
+              iconSaveMember.classList.add("hidden");
+           }
+
+         }
         self.deleteMember = function (member) {
           //console.log(member);
           self.actionBorrar("miembro");
           self.selectedMember(member);
           openBorrarModal();
         }
-        self.saveMember = function (model, e) {
+        self.saveMember = async function (model, e) {
           //console.log(model.nameMember());
-
+           if (!self.validacionMember(model)) return;
+          iconSaveMember.classList.remove("hidden");
           if (self.actionMember() == "new") {
-            self.addMember(model, e);
+            await self.addMember(model, e);
           } else if (self.actionMember() == "update") {
-            self.updateMember(model, e);
+            await self.updateMember(model, e);
           }
+          if (!iconSaveMember.classList.contains("hidden")){
+            setTimeout(()=>{
+               iconSaveMember.classList.add("hidden");
+               closeMemberModal();
+            },timeoutProgress);
+          }
+
         }
         self.deleteRowMember = async function () {
           let newMembers = [];
@@ -4509,6 +4658,7 @@
         //-------------- ACCIONES BASE DE DATOS RAG ---------------------
         self.btnNewRag = function () {
           //console.log("estoy en click RAG");
+          self.deleteMsgValidacionRag();
           self.actionRag("new");
           modalRag.classList.remove('hidden');
           self.nameRag("");
@@ -4538,7 +4688,7 @@
           //console.log(self.filteredMembers());
           //console.log(self.members());
           //self.updateMemberArray(model);
-          closeRagModal()
+          //closeRagModal()
         }
         self.updateRag = async function (model, e) {
           if (!self.validacionRag(model)) return;
@@ -4557,7 +4707,7 @@
           await updateMembersApi(selectedMember);
           self.selectedMember(selectedMember);
           //self.updateMemberArray(model);
-          closeRagModal()
+          //closeRagModal()
 
         }
         self.validacionRag = function(model){
@@ -4584,8 +4734,23 @@
            
            return validate;
         }
+        self.deleteMsgValidacionRag = function(){
+           if (!msgValidNameRag.classList.contains("hidden")){
+              msgValidNameRag.classList.add("hidden");
+           }
+           if(!msgValidTypeRag.classList.contains("hidden")){
+              msgValidTypeRag.classList.add("hidden")
+           }
+           if (!msgValidFechaRag.classList.contains("hidden")){
+              msgValidFechaRag.classList.add("hidden");
+           }
+           if (!iconSaveRagMember.classList.contains("hidden")){
+              iconSaveRagMember.classList.add("hidden");
+           }
+        }
         self.editRag = function (rag) {
           //console.log(rag);
+          self.deleteMsgValidacionRag();
           modalRag.classList.remove('hidden');
           self.selectedRag(rag);
           self.actionRag("update");
@@ -4596,19 +4761,27 @@
           selecttRagType.value = rag.type;
           inputRagLastUpdate.value = rag.lastUpdate;
         }
-
+         
         self.deleteRag = function (rag) {
           //console.log(rag);
           self.actionBorrar("rag");
           self.selectedRag(rag);
           openBorrarModal();
-
+          
         }
-        self.saveRag = function (model, e) {
+        self.saveRag = async function (model, e) {
+           if (!self.validacionRag(model)) return;
+          iconSaveRagMember.classList.remove("hidden");
           if (self.actionRag() === "new") {
-            self.addRag(model, e);
+            await self.addRag(model, e);
           } else if (self.actionRag() === "update") {
-            self.updateRag(model, e);
+            await self.updateRag(model, e);
+          }
+          if (!iconSaveRagMember.classList.contains("hidden")){
+            setTimeout(()=>{
+              iconSaveRagMember.classList.add("hidden");
+              closeRagModal();
+            },timeoutProgress);
           }
         }
         self.deleteRowRag = function () {
@@ -4626,11 +4799,15 @@
         //--------------- ACCIONES TOOL ---------------
         self.btnNewTool = function () {
           //console.log("opentoolmodal");
+          self.deleteMsgValidacionTool();
           self.actionTool("new");
           modalTool.classList.remove('hidden');
           self.nameTool("");
           self.tipoTool("");
           self.permisoTool("");
+           inputToolName.value = "";
+          inputToolType.value = "";
+          inputSelectToolPermission.text = "Sin especificar";
         }
         self.selectTool = function (tool) {
           self.selectedTool(tool);
@@ -4647,7 +4824,7 @@
           selectedMember = await addMembersApi(selectedMember);
           self.selectedMember(selectedMember);
           //self.updateMemberArray(model);
-          closeToolModal();
+          //closeToolModal();
         }
         self.updateTool = async function (model, e) {
           if (!self.validacionTool(model)) return;
@@ -4664,14 +4841,13 @@
           let selectedMember = self.selectedMember();
           await updateMembersApi(selectedMember);
           self.selectedMember(selectedMember);
-          closeToolModal();
+          //closeToolModal();
 
         }
         self.validacionTool = function(model){
           let validacion = true;
           
-          if (self.nameTool().length ===0){
-            
+          if (self.nameTool().length === 0){
             msgValidNameTool.classList.remove("hidden");
             validacion = false;
           } else if (!msgValidNameTool.classList.contains("hidden")){
@@ -4680,8 +4856,17 @@
             
           return validacion;
         }
+        self.deleteMsgValidacionTool = function(){
+          if (!msgValidNameTool.classList.contains("hidden")){
+            msgValidNameTool.classList.add("hidden");
+          }
+          if (!iconSaveToolMember.classList.contains("hidden")){
+            iconSaveToolMember.classList.add("hidden");
+          }
+        }
         self.editTool = function (tool) {
           //console.log(tool);
+          self.deleteMsgValidacionTool();
           modalTool.classList.remove('hidden');
           self.selectedTool(tool);
           self.actionTool("update");
@@ -4700,10 +4885,18 @@
           openBorrarModal();
         }
         self.saveTool = function (model, e) {
+          if (!self.validacionTool(model)) return;
+          iconSaveToolMember.classList.remove("hidden");
           if (self.actionTool() === "new") {
             self.addTool(model, e);
           } else if (self.actionTool() === "update") {
             self.updateTool(model, e);
+          }
+          if (!iconSaveToolMember.classList.contains("hidden")){
+            setTimeout(()=>{
+               iconSaveToolMember.classList.add("hidden");
+               closeToolModal();
+            },timeoutProgress);
           }
         }
         self.deleteRowTool = function () {
@@ -4721,6 +4914,7 @@
         //#region MODAL RAG PROYECTOS ACCIONES INSERT_EDIT_UPDATE 
         self.btnNewRagProyecto = function () {
           //console.log("estoy en click RAG");
+          self.deleteMsgValidacionRagProyecto();
           msgValidNameRagProyecto.classList.add("hidden");
           msgValidTypeRagProyecto.classList.add("hidden"); 
           msgValidFechaRagProyecto.classList.add("hidden");
@@ -4729,10 +4923,14 @@
           self.nameRagProyecto("");
           self.tipoRagProyecto("sin especificar");
           self.fechaRagProyecto("");
+          inputRagNameProyectos.value = "";
+          selecttRagTypeProyectos.value = "sin especificar";
+          inputRagLastUpdateProyectos.value = "";
         }
 
         self.editProjectRag = function (ragProyectos) {
           //console.log(ragProyectos);
+          self.deleteMsgValidacionRagProyecto();
           msgValidNameRagProyecto.classList.add("hidden");
           msgValidTypeRagProyecto.classList.add("hidden"); 
           msgValidFechaRagProyecto.classList.add("hidden");
@@ -4812,13 +5010,29 @@
            
            return validate;
         }
-        self.deleteProjectRag = function (ragProyectos) {
+        self.deleteMsgValidacionRagProyecto = function(){
+           if (!msgValidNameRagProyecto.classList.contains("hidden")){
+             msgValidNameRagProyecto.classList.add("hidden");
+           }
+           if(!msgValidTypeRagProyecto.classList.contains("hidden")){
+            msgValidTypeRagProyecto.classList.add("hidden")
+           }
+           if (!msgValidFechaRagProyecto.classList.contains("hidden")){
+            msgValidFechaRagProyecto.classList.add("hidden");
+           }
+           if (!iconSaveRagProject.classList.contains("hidden")){
+              iconSaveRagProject.classList.add("hidden");
+           }
 
+        }
+        self.deleteProjectRag = function (ragProyectos) {
+          
           self.actionBorrar("ragProyecto");
           self.selectedRagProyecto(ragProyectos);
           openBorrarModal();
         }
         self.saveRagProyectos = async function (model, e) {
+          if (!self.validacionRagProyecto(model)) return;
           iconSaveRagProject.classList.remove("hidden");
           if (self.actionRagProyecto() === "new") {
             await self.addRagProyectos(model, e);
@@ -4829,7 +5043,7 @@
             setTimeout(()=>{
               iconSaveRagProject.classList.add("hidden");
               closeRagProyectoModal();
-            },800);
+            },timeoutProgress);
            
           }
         }
@@ -4848,11 +5062,15 @@
         //--------------- ACCIONES TOOL PROYECTOS ---------------
         self.btnNewToolProject = function () {
           //console.log("opentoolmodal");
+          self.deleteMsgValidacionToolProyecto();
           self.actionToolProyecto("new");
           modalToolProyecto.classList.remove('hidden');
           self.nameToolProyecto("");
           self.tipoToolProyecto("");
-          self.permisoToolProyecto("");
+          self.permisoToolProyecto("Sin especificar");
+          inputToolNameProyecto.value = "";
+          inputToolTypeProyecto.value = "";
+          inputSelectToolPermissionProyecto.text = "Sin especificar";
         }
         self.selectToolProyecto = function (tool) {
           self.selectedToolProyecto(tool);
@@ -4868,7 +5086,7 @@
           selectedProject = await AddProjectApi(selectedProject);
           self.selectedProject(selectedProject);
           //self.updateMemberArray(model);
-          closeToolProyectoModal();
+          //closeToolProyectoModal();
         }
         self.updateToolProyecto = async function (model, e) {
           if (!self.validacionToolProyecto(model)) return;
@@ -4885,7 +5103,7 @@
           let selectedProject = self.selectedProject();
           await UpdateProjectApi(selectedProject);
           self.selectedProject(selectedProject);
-          closeToolProyectoModal();
+          //closeToolProyectoModal();
         }
         self.validacionToolProyecto = function(model){
           let validacion = true;
@@ -4896,12 +5114,20 @@
             validacion = false;
           } else if (!msgValidNameToolProyecto.classList.contains("hidden")){
             msgValidNameToolProyecto.classList.add("hidden");
-          }
-            
+          }  
           return validacion;
+        }
+        self.deleteMsgValidacionToolProyecto = function(){
+          if (!msgValidNameToolProyecto.classList.contains("hidden")){
+            msgValidNameToolProyecto.classList.add("hidden");
+          }
+          if (!iconSaveToolProject.classList.contains("hidden")){
+              iconSaveToolProject.classList.add("hidden");
+          }  
         }
         self.editToolProject = function (tool) {
           //console.log(tool);
+          self.deleteMsgValidacionToolProyecto();
           modalToolProyecto.classList.remove('hidden');
           self.selectedToolProyecto(tool);
           self.actionToolProyecto("update");
@@ -4919,11 +5145,19 @@
           self.selectedToolProyecto(tool);
           openBorrarModal();
         }
-        self.saveToolProject = function (model, e) {
+        self.saveToolProject = async function (model, e) {
+          if (!self.validacionToolProyecto(model)) return;
+          iconSaveToolProject.classList.remove("hidden");
           if (self.actionToolProyecto() === "new") {
-            self.addToolProyecto(model, e);
+            await self.addToolProyecto(model, e);
           } else if (self.actionToolProyecto() === "update") {
-            self.updateToolProyecto(model, e);
+            await self.updateToolProyecto(model, e);
+          }
+          if (!iconSaveToolProject.classList.contains("hidden")){
+            setTimeout(()=>{
+              iconSaveToolProject.classList.add("hidden");
+              closeToolProyectoModal();
+            },timeoutProgress);
           }
         }
         self.deleteRowToolProject = function () {
@@ -4941,7 +5175,7 @@
         
         //#region MODAL ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO 
         //---------- ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO --------------------------
-        self.saveBorrar = async function () {
+        self.btnDelete = async function () {
           iconBorrar.classList.remove("hidden");
           if (self.actionBorrar() === "proyecto") {
             await self.deleteRowProject();
@@ -4961,10 +5195,11 @@
             await self.deleteRowToolProject();
           }
           if (!iconBorrar.classList.contains("hidden")){
-             iconBorrar.classList.add("hidden")
+            setTimeout(()=>{ 
+              iconBorrar.classList.add("hidden")
+              closeBorrarModal();
+            },timeoutProgress);
           }
-         
-          closeBorrarModal();
         }
         //#endregion
         
@@ -5054,10 +5289,10 @@
         ko.applyBindings(new AppViewModel());
       }
       loadViewModel();
-
+       
       //queryProjectApi()
-
-
+      
+      
     }); //END OF addEventListener("DOMContentLoaded"
 
   </script>
@@ -5108,7 +5343,7 @@
       const btnBorrarMensajes = document.getElementById('btn-borrar-mensajes')
       let messages = [];
       const url = 'localhost';
-      const port = '8105';
+      const port = '29429';
       const urlChat = (url && port) ? `http://${url}:${port}/api/test` : '/api/test';
       // Función para añadir mensajes al div de salida
       function addMessage(content, type) {
@@ -5118,11 +5353,11 @@
         const contentUserTemplate = `
               <div class="flex gap-2">
                 <div class="w-7 h-7 rounded-full bg-slate-300 flex items-center justify-center text-[10px] font-semibold text-slate-800" >
-                  ${getInitials(globalMiembro.name)}
+                  ${getInitials(globalMiembro.name || "Usuario")}
                 </div>
                 <div>
                   <div class="text-[11px] text-slate-500 mb-0.5">
-                    ${globalMiembro.name}
+                    ${globalMiembro.name || "Usuario"}
                   </div>
                   <div class="inline-block bg-white rounded-xl px-3 py-2 shadow-sm border border-slate-200">
                      ${content}
@@ -5201,10 +5436,10 @@
           //console.log(data)
           // data.message contiene texto+HTML que renderizamos
           if (data && typeof data.choices[0].message.content === 'string') {
-
-            messages = addHistoryUser(data.choices[1].message.content);
-            addMessage(marked.parse(data.choices[1].message.content), 'bot');
-
+            const message = data.choices[0].message.content
+            messages = addHistoryUser(message);
+            addMessage(marked.parse(message), 'bot');
+            
           } else {
             throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
           }
