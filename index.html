@@ -2438,7 +2438,7 @@
       //#region VARIABLES GLOBALES PROYECTO URLs y PUERTO
       //tanto el url como el port hay que ponerlo como undefined, para que quede como /api/projects y /api/members, el
       //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
-      const entorno = "dev"  //local -dev - prod
+      const entorno = "local"  //local -dev - prod
       const url = 'localhost';
       const port = '29429';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
@@ -3375,9 +3375,8 @@
           name: "cliente 3",
           description: "descripcion cliente 3"
         }
-      ]
-
-
+      ];
+      
       let mockProjectsClient = [
         {
           _id: "proj-001",
@@ -3907,16 +3906,18 @@
         self.projectsClient.subscribe((d) => {
           //console.log("subscrito");  
           //console.log(d);
-          //return d.map((e, i) => {
-          //  e.memberCount = self.getProjectMemberCount(e._id);
-          //  e.ragCount = e.ragDatabases.length;
-          //  e.toolCount = e.tools.length;
-            //console.log(e);
-          //  return e;
-          //});
+          if (entorno === "local"){
+              return d.map((e, i) => {
+                e.memberCount = self.getProjectMemberCount(e._id);
+                e.ragCount = e.ragDatabases.length;
+                e.toolCount = e.tools.length;
+                //console.log(e);
+                return e;
+              });
+          }  
         });
-       
-       
+        
+        
         self.filterMembers = ko.observableArray([]);
         self.ragType = ko.observableArray(mockRagType);
         //console.log(self.projects.length);
@@ -4015,7 +4016,8 @@
           if (!client) return [];
           //console.log(self.projectsClient().filter((f) => f.clientId === client._id));
           return self.projectsClient().filter((f) => f.clientId === client._id).map((e, i) => {
-            //e.memberCount =(self.members().length ===0 ) ? e.memberCount : self.getProjectMemberCount(e._id);
+            if (entorno === "local")
+                e.memberCount =(self.members().length ===0 ) ? e.memberCount : self.getProjectMemberCount(e._id);
             
             e.ragCount = self.getClientProjectRagCount(e._id);
             e.toolCount = self.getClientProjectToolCount(e._id);

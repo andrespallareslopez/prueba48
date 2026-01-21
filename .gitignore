@@ -31,3 +31,17 @@ docs
 src/data/coding/output
 src/data/coding/output/application.log
 package-lock.json
+.venv
+backend/__pycache__
+backend/migrations/__pycache__
+backend/migrations/versions/__pycache__
+backend/tests/__pycache__
+backend/workflow/__pycache__
+backend/workflow/src/data
+backend/workflow/src/data/coding/output
+backend/workflow/src/data/coding/output/application.log
+backend/workflow/src/data/token_data.json
+backend/workflow/src/data/.venv
+backend/workflow/.venv
+backend/workflow/src/.venv
+backend/.env
