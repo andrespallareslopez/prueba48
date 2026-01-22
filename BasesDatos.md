@@ -1,8 +1,8 @@
 # Schema of Bases de datos IBIOLS
 
-DataBase name EFFICIENCY
+DataBase named: EFFICIENCY
 
-Schema named IBIOLS
+Schema named: IBIOLS
 
 Entities:
 - Clients

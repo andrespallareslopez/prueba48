@@ -227,18 +227,90 @@ app.version = "1.0.0"
 def read_root():
     return {"Hello": "World"}
 
-app.get("/movies", tags=["root"])
-def read_movies():
-    return {"Hello": "World"}
+app.get("/movies/{id}", tags=["root"])
+def read_movies(id:int):
+    for movie in movies:
+        if movie["id"] = id
+           return movie
+    return movie
 
 app.get("/ejemplo", tags=["root"])
 def read_ejemplo():
     return HTMLResponse("<h1>Mi página con HTML</h1>")
 
+# parametros dentro de llaves
+app.get("/lista/{id}", tags=["root"])
+def read_lista(id: int):
+    return id
 
-app.get("/lista", tags=["root"])
-def read_lista():
-    return movies
 
 ~~~
 
+## 07. Parámetros Query | Curso de Introducción a FastAPI 2024
+
+https://www.youtube.com/watch?v=C61djwbPCew&list=PLHftsZss8mw7pSRpCyd-TM4Mu43XdyB3R&index=8
+
+
+
+~~~
+from fastapi import FastAPI
+from fastapi.responses import HTMLResponse
+
+
+app = FastAPI()
+
+# crear una lista de movies
+
+movies = [
+    {
+        "title": "The Matrix",
+        "year": 1999,
+        "rating": 8.7,
+        "category": "Sci-Fi"
+    },
+    {
+        "title": "The Godfather",
+        "year": 1972,
+        "rating": 9.2,
+        "category": "Crime"
+    },
+    {
+        "title": "The Dark Knight",
+        "year": 2008,
+        "rating": 9.0,
+        "category": "Action"
+    }
+]
+
+
+app.title = "Mi API con FastAPI"
+app.version = "1.0.0"   
+
+
+# devolvemos un diccionario
+@app.get("/", tags=["root"])
+def read_root():
+    return {"Hello": "World"}
+
+
+# pasar parametros y devolver un elemento del array movies
+app.get("/movies/{id}", tags=["root"])
+def read_movies(id:int):
+    for movie in movies:
+        if movie["id"] = id
+           return movie
+    return movie
+
+app.get("/ejemplo", tags=["root"])
+def read_ejemplo():
+    return HTMLResponse("<h1>Mi página con HTML</h1>")
+
+# parametros dentro de llaves
+app.get("/lista/{id}", tags=["root"])
+def read_lista(id: int):
+    return id
+
+
+
+
+~~~
