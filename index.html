@@ -931,7 +931,7 @@
                   </div>
                 </div>
 
-                <button data-bind="click: $root.selectClient" class="w-full">
+                <button data-bind="click: $root.selectClient" class="w-full" style="outline: none ;">
                   <div style="text-align: left;" class="font-semibold text-slate-800 text-sm" data-bind="text: name">
                   </div>
 
@@ -2438,9 +2438,9 @@
       //#region VARIABLES GLOBALES PROYECTO URLs y PUERTO
       //tanto el url como el port hay que ponerlo como undefined, para que quede como /api/projects y /api/members, el
       //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
-      const entorno = "local"  //local -dev - prod
+      const entorno = "dev"  //local -dev - prod
       const url = 'localhost';
-      const port = '29429';
+      const port = '59225';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
       const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
       const urlClient = (url && port) ? `http://${url}:${port}/api/clients` : `/api/clients`;
@@ -5335,6 +5335,7 @@
   </script>
 
   <script>
+
     //#region CODIGO RELACIONADO CON EL CHAT IA
     const chatIA = function () {
       const form = document.getElementById('form');
@@ -5345,7 +5346,7 @@
       const btnBorrarMensajes = document.getElementById('btn-borrar-mensajes')
       let messages = [];
       const url = 'localhost';
-      const port = '29429';
+      const port = '59225';
       const urlChat = (url && port) ? `http://${url}:${port}/api/test` : '/api/test';
       // Función para añadir mensajes al div de salida
       function addMessage(content, type) {
@@ -6141,6 +6142,7 @@
     draganddrop();
 
     //#endregion
+  
   </script>
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
