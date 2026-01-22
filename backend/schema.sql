@@ -1,3 +1,9 @@
+
+--Crear la base de datos
+
+--CREATE DATABASE EFFICIENCY
+
+
 -- Schema for EFFICIENCY API
 -- Generated from SQLAlchemy models in backend/app/models.py
 
