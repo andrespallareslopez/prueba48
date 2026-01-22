@@ -45,3 +45,6 @@ backend/workflow/src/data/.venv
 backend/workflow/.venv
 backend/workflow/src/.venv
 backend/.env
+backend/app/__pycache__
+backend/app/routers/__pycache__
+
