@@ -2438,261 +2438,15 @@
       //#region VARIABLES GLOBALES PROYECTO URLs y PUERTO
       //tanto el url como el port hay que ponerlo como undefined, para que quede como /api/projects y /api/members, el
       //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
-      const entorno = "local"  //local -dev - prod
+      const entorno = "dev"  //local -dev - prod
       const url = 'localhost';
       const port = '41414';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
       const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
       const urlClient = (url && port) ? `http://${url}:${port}/api/clients` : `/api/clients`;
       const urlMemberClient = (url && port) ? `http://${url}:${port}/api/client/project` : `/api/client/project`;
-      const urlRag = (url && port) ? `http://${url}:${port}/api/rag-databases` : `/api/rag-databases`;
-      const urlTool = (url && port) ? `http://${url}:${port}/api/tools` : `/api/tools`;
       const timeoutProgress= 600;
       //#endregion
-      
-      //#region DATOS MOCK ENTIDADES
-      // ------- DATOS MOCK (clientes,proyectos,miembrosClientes miembros, RAGs, tools) -------
-      let mockClients = [
-        {
-          _id: "1",
-          name: "cliente 1",
-          description: "descripcion cliente 1"
-        },
-        {
-          _id: "2",
-          name: "cliente 2",
-          description: "descripcion cliente 2"
-        },
-        {
-          _id: "3",
-          name: "cliente 3",
-          description: "descripcion cliente 3"
-        }
-      ];
-      
-      let mockProjectsClient = [
-        {
-          _id: "proj-001",
-          clientId: "1",
-          name: "Plataforma RAG Financiera",
-          description: "Sistema RAG para consulta inteligente de documentación financiera interna.",
-          ragDatabases: [/*
-            { id: 1, memberId: 1, name: 'Documentacion Temis', type: 'Vectorial', lastUpdate: '2025-10-12' },
-            { id: 2, memberId: 1, name: 'Documentacion Inmobiliaria', type: 'Vectorial', lastUpdate: '2025-09-03' },
-            { id: 3, memberId: 1, name: 'Documentacion Financiera', type: 'Mixto', lastUpdate: '2025-08-25' },*/
-          ],
-          tools: [/*
-            { id: 1, memberId: 1, name: 'Conector Hacienda', type: 'API', permission: 'Lectura / Escritura' },
-            { id: 2, memberId: 1, name: 'Conector Confluence', type: 'API', permission: 'Solo lectura' },
-            { id: 3, memberId: 1, name: 'SQL Runner', type: 'Tool', permission: 'Restringido' },*/
-          ],
-        },
-        {
-          _id: "proj-002",
-          clientId: "1",
-          name: "Asistente Legal IA",
-          description: "Asistente conversacional para apoyo jurídico basado en normativa vigente.",
-          ragDatabases: [/*
-            { id: 1, memberId: 1, name: 'Documentacion RIMA4', type: 'Vectorial', lastUpdate: '2025-10-12' },
-            { id: 2, memberId: 1, name: 'Documentacion ORQUESTADOR', type: 'Vectorial', lastUpdate: '2025-09-03' },
-            { id: 3, memberId: 1, name: 'Documentacion ADA', type: 'Mixto', lastUpdate: '2025-08-25' },*/
-          ],
-          tools: [/*
-            { id: 1, memberId: 1, name: 'Conector CATASTRO', type: 'API', permission: 'Lectura / Escritura' },
-            { id: 2, memberId: 1, name: 'Conector INE', type: 'API', permission: 'Solo lectura' },
-            { id: 3, memberId: 1, name: 'PROCESO ARCANO', type: 'Tool', permission: 'Restringido' },*/
-          ],
-        },
-        {
-          _id: "proj-003",
-          clientId: "2",
-          name: "Motor de Búsqueda Semántica",
-          description: "Búsqueda semántica avanzada sobre repositorios corporativos.",
-          ragDatabases: [],
-          tools: []
-        },
-        {
-          _id: "proj-004",
-          clientId: "2",
-          name: "Chat Interno Corporativo",
-          description: "Chat IA interno con control de permisos por rol.",
-          ragDatabases: [],
-          tools: []
-        },
-        {
-          _id: "proj-005",
-          clientId: "2",
-          name: "Análisis de Incidencias IT",
-          description: "Clasificación automática de tickets e incidencias mediante IA.",
-          ragDatabases: [],
-          tools: []
-        },
-        {
-          _id: "proj-006",
-          clientId: "2",
-          name: "Generador de Informes Ejecutivos",
-          description: "Generación automática de informes a partir de datos estructurados y no estructurados.",
-          ragDatabases: [],
-          tools: []
-        }
-      ];
-      let mockMembersClient = [
-        {
-          _id: "1",
-          clientId: "1",
-          name: 'Andrés Pallares',
-          email: 'andres@mirrormind.ai',
-          role: 'Admin',
-          status: 'Activo',
-        },
-        {
-          _id: "2",
-          clientId: "1",
-          name: 'María García',
-          email: 'maria.g@mirrormind.ai',
-          role: 'Editor',
-          status: 'Activo',
-        },
-        {
-          _id: "3",
-          clientId: "2",
-          name: 'Juan López',
-          email: 'juan.lopez@mirrormind.ai',
-          role: 'Viewer',
-          status: 'Deshabilitado',
-        },
-        {
-          _id: "4",
-          clientId: "2",
-          name: 'Laura Sánchez',
-          email: 'laura.s@mirrormind.ai',
-          role: 'Editor',
-          status: 'Activo',
-        },
-        {
-          _id: "5",
-          clientId: "3",
-          name: 'Pedro Ruiz',
-          email: 'pedro.ruiz@mirrormind.ai',
-          role: 'Admin',
-          status: 'Activo',
-        }
-      ]
-      let mockMembers = [
-        {
-          _id: "1",
-          projectId: "proj-001",
-          memberId: "1",
-          name: 'Andrés Pallares',
-          email: 'andres@mirrormind.ai',
-          role: 'Admin',
-          status: 'Activo',
-          ragDatabases: [/*
-            { id: 1, memberId: 1, name: 'Documentación Interna', type: 'Vectorial', lastUpdate: '2025-10-12' },
-            { id: 2, memberId: 1, name: 'FAQs Cliente A', type: 'Vectorial', lastUpdate: '2025-09-03' },
-            { id: 3, memberId: 1, name: 'Conocimiento Producto X', type: 'Mixto', lastUpdate: '2025-08-25' },*/
-          ],
-          tools: [/*
-            { id: 1, memberId: 1, name: 'Conector Jira', type: 'API', permission: 'Lectura / Escritura' },
-            { id: 2, memberId: 1, name: 'Conector Confluence', type: 'API', permission: 'Solo lectura' },
-            { id: 3, memberId: 1, name: 'SQL Runner', type: 'Tool', permission: 'Restringido' },*/
-          ],
-        },
-        {
-          _id: "2",
-          projectId: "proj-001",
-          memberId: "2",
-          name: 'María García',
-          email: 'maria.g@mirrormind.ai',
-          role: 'Editor',
-          status: 'Activo',
-          ragDatabases: [/*
-            { id: 4, memberId: 2, name: 'FAQs Cliente B', type: 'Vectorial', lastUpdate: '2025-07-10' },
-            { id: 5, memberId: 2, name: 'Guías de uso', type: 'Vectorial', lastUpdate: '2025-06-18' },*/
-          ],
-          tools: [/*
-            { id: 4, memberId: 2, name: 'Conector CRM', type: 'API', permission: 'Lectura / Escritura' },
-            { id: 5, memberId: 2, name: 'Slack Bot', type: 'Tool', permission: 'Solo lectura' },*/
-          ],
-        },
-        {
-          _id: "3",
-          projectId: "proj-002",
-          memberId: "3",
-          name: 'Juan López',
-          email: 'juan.lopez@mirrormind.ai',
-          role: 'Viewer',
-          status: 'Deshabilitado',
-          ragDatabases: [/*
-            { id: 6, memberId: 3, name: 'Manual Portal', type: 'Mixto', lastUpdate: '2025-05-02' },*/
-          ],
-          tools: [/*
-            { id: 6, memberId: 3, name: 'Panel Analytics', type: 'Tool', permission: 'Restringido' },*/
-          ],
-        },
-        {
-          _id: "4",
-          projectId: "proj-003",
-          memberId: "4",
-          name: 'Laura Sánchez',
-          email: 'laura.s@mirrormind.ai',
-          role: 'Editor',
-          status: 'Activo',
-          ragDatabases: [/*
-            { id: 7, memberId: 4, name: 'Logs Conversacionales', type: 'Vectorial', lastUpdate: '2025-09-21' },
-            { id: 8, memberId: 4, name: 'Dashboards KPIs', type: 'Mixto', lastUpdate: '2025-09-30' },*/
-          ],
-          tools: [/*
-            { id: 7, memberId: 4, name: 'Looker Studio', type: 'Tool', permission: 'Lectura / Escritura' },
-            { id: 8, memberId: 4, name: 'Conector BigQuery', type: 'API', permission: 'Lectura / Escritura' },*/
-          ],
-        },
-        {
-          _id: "5",
-          projectId: "proj-004",
-          memberId: "5",
-          name: 'Pedro Ruiz',
-          email: 'pedro.ruiz@mirrormind.ai',
-          role: 'Admin',
-          status: 'Activo',
-          ragDatabases: [/*
-            { name: 'Playbooks Onboarding', type: 'Vectorial', lastUpdate: '2025-10-01' },*/
-          ],
-          tools: [/*
-            { name: 'Orquestador Flujos', type: 'Tool', permission: 'Lectura / Escritura' },*/
-          ],
-        },
-      ];
-      let mockRAG_DATABASES=[
-           { _id: 1, projectId: "proj-001", memberId: null, name: 'Documentacion Temis', type: 'Vectorial', lastUpdate: '2025-10-12' },
-           { _id: 2, projectId: "proj-001", memberId: null, name: 'Documentacion Inmobiliaria', type: 'Vectorial', lastUpdate: '2025-09-03' },
-           { _id: 3, projectId: "proj-001", memberId: null, name: 'Documentacion Financiera', type: 'Mixto', lastUpdate: '2025-08-25' },
-           { _id: 4, projectId: "proj-002", memberId: null, name: 'Documentacion RIMA4', type: 'Vectorial', lastUpdate: '2025-10-12' },
-           { _id: 5, projectId: "proj-002", memberId: null, name: 'Documentacion ORQUESTADOR', type: 'Vectorial', lastUpdate: '2025-09-03' },
-           { _id: 6, projectId: "proj-002", memberId: null, name: 'Documentacion ADA', type: 'Mixto', lastUpdate: '2025-08-25' },
-           { _id: 7, projectId: null, memberId: "1", name: 'Documentación Interna', type: 'Vectorial', lastUpdate: '2025-10-12' },
-           { _id: 8, projectId: null, memberId: "1", name: 'FAQs Cliente A', type: 'Vectorial', lastUpdate: '2025-09-03' },
-           { _id: 9, projectId: null, memberId: "1", name: 'Conocimiento Producto X', type: 'Mixto', lastUpdate: '2025-08-25' },
-           { _id: 10, projectId: null, memberId: "2", name: 'FAQs Cliente B', type: 'Vectorial', lastUpdate: '2025-07-10' },
-           { _id: 11, projectId: null, memberId: "2", name: 'Guías de uso', type: 'Vectorial', lastUpdate: '2025-06-18' },
-      ]
-      let mockTOOLS = [
-           { _id: 1, projectId: "proj-001", memberId: null, name: 'Conector Hacienda', type: 'API', permission: 'Lectura / Escritura' },
-           { _id: 2, projectId: "proj-001", memberId: null, name: 'Conector Confluence', type: 'API', permission: 'Solo lectura' },
-           { _id: 3, projectId: "proj-001", memberId: null, name: 'SQL Runner', type: 'Tool', permission: 'Restringido' },
-           { _id: 4, projectId: "proj-002", memberId: null, name: 'Conector CATASTRO', type: 'API', permission: 'Lectura / Escritura' },
-           { _id: 5, projectId: "proj-002", memberId: null, name: 'Conector INE', type: 'API', permission: 'Solo lectura' },
-           { _id: 6, projectId: "proj-002", memberId: null, name: 'PROCESO ARCANO', type: 'Tool', permission: 'Restringido' },
-           { _id: 7, projectId: null, memberId: "1", name: 'Conector Jira', type: 'API', permission: 'Lectura / Escritura' },
-           { _id: 8, projectId: null, memberId: "1", name: 'Conector Confluence', type: 'API', permission: 'Solo lectura' },
-           { _id: 9, projectId: null, memberId: "1", name: 'SQL Runner', type: 'Tool', permission: 'Restringido' },
-           { _id: 10, projectId: null, memberId: "2", name: 'Conector CRM', type: 'API', permission: 'Lectura / Escritura' },
-           { _id: 11, projectId: null, memberId: "2", name: 'Slack Bot', type: 'Tool', permission: 'Solo lectura' },
-      ]
-      const mockRagType = ['sin especificar', 'Vectorial', 'Mixto']
-      //#endregion
-      
-
       
       //#region LLAMADAS AJAX APLICACION
       
@@ -3273,8 +3027,8 @@
       }
       //#endregion
       
-      //#region LLamadas Ajax API REST MEMBERS
-       async function addMembersApi(member) {
+      //#region Llamadas Ajax API REST MEMBERS
+      async function addMembersApi(member) {
         if (entorno !== 'local') {
           try {
             const response = await fetch(urlMember + '/insert', {
@@ -3487,532 +3241,7 @@
           //setMembers(mockMembersFilter);
         }
       }
-      
-      //#endregion
-
-      //#region Llamadas Ajax API REST RAG_DATABSES
-      async function addRagsApi(rag) {
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlRag + '/insert', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(rag)
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-
-              //const id = result.data["0"]._id;
-              //const mockMembers = { ...result.data["0"], id: id }
-              //return mockMembers;
-              return result.data["0"];
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-            return { error: err };
-          } finally {
-
-          }
-        } else if (entorno === 'local') {
-          mockRAG_DATABASES.push(rag);
-          return rag;
-        }
-
-      }
-      async function updateRagApi(rag) {
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlRag + '/update', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(rag)
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        } else if (entorno === 'local') {
-          const indexRag = mockRAG_DATABASES.findIndex(f => f._id === rag._id);
-          mockRAG_DATABASES[indexRag] = rag;
-          
-        }
-        
-      }
-      async function deleteRagApi(rag) {
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlRag + '/' + rag._id, {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              //body: JSON.stringify(member)
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        }
-
-      }
-      async function queryRagApi() {
-
-      }
-      async function querySearchRagApi(filter) {
-
-      }
-      async function queryRagByMembersID(id, setRags) {
-        //console.log(id);
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlRag + '/member/' + id, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              //body: JSON.stringify(messages)
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              setRags(result.data);
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        } else if (entorno === 'local') {
-          //console.log("estoy en mockmembers");
-          const mockRagFilter = mockRAG_DATABASES.filter((f) => f.memberId === id);
-          setRags(mockRagFilter);
-        }
-      }
-      async function queryRagByProjectsID(id, setRags) {
-        //console.log(id);
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlRag + '/project/' + id, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              //body: JSON.stringify(messages)
-            });
-            
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              setRags(result.data);
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        } else if (entorno === 'local') {
-          //console.log("estoy en mockmembers");
-          const mockRagFilter = mockRAG_DATABASES.filter((f) => f.projectId === id);
-          setRags(mockRagFilter);
-        }
-      }
-      async function queryRagByIDCount(id) {
-        //console.log(id);
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlRag + '/member/' + id, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              //body: JSON.stringify(messages)
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            //console.log(result);
-
-
-            if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              //console.log(result.data.length);
-              return result.data.length; //setMembers(result.data);
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        } else if (entorno === 'local') {
-          //console.log("estoy en mockmembers");
-          //const mockMembersFilter = setMembers().filter((f) => f.projectId === id);
-          //setMembers(mockMembersFilter);
-        }
-      }
       //#endregion 
-      
-      //#region Llamadas Ajax API REST TOOLS
-        async function addToolsApi(tool) {
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlTool + '/insert', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(tool)
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-
-              //const id = result.data["0"]._id;
-              //const mockMembers = { ...result.data["0"], id: id }
-              //return mockMembers;
-              return result.data["0"];
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-            return { error: err };
-          } finally {
-
-          }
-        } else if (entorno === 'local') {
-          return tool;
-        }
-
-      }
-      async function updateToolApi(tool) {
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlTool + '/update', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(tool)
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        }
-
-      }
-      async function deleteToolApi(tool) {
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlTool + '/' + tool._id, {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        }
-
-      }
-      async function queryToolApi() {
-
-      }
-      async function querySearchToolApi(filter) {
-
-      }
-      async function queryToolByMemberID(id, setTools) {
-        //console.log(id);
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlTool + '/member/' + id, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              //body: JSON.stringify(messages)
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              setTools(result.data);
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        } else if (entorno === 'local') {
-          //console.log("estoy en mockmembers");
-          const mockToolsFilter = mockTOOLS.filter((f) => f.memberId === id);
-          setTools(mockToolsFilter);
-        }
-      }
-      async function queryToolByProjectID(id, setTools) {
-        //console.log(id);
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlTool + '/project/' + id, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              //body: JSON.stringify(messages)
-            });
-            
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            console.log(result);
-
-
-            if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              setTools(result.data);
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        } else if (entorno === 'local') {
-          //console.log("estoy en mockmembers");
-          const mockToolsFilter = mockTOOLS.filter((f) => f.projectId === id);
-          setTools(mockToolsFilter);
-        }
-      }
-      async function queryToolByIDCount(id) {
-        //console.log(id);
-        if (entorno !== 'local') {
-          try {
-            const response = await fetch(urlTool + '/member/' + id, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              //body: JSON.stringify(messages)
-            });
-
-            if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
-            }
-
-            const result = await response.json();
-            //console.log(result);
-
-
-            if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              //console.log(result.data.length);
-              return result.data.length; //setMembers(result.data);
-
-            } else {
-              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
-            }
-          } catch (err) {
-            console.error(err);
-            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
-
-          } finally {
-
-          }
-        } else if (entorno === 'local') {
-          //console.log("estoy en mockmembers");
-          //const mockMembersFilter = setMembers().filter((f) => f.projectId === id);
-          //setMembers(mockMembersFilter);
-        }
-      }
-      
-      //#endregion
       
       //-----------------------------------------------------------------
       //#endregion    
@@ -4128,9 +3357,222 @@
       */
       //#endregion
       
-
- 
-
+      //#region DATOS MOCK ENTIDADES
+      // ------- DATOS MOCK (clientes,proyectos,miembrosClientes miembros, RAGs, tools) -------
+      let mockClients = [
+        {
+          _id: "1",
+          name: "cliente 1",
+          description: "descripcion cliente 1"
+        },
+        {
+          _id: "2",
+          name: "cliente 2",
+          description: "descripcion cliente 2"
+        },
+        {
+          _id: "3",
+          name: "cliente 3",
+          description: "descripcion cliente 3"
+        }
+      ];
+      
+      let mockProjectsClient = [
+        {
+          _id: "proj-001",
+          clientId: "1",
+          name: "Plataforma RAG Financiera",
+          description: "Sistema RAG para consulta inteligente de documentación financiera interna.",
+          ragDatabases: [
+            { id: 1, memberId: 1, name: 'Documentacion Temis', type: 'Vectorial', lastUpdate: '2025-10-12' },
+            { id: 2, memberId: 1, name: 'Documentacion Inmobiliaria', type: 'Vectorial', lastUpdate: '2025-09-03' },
+            { id: 3, memberId: 1, name: 'Documentacion Financiera', type: 'Mixto', lastUpdate: '2025-08-25' },
+          ],
+          tools: [
+            { id: 1, memberId: 1, name: 'Conector Hacienda', type: 'API', permission: 'Lectura / Escritura' },
+            { id: 2, memberId: 1, name: 'Conector Confluence', type: 'API', permission: 'Solo lectura' },
+            { id: 3, memberId: 1, name: 'SQL Runner', type: 'Tool', permission: 'Restringido' },
+          ],
+        },
+        {
+          _id: "proj-002",
+          clientId: "1",
+          name: "Asistente Legal IA",
+          description: "Asistente conversacional para apoyo jurídico basado en normativa vigente.",
+          ragDatabases: [
+            { id: 1, memberId: 1, name: 'Documentacion RIMA4', type: 'Vectorial', lastUpdate: '2025-10-12' },
+            { id: 2, memberId: 1, name: 'Documentacion ORQUESTADOR', type: 'Vectorial', lastUpdate: '2025-09-03' },
+            { id: 3, memberId: 1, name: 'Documentacion ADA', type: 'Mixto', lastUpdate: '2025-08-25' },
+          ],
+          tools: [
+            { id: 1, memberId: 1, name: 'Conector CATASTRO', type: 'API', permission: 'Lectura / Escritura' },
+            { id: 2, memberId: 1, name: 'Conector INE', type: 'API', permission: 'Solo lectura' },
+            { id: 3, memberId: 1, name: 'PROCESO ARCANO', type: 'Tool', permission: 'Restringido' },
+          ],
+        },
+        {
+          _id: "proj-003",
+          clientId: "2",
+          name: "Motor de Búsqueda Semántica",
+          description: "Búsqueda semántica avanzada sobre repositorios corporativos.",
+          ragDatabases: [],
+          tools: []
+        },
+        {
+          _id: "proj-004",
+          clientId: "2",
+          name: "Chat Interno Corporativo",
+          description: "Chat IA interno con control de permisos por rol.",
+          ragDatabases: [],
+          tools: []
+        },
+        {
+          _id: "proj-005",
+          clientId: "2",
+          name: "Análisis de Incidencias IT",
+          description: "Clasificación automática de tickets e incidencias mediante IA.",
+          ragDatabases: [],
+          tools: []
+        },
+        {
+          _id: "proj-006",
+          clientId: "2",
+          name: "Generador de Informes Ejecutivos",
+          description: "Generación automática de informes a partir de datos estructurados y no estructurados.",
+          ragDatabases: [],
+          tools: []
+        }
+      ];
+      let mockMembersClient = [
+        {
+          _id: "1",
+          clientId: "1",
+          name: 'Andrés Pallares',
+          email: 'andres@mirrormind.ai',
+          role: 'Admin',
+          status: 'Activo',
+        },
+        {
+          _id: "2",
+          clientId: "1",
+          name: 'María García',
+          email: 'maria.g@mirrormind.ai',
+          role: 'Editor',
+          status: 'Activo',
+        },
+        {
+          _id: "3",
+          clientId: "2",
+          name: 'Juan López',
+          email: 'juan.lopez@mirrormind.ai',
+          role: 'Viewer',
+          status: 'Deshabilitado',
+        },
+        {
+          _id: "4",
+          clientId: "2",
+          name: 'Laura Sánchez',
+          email: 'laura.s@mirrormind.ai',
+          role: 'Editor',
+          status: 'Activo',
+        },
+        {
+          _id: "5",
+          clientId: "3",
+          name: 'Pedro Ruiz',
+          email: 'pedro.ruiz@mirrormind.ai',
+          role: 'Admin',
+          status: 'Activo',
+        }
+      ]
+      let mockMembers = [
+        {
+          _id: "1",
+          projectId: "proj-001",
+          memberId: "1",
+          name: 'Andrés Pallares',
+          email: 'andres@mirrormind.ai',
+          role: 'Admin',
+          status: 'Activo',
+          ragDatabases: [
+            { id: 1, memberId: 1, name: 'Documentación Interna', type: 'Vectorial', lastUpdate: '2025-10-12' },
+            { id: 2, memberId: 1, name: 'FAQs Cliente A', type: 'Vectorial', lastUpdate: '2025-09-03' },
+            { id: 3, memberId: 1, name: 'Conocimiento Producto X', type: 'Mixto', lastUpdate: '2025-08-25' },
+          ],
+          tools: [
+            { id: 1, memberId: 1, name: 'Conector Jira', type: 'API', permission: 'Lectura / Escritura' },
+            { id: 2, memberId: 1, name: 'Conector Confluence', type: 'API', permission: 'Solo lectura' },
+            { id: 3, memberId: 1, name: 'SQL Runner', type: 'Tool', permission: 'Restringido' },
+          ],
+        },
+        {
+          _id: "2",
+          projectId: "proj-001",
+          memberId: "2",
+          name: 'María García',
+          email: 'maria.g@mirrormind.ai',
+          role: 'Editor',
+          status: 'Activo',
+          ragDatabases: [
+            { id: 4, memberId: 2, name: 'FAQs Cliente B', type: 'Vectorial', lastUpdate: '2025-07-10' },
+            { id: 5, memberId: 2, name: 'Guías de uso', type: 'Vectorial', lastUpdate: '2025-06-18' },
+          ],
+          tools: [
+            { id: 4, memberId: 2, name: 'Conector CRM', type: 'API', permission: 'Lectura / Escritura' },
+            { id: 5, memberId: 2, name: 'Slack Bot', type: 'Tool', permission: 'Solo lectura' },
+          ],
+        },
+        {
+          _id: "3",
+          projectId: "proj-002",
+          memberId: "3",
+          name: 'Juan López',
+          email: 'juan.lopez@mirrormind.ai',
+          role: 'Viewer',
+          status: 'Deshabilitado',
+          ragDatabases: [
+            { id: 6, memberId: 3, name: 'Manual Portal', type: 'Mixto', lastUpdate: '2025-05-02' },
+          ],
+          tools: [
+            { id: 6, memberId: 3, name: 'Panel Analytics', type: 'Tool', permission: 'Restringido' },
+          ],
+        },
+        {
+          _id: "4",
+          projectId: "proj-003",
+          memberId: "4",
+          name: 'Laura Sánchez',
+          email: 'laura.s@mirrormind.ai',
+          role: 'Editor',
+          status: 'Activo',
+          ragDatabases: [
+            { id: 7, memberId: 4, name: 'Logs Conversacionales', type: 'Vectorial', lastUpdate: '2025-09-21' },
+            { id: 8, memberId: 4, name: 'Dashboards KPIs', type: 'Mixto', lastUpdate: '2025-09-30' },
+          ],
+          tools: [
+            { id: 7, memberId: 4, name: 'Looker Studio', type: 'Tool', permission: 'Lectura / Escritura' },
+            { id: 8, memberId: 4, name: 'Conector BigQuery', type: 'API', permission: 'Lectura / Escritura' },
+          ],
+        },
+        {
+          _id: "5",
+          projectId: "proj-004",
+          memberId: "5",
+          name: 'Pedro Ruiz',
+          email: 'pedro.ruiz@mirrormind.ai',
+          role: 'Admin',
+          status: 'Activo',
+          ragDatabases: [
+            { name: 'Playbooks Onboarding', type: 'Vectorial', lastUpdate: '2025-10-01' },
+          ],
+          tools: [
+            { name: 'Orquestador Flujos', type: 'Tool', permission: 'Lectura / Escritura' },
+          ],
+        },
+      ];
+      const mockRagType = ['sin especificar', 'Vectorial', 'Mixto']
+      //#endregion
+      
       //#region MODAL INSERT-EDIT-UPDATE CLIENTE 
       
       const modalClient = document.getElementById('modal-client');
@@ -4454,15 +3896,11 @@
             self.projectsClient = ko.observableArray(mockProjectsClient);
             self.membersClient = ko.observableArray(mockMembersClient);
             self.members = ko.observableArray(mockMembers);
-            self.rags = ko.observableArray(mockRAG_DATABASES);
-            self.tools = ko.observableArray(mockTOOLS);
         }else {
             self.clients = ko.observableArray([]);
             self.projectsClient = ko.observableArray([]);
             self.membersClient = ko.observableArray([]);
             self.members = ko.observableArray([]);
-            self.rags = ko.observableArray([]);
-            self.tools = ko.observableArray([]);
         }
          
         self.projectsClient.subscribe((d) => {
@@ -4780,14 +4218,8 @@
           self.cadBusquedaMiembros(false);
           self.filterMembers([]);
           //instrucciones para seleccionar y posicionar el registro de proyecto
-         
-          await queryMembersByID(project._id, self.members);
-          await queryRagByProjectsID(project._id,self.rags);
-          await queryToolByProjectID(project._id,self.tools);
-          project.ragDatabases=self.rags();
-          project.tools=self.tools();
-          
           self.selectedProject(project);
+          await queryMembersByID(project._id, self.members);
           const firstMember = self.members().find((m) => m.projectId === project.id);
           self.selectedMember(firstMember || null);
           
@@ -5078,13 +4510,7 @@
           self.estadoMember("");
 
         }
-        self.selectMember = async function (member) {
-          
-          await queryRagByMembersID(member._id,self.rags);
-          await queryToolByMemberID(member._id,self.tools);
-          member.ragDatabases = self.rags();
-          member.tools = self.tools();
-          
+        self.selectMember = function (member) {
           self.selectedMember(member);
           //console.log(self.selectedMember());
           globalMiembro = member;
@@ -5527,26 +4953,12 @@
           let selectedProject = self.selectedProject();
         
           
-          let memberId = null;
-          let projectId = selectedProject._id;
+          let memberId = selectedProject._id
           let ragDatabases = self.selectedProject().ragDatabases;
-          let newRag = {};
-          
-          if (entorno ==="local")
-            newRag = { id: uuid.v4(), projectId:projectId, memberId: memberId, lastUpdate: self.fechaRagProyecto(), name: self.nameRagProyecto(), type: self.tipoRagProyecto() }
-          else
-            newRag = {projectId:projectId, memberId: memberId, lastUpdate: self.fechaRagProyecto(), name: self.nameRagProyecto(), type: self.tipoRagProyecto() }
-          
-          newRag =  await addRagsApi(newRag);
-          
+          let newRag = { id: uuid.v4(), memberId: memberId, lastUpdate: self.fechaRagProyecto(), name: self.nameRagProyecto(), type: self.tipoRagProyecto() }
           ragDatabases.push(newRag);
-          
-          
           selectedProject.ragDatabases = ragDatabases;
-          
-          
-          //selectedProject = await AddProjectApi(selectedProject);
-         
+          selectedProject = await AddProjectApi(selectedProject);
           //console.log(selectedProject);
           self.selectedProject(selectedProject);
           //console.log("actualizacion añadir rag Proyecto");
