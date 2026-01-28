@@ -2438,9 +2438,9 @@
       //#region VARIABLES GLOBALES PROYECTO URLs y PUERTO
       //tanto el url como el port hay que ponerlo como undefined, para que quede como /api/projects y /api/members, el
       //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
-      const entorno = "local"  //local -dev - prod
+      const entorno = "dev"  //local -dev - prod
       const url = 'localhost';
-      const port = '41414';
+      const port = '33744';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
       const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
       const urlClient = (url && port) ? `http://${url}:${port}/api/clients` : `/api/clients`;
@@ -3231,8 +3231,14 @@
               //const data=[];
               const data = result.data.map(async (e,i) =>{
                 
+                const temp={}; 
+                
+                temp.memberCount = await queryMembersByIDCount(e._id);
+                temp.ragDatabases = await queryRagByProjectsTempID(e._id);
+                temp.tools = await queryToolByProjectTempID(e._id);
+                return temp;
+                //return e.memberCount = await queryMembersByIDCount(e._id);
                  
-                 return e.memberCount =await queryMembersByIDCount(e._id);
                  //e.ragCount =  e.ragDatabases.length;
                  //e.toolCount =  e.tools.length;
                  
@@ -3244,13 +3250,15 @@
                  const tempData = result.data.map( (e,i) =>{
                     //console.log(v[i]);
                     //return e.memberCount =await queryMembersByIDCount(e._id);
-                    e.memberCount = v[i];
-                    e.ragCount =  e.ragDatabases.length;
-                    e.toolCount =  e.tools.length;
+                    e.ragDatabases =v[i].ragDatabases;
+                    e.tools = v[i].tools;
+                    e.memberCount = v[i].memberCount;
+                    e.ragCount =  v[i].ragDatabases.length;
+                    e.toolCount =  v[i].tools.length;
                     //console.log(e);
                     return e;
                  });
-
+                 //console.log(tempData)
                  setProjects(tempData);
                 }); 
               //setProjects(data);
@@ -3421,11 +3429,41 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
+               const data = result.data.map(async (e,i) =>{
+                
+                const temp={}; 
+                
+                
+                temp.ragDatabases = await queryRagByMembersTempID(e._id);
+                temp.tools = await queryToolByMemberTempID(e._id);
+                return temp;
+                //return e.memberCount = await queryMembersByIDCount(e._id);
+                 
+                 //e.ragCount =  e.ragDatabases.length;
+                 //e.toolCount =  e.tools.length;
+                 
+                //return e;
+              });
+              //console.log(data);
+              Promise.all(data).then((v) =>{
+                 //console.log(v);
+                 const tempData = result.data.map( (e,i) =>{
+                    //console.log(v[i]);
+                    //return e.memberCount =await queryMembersByIDCount(e._id);
+                    e.ragDatabases =v[i].ragDatabases;
+                    e.tools = v[i].tools;
+                    //e.memberCount = v[i].memberCount;
+                    e.ragCount =  v[i].ragDatabases.length;
+                    e.toolCount =  v[i].tools.length;
+                    //console.log(e);
+                    return e;
+                 });
+                 //console.log(tempData)
+                 setMembers(tempData);
+                }); 
 
-              //  return { ...f, id: f._id };
-              //});
-              setMembers(result.data);
+
+              //setMembers(result.data);
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3613,6 +3651,8 @@
           } finally {
 
           }
+        }  else if (entorno === 'local') {
+           mockRAG_DATABASES = mockRAG_DATABASES.filter(f=>f._id !== rag._id); 
         }
 
       }
@@ -3648,7 +3688,50 @@
               //  return { ...f, id: f._id };
               //});
               setRags(result.data);
+              //return result.data;
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
 
+          } finally {
+
+          }
+        } else if (entorno === 'local') {
+          //console.log("estoy en mockmembers");
+          const mockRagFilter = mockRAG_DATABASES.filter((f) => f.memberId === id);
+          setRags(mockRagFilter);
+        }
+      }
+       async function queryRagByMembersTempID(id) {
+        //console.log(id);
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlRag + '/member/' + id, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+              //const mockMembers = result.data.map((f) => {
+
+              //  return { ...f, id: f._id };
+              //});
+              //setRags(result.data);
+              return result.data;
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3691,6 +3774,51 @@
               //  return { ...f, id: f._id };
               //});
               setRags(result.data);
+              //return result.data;
+
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+        } else if (entorno === 'local') {
+          //console.log("estoy en mockmembers");
+          const mockRagFilter = mockRAG_DATABASES.filter((f) => f.projectId === id);
+          setRags(mockRagFilter);
+        }
+      }
+       async function queryRagByProjectsTempID(id) {
+        //console.log(id);
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlRag + '/project/' + id, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+            
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+              //const mockMembers = result.data.map((f) => {
+
+              //  return { ...f, id: f._id };
+              //});
+              //setRags(result.data);
+              return result.data;
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3791,6 +3919,7 @@
 
           }
         } else if (entorno === 'local') {
+          mockTOOLS.push(tool);
           return tool;
         }
 
@@ -3832,6 +3961,9 @@
           } finally {
 
           }
+        } else if (entorno === 'local') {
+          const indexTool = mockTOOLS.findIndex(f => f._id === tool._id);
+          mockTOOLS[indexTool] = tool;
         }
 
       }
@@ -3872,8 +4004,9 @@
           } finally {
 
           }
+        } else if (entorno === 'local') {
+           mockTOOLS = mockTOOLS.filter(f=>f._id !== tool._id); 
         }
-
       }
       async function queryToolApi() {
 
@@ -3924,6 +4057,49 @@
           setTools(mockToolsFilter);
         }
       }
+       async function queryToolByMemberTempID(id) {
+        //console.log(id);
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlTool + '/member/' + id, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+              //const mockMembers = result.data.map((f) => {
+
+              //  return { ...f, id: f._id };
+              //});
+              //setTools(result.data);
+              return result.data;
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+        } else if (entorno === 'local') {
+          //console.log("estoy en mockmembers");
+          const mockToolsFilter = mockTOOLS.filter((f) => f.memberId === id);
+          setTools(mockToolsFilter);
+        }
+      }
       async function queryToolByProjectID(id, setTools) {
         //console.log(id);
         if (entorno !== 'local') {
@@ -3951,6 +4127,49 @@
               //});
               setTools(result.data);
 
+            } else {
+              throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
+            }
+          } catch (err) {
+            console.error(err);
+            let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
+
+          } finally {
+
+          }
+        } else if (entorno === 'local') {
+          //console.log("estoy en mockmembers");
+          const mockToolsFilter = mockTOOLS.filter((f) => f.projectId === id);
+          setTools(mockToolsFilter);
+        }
+      }
+      async function queryToolByProjectTempID(id) {
+        //console.log(id);
+        if (entorno !== 'local') {
+          try {
+            const response = await fetch(urlTool + '/project/' + id, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              //body: JSON.stringify(messages)
+            });
+            
+            if (!response.ok) {
+              throw new Error('Error HTTP: ' + response.status);
+            }
+
+            const result = await response.json();
+            console.log(result);
+
+
+            if (result) {
+              //const mockMembers = result.data.map((f) => {
+
+              //  return { ...f, id: f._id };
+              //});
+              //setTools(result.data);
+              return result.data;
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -4128,9 +4347,6 @@
       */
       //#endregion
       
-
- 
-
       //#region MODAL INSERT-EDIT-UPDATE CLIENTE 
       
       const modalClient = document.getElementById('modal-client');
@@ -4581,6 +4797,8 @@
             if (entorno === "local")
                 e.memberCount =(self.members().length ===0 ) ? e.memberCount : self.getProjectMemberCount(e._id);
             
+            
+            
             e.ragCount = self.getClientProjectRagCount(e._id);
             e.toolCount = self.getClientProjectToolCount(e._id);
             //console.log(e);
@@ -4651,9 +4869,28 @@
           //self.selectedClient(client);
           await queryProjectsByID(client._id,self.projectsClient);
           await queryMembersClientByID(client._id,self.membersClient);
-          const firstProject = self.projectsClient().find((f) => f.clientId === client._id)
-          self.selectedProject(firstProject || null);
-          
+          /*
+          const tempProjectsClient = self.projectsClient().map(async (f,i) =>{
+              await queryRagByProjectsID(f._id,self.rags);
+              await queryToolByProjectID(f._id,self.tools);
+              
+              f.ragDatabases=self.rags();
+              f.tools= self.tools();
+              return f;
+          });
+         
+          Promise.all(tempProjectsClient).then((d)=>{
+             console.log("***** tempProjectsClient *********");
+            console.log(d);
+            //setTimeout(() => {
+             self.projectsClient([]);  //hay que resetear el array para que coja los cambios de RAGs y tools
+               self.projectsClient(d);
+               //const firstProject = self.projectsClient().find((f) => f.clientId === client._id)
+               //self.selectedProject(firstProject || null);
+            //}, 300);
+           
+          });
+          */
         }
         self.addClient = async function (model, e) {
           if (!self.validacionClient(model)) return;
@@ -4782,10 +5019,10 @@
           //instrucciones para seleccionar y posicionar el registro de proyecto
          
           await queryMembersByID(project._id, self.members);
-          await queryRagByProjectsID(project._id,self.rags);
-          await queryToolByProjectID(project._id,self.tools);
-          project.ragDatabases=self.rags();
-          project.tools=self.tools();
+          //await queryRagByProjectsID(project._id,self.rags);
+          //await queryToolByProjectID(project._id,self.tools);
+          //project.ragDatabases=self.rags();
+          //project.tools=self.tools();
           
           self.selectedProject(project);
           const firstMember = self.members().find((m) => m.projectId === project.id);
@@ -5251,13 +5488,22 @@
         self.addRag = async function (model, e) {
           if (!self.validacionRag(model)) return;
           let selectedMember = self.selectedMember()
-          console.log(selectedMember);
+          //console.log(selectedMember);
           let memberId = selectedMember._id
+          
           let ragDatabases = self.selectedMember().ragDatabases;
-          let newRag = { id: uuid.v4(), memberId: memberId, lastUpdate: self.fechaRag(), name: self.nameRag(), type: self.tipoRag() }
+          let newRag = {};
+          if (entorno ==="local"){
+             newRag = { _id: uuid.v4(), projectId: null, memberId: memberId, lastUpdate: self.fechaRag(), name: self.nameRag(), type: self.tipoRag() }
+          }else{
+             newRag = { projectId: null, projectId: null, memberId: memberId, lastUpdate: self.fechaRag(), name: self.nameRag(), type: self.tipoRag() }
+          }
+          
+          newRag = await addRagsApi(newRag)
           ragDatabases.push(newRag);
           selectedMember.ragDatabases = ragDatabases;
-          selectedMember = await addMembersApi(selectedMember);
+          
+          //selectedMember = await addMembersApi(selectedMember);
           //console.log(selectedMember);
           self.selectedMember(selectedMember);
           //console.log("actualizacion añadir rag");
@@ -5272,15 +5518,19 @@
           const oldRag = self.selectedRag();
           //console.log(oldRag);
           let newDababaseRag = [];
+          let updateRagRow={};
           self.selectedMember().ragDatabases.forEach((el, i) => {
-            if (el.id === oldRag.id) {
-              self.selectedMember().ragDatabases[i] = { id: oldRag.id, memberId: oldMember._id, name: model.nameRag(), type: model.tipoRag(), lastUpdate: model.fechaRag() }
+            if (el._id === oldRag._id) {
+              updateRagRow = { _id: oldRag._id, projectId: null, memberId: oldMember._id, name: model.nameRag(), type: model.tipoRag(), lastUpdate: model.fechaRag() };
+              self.selectedMember().ragDatabases[i] = updateRagRow;
             }
             newDababaseRag.push(self.selectedMember().ragDatabases[i]);
           });
           self.selectedMember().ragDatabases = newDababaseRag;
           let selectedMember = self.selectedMember();
-          await updateMembersApi(selectedMember);
+          
+          //await updateMembersApi(selectedMember);
+          await updateRagApi(updateRagRow);
           self.selectedMember(selectedMember);
           //self.updateMemberArray(model);
           //closeRagModal()
@@ -5360,14 +5610,15 @@
             },timeoutProgress);
           }
         }
-        self.deleteRowRag = function () {
+        self.deleteRowRag = async function () {
           let newRagDatabases = [];
-          newRagDatabases = self.selectedMember().ragDatabases.filter(f => f.id !== self.selectedRag().id);
+          newRagDatabases = self.selectedMember().ragDatabases.filter(f => f._id !== self.selectedRag()._id);
           self.selectedMember().ragDatabases = newRagDatabases;
           const selectedMember = self.selectedMember();
           //aqui no borramos directamente el registro RAG, sino que como va embebido en miembros dentro de su array RagDatabases,
           //lo que hacemos es actualizar el miembro y apareceran actualizados su array de RAGs asociados.
-          updateMembersApi(selectedMember);
+          //updateMembersApi(selectedMember);
+          await deleteRagApi(self.selectedRag());
           self.selectedMember(selectedMember);
         }
         //#endregion
@@ -5393,11 +5644,18 @@
           let selectedMember = self.selectedMember();
           let memberId = selectedMember._id;
           let tools = self.selectedMember().tools;
-          let newTool = { id: uuid.v4(), memberId: memberId, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool() }
-          console.log(newTool);
+          let newTool = {};
+          if (entorno=="local"){
+                 newTool = { _id: uuid.v4(), projectId: null, memberId: memberId, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool() }
+          }else{
+                 newTool = {  projectId: null, memberId: memberId, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool() }
+          }
+          
+          newTool = await addToolsApi(newTool);
+          //console.log(newTool);
           tools.push(newTool);
           selectedMember.tools = tools;
-          selectedMember = await addMembersApi(selectedMember);
+          //selectedMember = await addMembersApi(selectedMember);
           self.selectedMember(selectedMember);
           //self.updateMemberArray(model);
           //closeToolModal();
@@ -5407,18 +5665,21 @@
           const oldMember = self.selectedMember();
           const oldTool = self.selectedTool();
           let newTools = [];
+          let updateToolRow = {};
           self.selectedMember().tools.forEach((el, i) => {
-            if (el.name === oldTool.name) {
-              self.selectedMember().tools[i] = { id: oldTool.id, memberId: oldMember.id, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool() }
+            if (el._id === oldTool._id) {
+              updateToolRow =  { _id: oldTool._id,projectId: null, memberId: oldMember._id, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool() }
+              self.selectedMember().tools[i] = updateToolRow;
             }
             newTools.push(self.selectedMember().tools[i])
           });
           self.selectedMember().tools = newTools;
           let selectedMember = self.selectedMember();
-          await updateMembersApi(selectedMember);
+          //await updateMembersApi(selectedMember);
+          await updateToolApi(updateToolRow);
           self.selectedMember(selectedMember);
           //closeToolModal();
-
+          
         }
         self.validacionTool = function(model){
           let validacion = true;
@@ -5475,14 +5736,15 @@
             },timeoutProgress);
           }
         }
-        self.deleteRowTool = function () {
+        self.deleteRowTool = async function () {
           let newTools = [];
-          newTools = self.selectedMember().tools.filter(f => f.id !== self.selectedTool().id);
+          newTools = self.selectedMember().tools.filter(f => f._id !== self.selectedTool()._id);
           self.selectedMember().tools = newTools;
           const selectedMember = self.selectedMember();
           //Aqui no borramos directamente el registro TOOL, 
           // lo que hacemos es actualizar el registro miembro que lo habra quitado de su arrays de tools asociados
-          updateMembersApi(selectedMember);
+          //updateMembersApi(selectedMember);
+          await deleteToolApi(self.selectedTool());    
           self.selectedMember(selectedMember);
         }
         //#endregion
@@ -5527,13 +5789,13 @@
           let selectedProject = self.selectedProject();
         
           
-          let memberId = null;
-          let projectId = selectedProject._id;
+          const memberId = null;
+          const projectId = selectedProject._id;
           let ragDatabases = self.selectedProject().ragDatabases;
           let newRag = {};
           
           if (entorno ==="local")
-            newRag = { id: uuid.v4(), projectId:projectId, memberId: memberId, lastUpdate: self.fechaRagProyecto(), name: self.nameRagProyecto(), type: self.tipoRagProyecto() }
+            newRag = { _id: uuid.v4(), projectId: projectId, memberId: memberId, lastUpdate: self.fechaRagProyecto(), name: self.nameRagProyecto(), type: self.tipoRagProyecto() }
           else
             newRag = {projectId:projectId, memberId: memberId, lastUpdate: self.fechaRagProyecto(), name: self.nameRagProyecto(), type: self.tipoRagProyecto() }
           
@@ -5541,12 +5803,11 @@
           
           ragDatabases.push(newRag);
           
-          
           selectedProject.ragDatabases = ragDatabases;
           
           
           //selectedProject = await AddProjectApi(selectedProject);
-         
+          
           //console.log(selectedProject);
           self.selectedProject(selectedProject);
           //console.log("actualizacion añadir rag Proyecto");
@@ -5562,15 +5823,20 @@
           const oldRag = self.selectedRagProyecto();
           //console.log(oldProject);
           let newDababaseRag = [];
+          let updataRagRow={};
           oldProject.ragDatabases.forEach((el, i) => {
-            if (el.id === oldRag.id) {
-              oldProject.ragDatabases[i] = { id: oldRag.id, memberId: oldProject._id, name: model.nameRagProyecto(), type: model.tipoRagProyecto(), lastUpdate: model.fechaRagProyecto() }
+            if (el._id === oldRag._id) {
+              updataRagRow = { _id: oldRag._id, projectId: oldProject._id, memberId: null, name: model.nameRagProyecto(), type: model.tipoRagProyecto(), lastUpdate: model.fechaRagProyecto() }
+              oldProject.ragDatabases[i] = updataRagRow;
+              
             }
             newDababaseRag.push(oldProject.ragDatabases[i]);
           });
           oldProject.ragDatabases = newDababaseRag;
           let selectedProject = oldProject;
-          await UpdateProjectApi(selectedProject);
+          console.log(selectedProject);
+          //await UpdateProjectApi(selectedProject);
+          await updateRagApi(updataRagRow);
           self.selectedProject(selectedProject);
           //self.updateMemberArray(model);
           //closeRagProyectoModal();
@@ -5637,14 +5903,15 @@
            
           }
         }
-        self.deleteRowRagProyecto = function () {
+        self.deleteRowRagProyecto = async function () {
           let newRagProyectos = [];
-          newRagProyectos = self.selectedProject().ragDatabases.filter(f => f.id !== self.selectedRagProyecto().id);
+          newRagProyectos = self.selectedProject().ragDatabases.filter(f => f._id !== self.selectedRagProyecto()._id);
           self.selectedProject().ragDatabases = newRagProyectos;
           const selectedProject = self.selectedProject();
           //Aqui no borramos directamente el registro TOOL, 
           // lo que hacemos es actualizar el registro miembro que lo habra quitado de su arrays de tools asociados
-          UpdateProjectApi(selectedProject);
+          //UpdateProjectApi(selectedProject);
+          await deleteRagApi(self.selectedRagProyecto());
           self.selectedProject(selectedProject);
         }
         //#endregion
@@ -5668,12 +5935,22 @@
         self.addToolProyecto = async function (model, e) {
           if (!self.validacionToolProyecto(model)) return;
           let selectedProject = self.selectedProject();
-          let memberId = selectedProject._id;
+          const projectId = selectedProject._id;
+          const memberId = null
           let tools = self.selectedProject().tools;
-          let newTool = { id: uuid.v4(), memberId: memberId, name: model.nameToolProyecto(), type: model.tipoToolProyecto(), permission: model.permisoToolProyecto() }
+          let newTool={};
+          if (entorno==="local")
+             newTool = { _id: uuid.v4(),projectId: projectId, memberId: memberId, name: model.nameToolProyecto(), type: model.tipoToolProyecto(), permission: model.permisoToolProyecto() }
+          else
+             newTool = { projectId: projectId, memberId: memberId, name: model.nameToolProyecto(), type: model.tipoToolProyecto(), permission: model.permisoToolProyecto() }
+          
+          newTool = await addToolsApi(newTool);
+          
           tools.push(newTool);
           selectedProject.tools = tools;
-          selectedProject = await AddProjectApi(selectedProject);
+          
+          //selectedProject = await AddProjectApi(selectedProject);
+          
           self.selectedProject(selectedProject);
           //self.updateMemberArray(model);
           //closeToolProyectoModal();
@@ -5683,15 +5960,18 @@
           const oldProject = self.selectedProject();
           const oldTool = self.selectedToolProyecto();
           let newTools = [];
+          let updateToolRow = {};
           self.selectedProject().tools.forEach((el, i) => {
-            if (el.name === oldTool.name) {
-              self.selectedProject().tools[i] = { id: oldTool.id, memberId: oldProject.id, name: model.nameToolProyecto(), type: model.tipoToolProyecto(), permission: model.permisoToolProyecto() }
+            if (el._id === oldTool._id) {
+              updateToolRow = { _id: oldTool._id, projectId: oldProject._id,memberId: null, name: model.nameToolProyecto(), type: model.tipoToolProyecto(), permission: model.permisoToolProyecto() }
+              self.selectedProject().tools[i] = updateToolRow;
             }
             newTools.push(self.selectedProject().tools[i])
           });
           self.selectedProject().tools = newTools;
           let selectedProject = self.selectedProject();
-          await UpdateProjectApi(selectedProject);
+          //await UpdateProjectApi(selectedProject);
+          await updateToolApi(updateToolRow);
           self.selectedProject(selectedProject);
           //closeToolProyectoModal();
         }
@@ -5750,17 +6030,18 @@
             },timeoutProgress);
           }
         }
-        self.deleteRowToolProject = function () {
+        self.deleteRowToolProject = async function () {
           let newTools = [];
-          newTools = self.selectedProject().tools.filter(f => f.id !== self.selectedToolProyecto().id);
+          newTools = self.selectedProject().tools.filter(f => f._id !== self.selectedToolProyecto()._id);
           self.selectedProject().tools = newTools;
           const selectedProject = self.selectedProject();
           //Aqui no borramos directamente el registro TOOL, 
           // lo que hacemos es actualizar el registro miembro que lo habra quitado de su arrays de tools asociados
-          UpdateProjectApi(selectedProject);
+          //UpdateProjectApi(selectedProject);
+          await deleteToolApi(self.selectedToolProyecto());
           self.selectedProject(selectedProject);
         }
-
+        
         //#endregion
         
         //#region MODAL ACCION CUADRO DE DIALOGO BORRAR o ELIMINAR REGISTRO 
