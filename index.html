@@ -2440,13 +2440,14 @@
       //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
       const entorno = "dev"  //local -dev - prod
       const url = 'localhost';
-      const port = '33744';
+      const port = '8000';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
       const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
       const urlClient = (url && port) ? `http://${url}:${port}/api/clients` : `/api/clients`;
       const urlMemberClient = (url && port) ? `http://${url}:${port}/api/client/project` : `/api/client/project`;
       const urlRag = (url && port) ? `http://${url}:${port}/api/rag-databases` : `/api/rag-databases`;
       const urlTool = (url && port) ? `http://${url}:${port}/api/tools` : `/api/tools`;
+      const tipoDB = "SQL"; //SQL - NoSQL
       const timeoutProgress= 600;
       //#endregion
       
@@ -2699,7 +2700,7 @@
       //---------------------------------------------------------------
       //regiones con las llamadas ajax api de las diferentes identidades
       //de la aplicacion
-
+       
       //#region LLAMADAS Ajax API REST CLIENTS
        async function addClientApi(client) {
         if (entorno !== 'local') {
@@ -2707,7 +2708,8 @@
             const response = await fetch(urlClient + '/insert', {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
               },
               body: JSON.stringify(client)
             });
@@ -2725,7 +2727,12 @@
               //const id = result.data["0"]._id;
               //const mockProject = { ...result.data["0"], id: id }
               //return mockProject;
-              return result.data["0"];
+              if (result.data) {
+                return result.data["0"];
+              }else{
+                return { ...result,_id: result.id};
+              }
+              
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -2826,7 +2833,8 @@
             const response = await fetch(urlClient + '/all', {
               method: 'GET',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': '*'
               },
               //body: JSON.stringify(messages)
             });
@@ -2843,9 +2851,17 @@
               
               //const mockProjects = result.data.map((f) => {
 
-              //  return { ...f, id: f._id };
+              //  return { ...f, _id: f.id };
               //});
-              setClients(result.data);
+              if (!result.data) {
+                 const mockProjects = result.map((f) => {
+                    return { ...f, _id: f.id };
+                 });
+                 setClients(mockProjects);
+              }else{
+                 setClients(result.data);
+              } 
+            
 
               //loadViewModel()
             } else {
@@ -2888,7 +2904,10 @@
 
               //const id = result.data["0"]._id;
               //const mockMembers = { ...result.data["0"], id: id }
-              return result.data["0"];
+              if (result.data)
+                 return result.data["0"];
+              else
+                 return {...result, _id: result.id};
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3015,8 +3034,14 @@
               //const mockMembers = result.data.map((f) => {
               //  return { ...f, id: f._id };
               //});
-              setMembersClient(result.data);
-
+               if (!result.data) {
+                 const mockMembersClient = result.map((f) => {
+                    return { ...f, _id: f.id };
+                 });
+                 setMembersClient(mockMembersClient);
+              }else{
+                 setMembersClient(result.data);
+              } 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3045,7 +3070,8 @@
             const response = await fetch(urlProject + '/insert', {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                 'Access-Control-Allow-Origin': '*'
               },
               body: JSON.stringify(project)
             });
@@ -3063,7 +3089,12 @@
               //const id = result.data["0"]._id;
               //const mockProject = { ...result.data["0"], id: id }
               //return mockProject;
-              return result.data["0"];
+              if (result.data) {
+                return result.data["0"];
+              }else{
+                return { ...result,ragDatabases:[],tools:[],memberCount:0,ragCount:0,toolCount:0, _id:result.id};
+              }
+              
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3084,7 +3115,8 @@
             const response = await fetch(urlProject + '/update', {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                 'Access-Control-Allow-Origin': '*'
               },
               body: JSON.stringify(project)
             });
@@ -3125,7 +3157,8 @@
             const response = await fetch(urlProject + '/' + project._id, {
               method: 'DELETE',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': '*'
               },
               //body: JSON.stringify(member)
             });
@@ -3165,7 +3198,8 @@
             const response = await fetch(urlProject + '/all', {
               method: 'GET',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': '*'
               },
               //body: JSON.stringify(messages)
             });
@@ -3181,7 +3215,7 @@
             if (result) {
               const mockProjects = result.data.map((f) => {
 
-                return { ...f, id: f._id };
+                return { ...f, _id: f._id };
               });
               //setProjects(mockProjects);
 
@@ -3204,32 +3238,51 @@
 
       }
        async function queryProjectsByID(id, setProjects) {
-        //console.log(id);
+        console.log(id);
         if (entorno !== 'local') {
           try {
             const response = await fetch(urlProject + '/list/' + id, {
               method: 'GET',
               headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': '*'
               },
               //body: JSON.stringify(messages)
             });
 
             if (!response.ok) {
-              throw new Error('Error HTTP: ' + response.status);
+              console.log(response);
+              if (response.status===404){
+                 setProjects([]);
+                 return;
+              }
+              throw new Error('Error HTTP: ' + response.status + ' - ' + response.statusText);
             }
 
             const result = await response.json();
-            //console.log(result);
+            console.log(result);
 
-
+            
             if (result) {
               //const mockProjects = result.data.map((f) => {
-
+              
               //  return { ...f, id: f._id };
               //});
               //const data=[];
-              const data = result.data.map(async (e,i) =>{
+              console.log(result);
+              let tempResult;
+              if (result.data)
+                tempResult = result.data;
+              else{
+                tempResult = result;
+                tempResult = tempResult.map((f) => {
+                    return { ...f, _id: f.id };
+                 });
+              }
+               
+
+              
+              const data = tempResult.map(async (e,i) =>{
                 
                 const temp={}; 
                 
@@ -3247,7 +3300,7 @@
               //console.log(data);
               Promise.all(data).then((v) =>{
                  //console.log(v);
-                 const tempData = result.data.map( (e,i) =>{
+                 const tempData = tempResult.map( (e,i) =>{
                     //console.log(v[i]);
                     //return e.memberCount =await queryMembersByIDCount(e._id);
                     e.ragDatabases =v[i].ragDatabases;
@@ -3260,14 +3313,18 @@
                  });
                  //console.log(tempData)
                  setProjects(tempData);
-                }); 
+                
+                 });
+
+                 
               //setProjects(data);
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
           } catch (err) {
-            console.error(err);
+            //console.error(err);
+            console.log(err);
             let mensajeError = 'Se produjo un error al llamar a la API: ' + err.message;
 
           } finally {
@@ -3306,7 +3363,12 @@
               //const id = result.data["0"]._id;
               //const mockMembers = { ...result.data["0"], id: id }
               //return mockMembers;
-              return result.data["0"];
+              if (result.data) {
+                return result.data["0"];
+              }else{
+                return { ...result,ragDatabases:[],tools:[],memberCount:0,ragCount:0,toolCount:0, _id:result.id};
+              }
+
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3343,11 +3405,7 @@
 
             if (result) {
 
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
+              
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3383,11 +3441,7 @@
 
             if (result) {
 
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
+              
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3429,7 +3483,16 @@
 
 
             if (result) {
-               const data = result.data.map(async (e,i) =>{
+              let tempResult; 
+              if (result.data)
+                 tempResult = result.data;
+              else{
+                 tempResult = result;
+                 tempResult = tempResult.map((f) => {
+                    return { ...f, _id: f.id };
+                 });
+                }
+               const data = tempResult.map(async (e,i) =>{
                 
                 const temp={}; 
                 
@@ -3447,7 +3510,7 @@
               //console.log(data);
               Promise.all(data).then((v) =>{
                  //console.log(v);
-                 const tempData = result.data.map( (e,i) =>{
+                 const tempData = tempResult.map( (e,i) =>{
                     //console.log(v[i]);
                     //return e.memberCount =await queryMembersByIDCount(e._id);
                     e.ragDatabases =v[i].ragDatabases;
@@ -3463,7 +3526,7 @@
                 }); 
 
 
-              //setMembers(result.data);
+              
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3502,12 +3565,12 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              //console.log(result.data.length);
-              return result.data.length; //setMembers(result.data);
+               
+              if (result.data)
+                 return result.data.length; 
+              else
+                 return result.length;
+              
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3527,7 +3590,7 @@
       }
       
       //#endregion
-
+       
       //#region Llamadas Ajax API REST RAG_DATABSES
       async function addRagsApi(rag) {
         if (entorno !== 'local') {
@@ -3550,10 +3613,13 @@
 
             if (result) {
 
-              //const id = result.data["0"]._id;
-              //const mockMembers = { ...result.data["0"], id: id }
-              //return mockMembers;
-              return result.data["0"];
+              
+              if (result.data) {
+                return result.data["0"];
+              }else{
+                return { ...result, _id: result.id};
+              }
+              
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3584,19 +3650,15 @@
             if (!response.ok) {
               throw new Error('Error HTTP: ' + response.status);
             }
-
+            
             const result = await response.json();
             console.log(result);
-
-
+             
+            
             if (result) {
-
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
-
+              
+             
+              
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3635,11 +3697,7 @@
 
             if (result) {
 
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
+              
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3683,12 +3741,18 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              setRags(result.data);
-              //return result.data;
+           
+               let tempResult;
+               if (result.data)
+                 tempResult = result.data;
+               else{
+                 tempResult = result;
+                 tempResult = tempResult.map((f) => {
+                    return { ...f, _id: f.id };
+                 });
+                } 
+              setRags(tempResult);
+           
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3726,12 +3790,17 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              //setRags(result.data);
-              return result.data;
+            
+              if (result.data)
+                return result.data;
+              else{
+                const tempResult = result.map((f) => {
+                    return { ...f, _id: f.id };
+                 });
+                return tempResult;
+              }
+                
+              
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3767,13 +3836,19 @@
             const result = await response.json();
             console.log(result);
 
-
+             
             if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              setRags(result.data);
+              
+              let tempResult;
+              if (result.data)
+                 tempResult = result.data;
+              else{
+                 tempResult = result;
+                 tempResult = tempResult.map((f) => {
+                    return { ...f, _id: f.id };
+                 });
+                }
+              setRags(tempResult);
               //return result.data;
 
             } else {
@@ -3813,13 +3888,16 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              //setRags(result.data);
-              return result.data;
-
+              
+              if (result.data)
+                return result.data;
+              else{
+                const tempResult = result.map((f) => {
+                    return { ...f, _id: f.id };
+                 });
+                return tempResult;
+              }
+              
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3857,12 +3935,12 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              //console.log(result.data.length);
-              return result.data.length; //setMembers(result.data);
+               
+              if (result.data)
+                return result.data.length; 
+              else
+                 return result.length;
+            
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -3900,14 +3978,14 @@
 
             const result = await response.json();
             console.log(result);
-
-
+            
             if (result) {
-
-              //const id = result.data["0"]._id;
-              //const mockMembers = { ...result.data["0"], id: id }
-              //return mockMembers;
-              return result.data["0"];
+              
+              if (result.data)
+                 return result.data["0"];
+              else
+                 return { ...result, _id: result.id};
+              
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3922,7 +4000,7 @@
           mockTOOLS.push(tool);
           return tool;
         }
-
+        
       }
       async function updateToolApi(tool) {
         if (entorno !== 'local') {
@@ -3938,19 +4016,15 @@
             if (!response.ok) {
               throw new Error('Error HTTP: ' + response.status);
             }
-
+            
             const result = await response.json();
             console.log(result);
-
-
+            
+            
             if (result) {
-
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
-
+            
+              
+            
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -3988,11 +4062,7 @@
 
             if (result) {
 
-              /*
-              const mockMembers = result.data.map((f)=>{
-                return {...f,id:f._id};
-              });
-              */
+             
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -4035,11 +4105,17 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              setTools(result.data);
+              
+              let tempResult;
+              if (result.data)
+                  tempResult = result.data;
+                else{
+                  tempResult = result;
+                  tempResult = tempResult.map((f) => {
+                      return { ...f, _id: f.id };
+                  });
+                  }
+              setTools(tempResult);
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -4078,12 +4154,19 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
+              
 
-              //  return { ...f, id: f._id };
-              //});
-              //setTools(result.data);
-              return result.data;
+              if (result.data)
+                return result.data;
+              else{
+                const tempResult = result.map((f) => {
+                    return { ...f, _id: f.id };
+                });
+                return tempResult;
+              }
+                
+              
+              
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -4115,18 +4198,23 @@
             if (!response.ok) {
               throw new Error('Error HTTP: ' + response.status);
             }
-
+            
             const result = await response.json();
             console.log(result);
-
-
+            
+            
             if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              setTools(result.data);
-
+                let tempResult;
+                if (result.data)
+                   tempResult = result.data;
+                else{
+                   tempResult = result;
+                   tempResult = tempResult.map((f) => {
+                      return { ...f, _id: f.id };
+                   });
+                  }
+                setTools(tempResult);
+                
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -4164,12 +4252,17 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
-
-              //  return { ...f, id: f._id };
-              //});
-              //setTools(result.data);
-              return result.data;
+              
+              if (result.data)
+                return result.data;
+              else{
+                const tempResult = result.map((f) => {
+                    return { ...f, _id: f.id };
+                });
+                return tempResult;
+              }
+                
+              
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
             }
@@ -4207,12 +4300,14 @@
 
 
             if (result) {
-              //const mockMembers = result.data.map((f) => {
+              
+              let tempResult;
+              if (result.data)
+                 tempResult = result.data;
+              else
+                 tempResult = result;
 
-              //  return { ...f, id: f._id };
-              //});
-              //console.log(result.data.length);
-              return result.data.length; //setMembers(result.data);
+              return tempResult.length; 
 
             } else {
               throw new Error('Respuesta JSON inválida (no hay propiedad "message").');
@@ -4869,28 +4964,7 @@
           //self.selectedClient(client);
           await queryProjectsByID(client._id,self.projectsClient);
           await queryMembersClientByID(client._id,self.membersClient);
-          /*
-          const tempProjectsClient = self.projectsClient().map(async (f,i) =>{
-              await queryRagByProjectsID(f._id,self.rags);
-              await queryToolByProjectID(f._id,self.tools);
-              
-              f.ragDatabases=self.rags();
-              f.tools= self.tools();
-              return f;
-          });
-         
-          Promise.all(tempProjectsClient).then((d)=>{
-             console.log("***** tempProjectsClient *********");
-            console.log(d);
-            //setTimeout(() => {
-             self.projectsClient([]);  //hay que resetear el array para que coja los cambios de RAGs y tools
-               self.projectsClient(d);
-               //const firstProject = self.projectsClient().find((f) => f.clientId === client._id)
-               //self.selectedProject(firstProject || null);
-            //}, 300);
-           
-          });
-          */
+          
         }
         self.addClient = async function (model, e) {
           if (!self.validacionClient(model)) return;
@@ -4913,8 +4987,13 @@
           let newClients = [];
           self.clients().forEach((el, i) => {
             if (el._id === oldClient._id) {
-              const client = { _id: oldClient._id, name: model.nameClient(), description: model.descriptionClient() };
+              let client = {_id: oldClient._id, name: model.nameClient(), description: model.descriptionClient() };
               self.clients()[i] = client;
+              //para sql update via API
+              if (tipoDB === "SQL") 
+                client = {id: oldClient.id, name: model.nameClient(), description: model.descriptionClient() };
+              
+              console.log(client);
               updateClientApi(client);
             }
             newClients.push(self.clients()[i]);
@@ -4954,7 +5033,7 @@
           self.actionClient("update");
           //console.log(inputNameClient);
           self.nameClient(client.name);
-          slef.descriptionClient(client.description);
+          self.descriptionClient(client.description);
           inputNameClient.value = client.name;
           inputDescriptionClient.value = client.description;
         }
@@ -5070,8 +5149,8 @@
           //console.log(oldproject);
           let newProjects = [];
           self.projectsClient().forEach((el, i) => {
-            if (el.name === oldproject.name) {
-              const project = { id: oldproject._id,
+            if (el._id === oldproject._id) {
+              let project = { id: oldproject._id,
                                _id: oldproject._id, 
                                clientId: client._id, 
                                name: model.nameProject(), 
@@ -5083,6 +5162,15 @@
                                toolCount: oldproject.tools.length }
 
               self.projectsClient()[i] = project;
+              if (tipoDB === "SQL") 
+                project = { id: oldproject._id,  
+                               clientId: client._id, 
+                               name: model.nameProject(), 
+                               description: model.descriptionProject()
+                              }
+                              
+                               
+                           
               UpdateProjectApi(project);
             }
             newProjects.push(self.projectsClient()[i]);
@@ -5246,7 +5334,7 @@
           let newMembersClient = [];
           self.membersClient().forEach((el, i) => {
             if (el._id === oldMemberClient._id) {
-              const memberClient = { _id: oldMemberClient._id,
+              let memberClient = { _id: oldMemberClient._id,
                                      clientId: client._id, 
                                      //projectId: oldMemberClient.projectId, 
                                      name: model.nameMemberClient(), 
@@ -5254,6 +5342,15 @@
                                      role: model.roleMemberClient(), 
                                      status: model.estadoMemberClient() }
               self.membersClient()[i] = memberClient;
+              if (tipoDB === "SQL") 
+                memberClient = { id: oldMemberClient._id,  
+                                     clientId: client._id, 
+                                     //projectId: oldMemberClient.projectId, 
+                                     name: model.nameMemberClient(), 
+                                     email: model.emailMemberClient(), 
+                                     role: model.roleMemberClient(), 
+                                     status: model.estadoMemberClient() }
+
               updateMembersClientApi(memberClient); 
             }
             newMembersClient.push(self.membersClient()[i]);
@@ -5344,7 +5441,7 @@
           let member = {
             //id:uuid.v4(),
             projectId: self.selectedProject()._id,
-
+            memberId: _idMember,
             name: model.nameMember(),
             email: model.emailMember(),
             role: model.roleMember(),
@@ -5379,9 +5476,13 @@
           let newMembers = [];
           self.members().forEach((el, i) => {
             if (el._id === oldMember._id) {
-              const member = { id: oldMember.id, _id: oldMember._id, projectId: oldMember.projectId, name: model.nameMember(), email: model.emailMember(), role: model.roleMember(), status: model.estadoMember(), ragDatabases: oldMember.ragDatabases, tools: oldMember.tools }
+              let member = { id: oldMember.id, _id: oldMember._id, projectId: oldMember.projectId, name: model.nameMember(), email: model.emailMember(), role: model.roleMember(), status: model.estadoMember(), ragDatabases: oldMember.ragDatabases, tools: oldMember.tools }
               self.members()[i] = member;
-              updateMembersApi(member);
+              
+              if (tipoDB === "SQL") 
+                member = { id: oldMember._id,memberId:oldMember.memberId, projectId: oldMember.projectId, name: model.nameMember(), email: model.emailMember(), role: model.roleMember(), status: model.estadoMember() }
+              
+                updateMembersApi(member);
             }
             newMembers.push(self.members()[i]);
           });
@@ -5489,16 +5590,16 @@
           if (!self.validacionRag(model)) return;
           let selectedMember = self.selectedMember()
           //console.log(selectedMember);
-          let memberId = selectedMember._id
-          
+          let memberId = selectedMember._id;
+          console.log(memberId);
           let ragDatabases = self.selectedMember().ragDatabases;
           let newRag = {};
           if (entorno ==="local"){
              newRag = { _id: uuid.v4(), projectId: null, memberId: memberId, lastUpdate: self.fechaRag(), name: self.nameRag(), type: self.tipoRag() }
           }else{
-             newRag = { projectId: null, projectId: null, memberId: memberId, lastUpdate: self.fechaRag(), name: self.nameRag(), type: self.tipoRag() }
+             newRag = { projectId: null, memberId: memberId, lastUpdate: self.fechaRag(), name: self.nameRag(), type: self.tipoRag() }
           }
-          
+          console.log(newRag);
           newRag = await addRagsApi(newRag)
           ragDatabases.push(newRag);
           selectedMember.ragDatabases = ragDatabases;
@@ -5530,6 +5631,9 @@
           let selectedMember = self.selectedMember();
           
           //await updateMembersApi(selectedMember);
+          if (tipoDB === "SQL") 
+            updateRagRow = { id: oldRag._id, projectId: null, memberId: oldMember._id, name: model.nameRag(), type: model.tipoRag(), lastUpdate: model.fechaRag() }; 
+          
           await updateRagApi(updateRagRow);
           self.selectedMember(selectedMember);
           //self.updateMemberArray(model);
@@ -5676,6 +5780,9 @@
           self.selectedMember().tools = newTools;
           let selectedMember = self.selectedMember();
           //await updateMembersApi(selectedMember);
+          if (tipoDB === "SQL") 
+            updateToolRow =  { id: oldTool._id,projectId: null, memberId: oldMember._id, name: model.nameTool(), type: model.tipoTool(), permission: model.permisoTool() };
+          
           await updateToolApi(updateToolRow);
           self.selectedMember(selectedMember);
           //closeToolModal();
@@ -5836,6 +5943,9 @@
           let selectedProject = oldProject;
           console.log(selectedProject);
           //await UpdateProjectApi(selectedProject);
+          if (tipoDB==="SQL")
+            updataRagRow = { id: oldRag._id, projectId: oldProject._id, memberId: null, name: model.nameRagProyecto(), type: model.tipoRagProyecto(), lastUpdate: model.fechaRagProyecto() }  
+          
           await updateRagApi(updataRagRow);
           self.selectedProject(selectedProject);
           //self.updateMemberArray(model);
@@ -5959,6 +6069,7 @@
           if (!self.validacionToolProyecto(model)) return;
           const oldProject = self.selectedProject();
           const oldTool = self.selectedToolProyecto();
+          console.log(oldTool);
           let newTools = [];
           let updateToolRow = {};
           self.selectedProject().tools.forEach((el, i) => {
@@ -5971,6 +6082,9 @@
           self.selectedProject().tools = newTools;
           let selectedProject = self.selectedProject();
           //await UpdateProjectApi(selectedProject);
+          if (tipoDB==="SQL")
+            updateToolRow = { id: oldTool._id, projectId: oldProject._id,memberId: null, name: model.nameToolProyecto(), type: model.tipoToolProyecto(), permission: model.permisoToolProyecto() }  
+          console.log(updateToolRow);
           await updateToolApi(updateToolRow);
           self.selectedProject(selectedProject);
           //closeToolProyectoModal();
