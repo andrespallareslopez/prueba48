@@ -2440,7 +2440,7 @@
       //el http//://{{url}}:{{port}}/... no puede estar cuando lo pongamos en produccion o en el axet flow
       const entorno = "dev"  //local -dev - prod
       const url = 'localhost';
-      const port = '8000';
+      const port = '31406' // '8000';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
       const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
       const urlClient = (url && port) ? `http://${url}:${port}/api/clients` : `/api/clients`;
@@ -2744,7 +2744,7 @@
 
           }
         } else if (entorno === 'local') {
-          return project;
+          return client;
         }
       }  
       async function updateClientApi(client) {
