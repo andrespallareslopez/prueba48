@@ -6,33 +6,31 @@
   <title>MirrorMind Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
  
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
-    
-    /* #region CODIGO CSS RELACIONADO CON EL CHAT IA*/
-    /* #region CUADRO DEL CHAT */
+    /*#region CODIGO CSS RELACIONADO CON EL CHAT IA*/
+    /* ===============================
+       FONDO SVG DE AXET FLOW
+       =============================== */
     .chat-box {
       position: fixed;
-      bottom: 80px;
+      bottom: 57px;
       right: 24px;
-      width: 400px;
-      height: 550px;
-      background: #f8fafc;
-      border-radius: 12px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      width: 420px;
+      height: 520px;
+      background: #dbd6d6;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
       display: none;
       overflow: hidden;
-      border: 1px solid #e2e8f0;
-      z-index: 50;
+      border: 1px solid #e5e7eb;
+
       /* Fondo con el logo AXET FLOW */
+
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAG0AAACdCAYAAAC+avZPAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAeQSURBVHgB7Z2NdeQ0FIXv5FAAHeykArIVECoAKmC2goQKUCogWwFDBYQKEipgqQDTQTowehk5Z378I9n6ubL0neNMJse7ief5ytZ9T88bVAZp23arX/4FF7srVMb4BVw0m83m9xq0AYzKduBCyZcatGEoVSbf1KD1oFX2LUhVJmxQuUAH7Vm/3IKHF62y77o3VWln6ID9BK6ACQ/Hb6rSztBBk1v8LXjYa5V9Ov5BVdoRRmVbcKHOf1CDdooCF6Ky/85/WINm0Cq7QwYqE2rQ8D6RvgcXvSoTatAOsF3LXsE3VPMgKmv5GHVjqtII7Sq97cd2KHqe1pKmXjqPcYjSlUZrCo9RbNC0yr4BsSk8RrHDY8tnCovKrm12LFJpLacprGx3LFJpLZ8pbK0yoTiltZym8CeXnTf6IL7Xr1+DBznr/kIgCFX2pI/3R5d/8JXebsBlmbzqD/ZaH8grPNNymsLOnqcMj59x8LpYENV7nz+1mZnCY1yZM/oRXNzrD/kD/JJFgtOGt7tH/QHJ2S1jPdO17aSYZQmkdtVFGYEtb3ePpGq7bQ+lbD5gs6sEhZm8z9OM2v5GxvOXPkhVpvRxPWAm7/M0ozYFLrZTuSULsku9THHhiBDOY+RkmjUFMKbwF3CxSGVCnyOyAxdLpgBs1+lmacCEi6AZN+IFXNy73pTkbgqP0WsYmw/oBVw4TQFyN4XH6DWMSdV2a3zSSUhNYQVPDKZmSNXW6O3j1E3JmlUmDKZmSNW21dvd2A6kprCCR0aToKQTU1HZTZ/Rav5eKSPYggdvdlzHaBJU/7IGCyeCAZApwNCtPOO1bAfPTJYbkJrJwu1xsnRtpvAYk+UGpGayoM7er8oUHsOqsIdYbff6pPpcksoEq8IeZrWZE6oYlQnWJXTEanvS2w/gIpjKBOsSOmK1sQWsQeAUl2vdoxQBNaiMMatYxwWnoJEmSplocDixg+JcYWyW4rAlFllQIeo1z5lVy09qJqfGqyk8xqxaflIzOTUKkZilNKGq7YRoKhNmr5qpajtBISKzlSZUtb3hPfUyxaL1aUZtTyibxdVVrixSmkBq1sYiqF01xOKVoCZRymhvxUAhAYuVJhCbySFJojLBy5prYjM5JAqJ8LlQnm1FaUiCm8JjeAtaYWpTSIjvlhQlqE2lVJngNWgFqK0BQUmhl7vHcwjLsn2xs+kSF5pQHXsU1kfDEDAhSNDMwb1gXSiQEGR4FFZmJkdNvUwRrKHZylI3CkQEU5qwErVRqUwI2jpwJWpL4i+OEaPfo0K+SILzBWQEHR479DD5B/gqgW3YpnY/+ojVWfVn5MeeMWBClKBlmihVICXK8ChklihNluC0IVrj6czMZAViYncLzyF188h6LeuIGrQM1NYgg9EgRV9+ZrXR3jEmR7rqtHxkU7uZ6gkYf4KPF2RCqqAxdiPYtYdOrPREm6d1tNxl5NEXU8whhdJ+BS8+28oHI2rQ2kOTTXbjWIGcqMNjm0+V1kmzNDaiKa3lbFE7xB7ExBweFfJBHuJwB1KiBK3lbFE7RdcsjY7gQWs5n1tmgwSMUm0xlJajyjruGdUWNGgZq6yDspdk6LrH38D37Jo5UBX4hCwL32I9XQ+o7K2QwyOzXeUKlb0VJGiZ2FWuKJBQFxW6QWFveVdaZnaVK3sQEGJ4VFgvW3NSJsVr0DK1q1x5TD3h9ha0FUykbUlub/lUWgkq60hqb3kJWkEq60iqNl9KY6yuCo2o7QMSUJt0LiPPJp1Yl13lyi6FvbUoaCu1q1xRiMzSbuFrtatciWpvzVbayu0qVxQisuQJGFVlp0TrUDdLaYXYVa5Eq95yDlqBE2lbtog04Z6jtKqyYaLYW05BqyqbJIq95aq0Eu0qV4LbW9ZBMyrbgQ8FLkRtCgFxURqjXSW9GB/A10Yi6FJgq6AR21XKvErg2NpcBDuRbJXG2BDlSzeZJW0qE6xWctIRMXbVHnyclGq3nA3TglQm2yhNgY+LzjolqW1UacauYhwaexdEkKrNe+PqQaURT6QHH9Bj1KbAhfelwINK079IbvHZgtbgkLsaXXZEmIGQk+nanFSL6VVajio73w9ceLW3epVGuhjQ6dqgj+FZv9yCB29qu1AasV3lqnwFLrwtBb5QWsvZQ39WqRqh2oTFS4FPgmbsqifwMetAW85n3SyecJ8Pj4xzstktakmfdbN4wv0eNNLqqgbLr00KfCgs4MrXfxSIxY2gjdr24GKR2t6uaaR2lTf7h3S9wezju2KeSMMTpM+6mb0UeMNqV/k2WUnN5FkTbgnaDnw8h2hrpI9VJrcKXChTMmHN4vVpObEWtaXqy58E0kSps5lclNIEYrXd2F4SilKaQJoodaqVLE5pHaRLtawWJxantCMU+FA2OxWrNIE0dTOptpKVJijwoaZ2KDpoxKmbUXur6OFRIE2UNnr7ODThLn14ZFXbFiMT7uKVJpCqbdDeKl5pAmmidNDeqkozkCZKe+2tqjQDaaK0196qSjuC1EwWRG3/dG+q0o4gTd0IJ39TVdoZxGp7t7eq0s4gVpvqvqlK64FdbVVpPZAmSoW9fKlKG4E0UXr/P2hSM+rA5xERAAAAAElFTkSuQmCC");
+
+
+
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
@@ -41,52 +39,64 @@
     }
 
     .chat-box-header {
-      background: #1e3a8a; /* Blue 900 */
+      background: rgba(0, 87, 184, 0.9);
       color: #ffffff;
-      padding: 14px 18px;
-      font-size: 14px;
-      font-weight: 600;
-      border-radius: 12px 12px 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      /*padding: 12px 16px;*/
+      padding: 10px;
+      font-size: 12px;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+      border-radius: 16px;
     }
 
     .chat-box-body {
-      margin-top: 0;
-      padding: 16px;
+      /*padding: 12px 16px;*/
+      /*padding: 10px;*/
+      margin-top: 10px;
       font-size: 14px;
-      color: #334155;
-      height: calc(100% - 60px - 70px);
+      color: #111827;
+      height: calc(100% - 70px - 56px);
       overflow-y: auto;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(4px);
     }
 
     .chat-box-footer {
-      border-top: 1px solid #e2e8f0;
-      padding: 12px;
+      border-top: 1px solid #e5e7eb;
+      padding: 8px;
       display: flex;
-      gap: 8px;
+      gap: 6px;
       align-items: center;
-      background: #ffffff;
-      position: absolute;
-      bottom: 0;
-      width: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(4px);
     }
 
     .chat-input {
       flex: 1;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid #cbd5e1;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
       font-size: 13px;
       outline: none;
-      transition: all 0.2s;
     }
 
     .chat-input:focus {
-      border-color: #1e40af;
-      box-shadow: 0 0 0 2px rgba(30, 64, 175, 0.1);
+      border-color: #0057B8;
+      box-shadow: 0 0 0 1px rgba(0, 87, 184, 0.2);
+    }
+
+    .chat-send-btn {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      background: #0057B8;
+      color: #ffffff;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .chat-send-btn:hover {
+      background: #006fe0;
     }
 
     /* BOTÓN DEL CHAT (con SVG animado) */
@@ -97,24 +107,21 @@
       cursor: pointer;
       outline: none;
       position: fixed;
-      bottom: 20px;
-      right: 24px;
+      bottom: -3px;
+      right: 14px;
       z-index: 1000;
-      transition: transform 0.2s ease;
-    }
-    
-    .chat-button:hover {
-        transform: scale(1.05);
+      outline: none !important;
     }
 
     .chat-button svg {
-      transform: scale(0.65);
+      transform: scale(0.5);
       display: block;
-      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+      transition: transform 0.2s ease, filter 0.2s ease;
     }
 
     .chat-bg {
-      fill: #1d4ed8; /* Blue 700 */
+      fill: #0057B8;
+      transition: fill 0.2s ease;
     }
 
     .chat-bubble {
@@ -122,198 +129,286 @@
     }
 
     .chat-dot {
-      fill: #1d4ed8;
+      fill: #0057B8;
       animation: chat-typing 1.2s infinite ease-in-out;
     }
 
-    .dot-1 { animation-delay: 0s; }
-    .dot-2 { animation-delay: 0.2s; }
-    .dot-3 { animation-delay: 0.4s; }
-
-    @keyframes chat-typing {
-      0% { transform: translateY(0); opacity: 0.4; }
-      50% { transform: translateY(-2px); opacity: 1; }
-      100% { transform: translateY(0); opacity: 0.4; }
+    .dot-1 {
+      animation-delay: 0s;
     }
 
+    .dot-2 {
+      animation-delay: 0.2s;
+    }
+
+    .dot-3 {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes chat-typing {
+      0% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+
+      50% {
+        transform: translateY(-2px);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(0);
+        opacity: 0.4;
+      }
+    }
+
+    .chat-button:hover svg {
+      transform: scale(0.57);
+      filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.3));
+    }
+
+    .chat-button:hover .chat-bg {
+      fill: #006fe0;
+    }
 
     /**********************************************************************************************/
     #chat-container {
-      height: 100%;
-      background: transparent;
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      opacity: 0.9;
     }
 
     #messages {
-      /* border: 1px solid #e2e8f0; */
-      /* border-radius: 8px; */
-      padding: 0;
-      height: 100%;
+      border: 1px solid #ddd;
+      border-radius: 15px;
+      padding: 10px;
+      height: 350px;
       overflow-y: auto;
-      /* background: transparent; */
-      margin-bottom: 0;
+      background: #fafafa;
+      margin-bottom: 10px;
     }
 
     .message {
-      margin-bottom: 12px;
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 13px;
-      line-height: 1.5;
-      max-width: 85%;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 12px;
     }
 
     .message.user {
-      background: #eff6ff; /* blue-50 */
-      color: #1e3a8a;
+      background: #e3f2fd;
       text-align: right;
-      margin-left: auto;
-      border-bottom-right-radius: 2px;
+      white-space: pre-wrap;
     }
 
     .message.bot {
-      background: #f1f5f9; /* slate-100 */
-      color: #334155;
+      background: #f1f8e9;
       text-align: left;
-      margin-right: auto;
-      border-bottom-left-radius: 2px;
     }
 
     #form {
       display: flex;
+      flex-direction: column;
       gap: 8px;
-      align-items: center;
+    }
+
+    #question {
+      width: 100%;
+      min-height: 40px;
+      resize: vertical;
+      padding: 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
     }
 
     #send-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
       border: none;
       cursor: pointer;
-      background-color: #1d4ed8; /* Blue 700 */
+
+      /* Azul corporativo */
+      /*background-color: #0057B8;*/
+
+      /* SVG BLANCO embebido */
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='white' d='M2.01 21L23 12 2.01 3 2 10l15 2-15 2z'/></svg>");
+
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 18px 18px;
-      transition: background-color 0.2s;
+      background-size: 22px 22px;
     }
 
-    #send-btn:hover {
-      background-color: #1e40af;
+    #send-btn :hover {
+      /* 
+      scale:(1.07);
+      background: #03274b;
+      */
+      filter: brightness(1.05);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .22);
     }
-    
+
+    .send-btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    .send-btn:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, .75);
+      outline-offset: 3px;
+    }
+
     #send-btn:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
+      opacity: 0.6;
+      cursor: default;
     }
+
 
     #error {
-      color: #ef4444;
-      font-size: 12px;
-      margin-top: 4px;
-      min-height: 16px;
+      color: #d32f2f;
+      font-size: 13px;
+      min-height: 18px;
     }
 
     /*************************************************************************/
     #drop-area {
+      /*width: 100%;*/
       display: block;
-      padding: 20px;
+      /*height: 50px;*/
+      padding: 10px;
       text-align: center;
-      border: 2px dashed #cbd5e1;
+      /*line-height: 50px;*/
+      border: 2px dashed #ccc;
       cursor: pointer;
-      border-radius: 12px;
-      background: #f8fafc;
-      color: #64748b;
-      font-size: 12px;
-      transition: all 0.2s;
+      border-radius: 16px;
     }
     
-    #drop-area:hover {
-        border-color: #94a3b8;
-        background: #f1f5f9;
+    #preview-container {
+      text-align: center;
+    }
+    
+    #preview-container.hide {
+      display: none;
     }
     
     #drop-area.drag-over {
-      background-color: #e0f2fe;
-      border-color: #3b82f6;
-      color: #0369a1;
-    }
-    
-    .container-file {
-      display: inline-block;
-      position: relative;
-      width: 75px;
-      height: 95px;
-      margin: 8px;
-      text-align: center;
+      background-color: #eee;
     }
     
     .preview-image {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      margin: 0 auto;
-      display: block;
+
+      position: absolute;
+      top: 0;
+      left: 0;
+      object-fit: fill;
+      width: 75px;
+      height: 75px;
+      /*margin: 10px;*/
+      /*border: 1px solid #ddd;*/
+      z-index: 0;
+    }
+
+    .container-file {
+      display: inline-block;
+      position: relative;
+      object-fit: cover;
+      width: 75px;
+      height: 95px;
+      text-align: center;
+      line-height: 100px;
+      margin: 5px;
+      background-color: transparent;
+      /*border: 1px solid #ddd;*/
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
     }
     
     .file-name {
-      font-size: 10px;
-      color: #334155;
-      margin-top: 4px;
-      white-space: nowrap;
-      overflow: hidden;
+      position: absolute;
+      width: 75px;
+      height: 25px;
+      text-align: left;
+      line-height: 25px;
+      top: 76px;
+      left: 0;
       text-overflow: ellipsis;
-      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      color: black;
+      font-size: xx-small;
     }
 
     .close-button-file {
       position: absolute;
-      top: -6px;
-      right: 0;
-      width: 18px;
-      height: 18px;
+      width: 19px;
+      height: 19px;
+      top: 1px;
+      right: 1px;
       border-radius: 50%;
-      background: #ef4444;
+      background-color: rgb(90, 87, 87);
+      text-align:unset;
+      line-height: 0;
+      padding: 0;
+      margin: 0;
+      font-size: xx-small;
       color: white;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      line-height: 1;
+    }
+
+
+    .close-button-file:hover {
+
+      background-color: rgb(95, 92, 92);
+      color: yellow;
+      font-weight: bold;
     }
 
     #message-drag {
-      margin-top: 10px;
+      display: block;
+      width: 400px;
+      height: 60px;
+      margin: 1px auto;
       text-align: center;
+      /*line-height: 200px;*/
     }
 
-/* #endregion */
+    #message-drag.show-message {
+      display: block;
+    }
+
+    #question {
+      border-radius: 16px;
+    }
+
     /* #region ICONOS SVG  */
     .icon-edit {
-      width: 16px;
-      height: 16px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'%3E%3C/path%3E%3Cpath d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'%3E%3C/path%3E%3C/svg%3E");
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 35 25'%3E%3Crect x='1.5' y='1.5' width='21' height='21' rx='4' fill='none' stroke='%23424242' stroke-width='1.2'/%3E%3Cpath d='M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z' fill='%23424242'/%3E%3Cpath d='M18.37 3.29c-.39-.39-1.02-.39-1.41 0l-2.12 2.12 3.75 3.75 2.12-2.12c.39-.39.39-1.02 0-1.41l-2.34-2.34z' fill='%23212121'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
-      cursor: pointer;
+
     }
 
     .icon-trash {
-      width: 16px;
-      height: 16px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ef4444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='3 6 5 6 21 6'%3E%3C/polyline%3E%3Cpath d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'%3E%3C/path%3E%3C/svg%3E");
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='5' y='4' width='10' height='2' rx='1' ry='1' fill='%23333333'/%3E%3Crect x='8' y='2.5' width='4' height='1.5' rx='0.75' ry='0.75' fill='%23333333'/%3E%3Crect x='6' y='6.5' width='8' height='10.5' rx='1.2' ry='1.2' fill='%23555555'/%3E%3Crect x='7.2' y='7.5' width='1' height='8.5' rx='0.5' ry='0.5' fill='%23777777'/%3E%3Crect x='9.5' y='7.5' width='1' height='8.5' rx='0.5' ry='0.5' fill='%23777777'/%3E%3Crect x='11.8' y='7.5' width='1' height='8.5' rx='0.5' ry='0.5' fill='%23777777'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: center;
       background-size: contain;
-      cursor: pointer;
     }
 
     .icon-borrar {
       width: 48px;
       height: 48px;
+
       background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23dc2626' stroke-width='2'><path stroke-linecap='round' stroke-linejoin='round' d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m2 0H7m3-3h4a1 1 0 011 1v1H9V5a1 1 0 011-1z'/></svg>");
       background-repeat: no-repeat;
       background-position: center;
@@ -325,8 +420,14 @@
       height: 48px;
       border-radius: 50%;
       border: none;
-      background-color: #1d4ed8;
+      cursor: pointer;
+
+      /* Fondo azul corporativo */
+      background-color: #0057B8;
+
+      /* SVG embebido */
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2L20 6.5V17.5L12 22L4 17.5V6.5L12 2Z' stroke='white' stroke-width='1.8' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M12 7.2L16.4 9.7V14.3L12 16.8L7.6 14.3V9.7L12 7.2Z' fill='white' fill-opacity='0.15' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M12 7.2V16.8' stroke='white' stroke-width='1.5' stroke-linecap='round' opacity='0.9'/%3E%3C/svg%3E");
+
       background-repeat: no-repeat;
       background-position: center;
       background-size: 22px 22px;
@@ -335,10 +436,16 @@
     .icon-rag {
       width: 40px;
       height: 40px;
-      border-radius: 12px;
+      border-radius: 16px;
       border: none;
-      background-color: #1d4ed8;
+      cursor: pointer;
+
+      /* Fondo (ejemplo) */
+      background-color: #0057B8;
+
+      /* SVG embebido */
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 4h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z' stroke='white' stroke-width='1.8' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M8.5 8h7M8.5 11h5.5M8.5 14h7' stroke='white' stroke-width='1.6' stroke-linecap='round' opacity='0.9'/%3E%3Cpath d='M16.8 16.7l1.4 1.4' stroke='white' stroke-width='1.6' stroke-linecap='round'/%3E%3Cpath d='M15.5 15.5a2.3 2.3 0 1 0-3.25-3.25a2.3 2.3 0 0 0 3.25 3.25Z' fill='white' fill-opacity='0.12' stroke='white' stroke-width='1.4'/%3E%3C/svg%3E");
+
       background-repeat: no-repeat;
       background-position: center;
       background-size: 22px 22px;
@@ -347,10 +454,16 @@
     .icon-tool {
       width: 40px;
       height: 40px;
-      border-radius: 12px;
+      border-radius: 16px;
       border: none;
-      background-color: #1d4ed8;
+      cursor: pointer;
+
+      /* Fondo de ejemplo */
+      background-color: #0057B8;
+
+      /* SVG embebido */
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4.5 8.2L12 3.8l7.5 4.4V16L12 20.2 4.5 16V8.2Z' stroke='white' stroke-width='1.8' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M14.9 9.2a2.3 2.3 0 1 1-3.3 2.1l-3.2 3.2.9.9-.9.9-1.8-1.8.9-.9.9.9 3.2-3.2a2.3 2.3 0 0 1 2.4-3Z' fill='white' fill-opacity='0.14' stroke='white' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
       background-repeat: no-repeat;
       background-position: center;
       background-size: 22px 22px;
@@ -359,35 +472,92 @@
       display: inline-block;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='10' cy='10' r='3.5'/%3E%3Cpath d='M4 26c0-3.8 3-6.8 6-6.8s6 3 6 6.8'/%3E%3Cpath d='M10 16.5l-1.6 2.2L10 20.9l1.6-2.2L10 16.5z'/%3E%3Cpath d='M10 20.9l-1.2 4.1'/%3E%3Cpath d='M10 20.9l1.2 4.1'/%3E%3Cpath d='M18 12l6-3 6 3'/%3E%3Cpath d='M19 13h10'/%3E%3Cpath d='M20 13v9'/%3E%3Cpath d='M24 13v9'/%3E%3Cpath d='M28 13v9'/%3E%3Cpath d='M19 22h10'/%3E%3Cpath d='M18.5 25h11'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-size: 20px 20px;
+       background-size: 32px 32px;
+
       background-position: center;
-      width: 20px;
-      height: 20px;
+      
+      width: 32px;
+      height: 32px;
+      background-color: #ffffff; 
+    }
+    .icon-banca.toogle-icon{
+      background-color: black;
+      stroke: black;
     }
     .icon-project{
       display: inline-block;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='4' y='6' width='24' height='20' rx='3'/%3E%3Cpath d='M4 11h24'/%3E%3Ccircle cx='8' cy='9' r='1'/%3E%3Ccircle cx='12' cy='9' r='1'/%3E%3Cpath d='M12.5 16l-3 3 3 3'/%3E%3Cpath d='M19.5 16l3 3-3 3'/%3E%3Cpath d='M16 15l-2 10'/%3E%3Cpath d='M20.5 23l2 2 4-4'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-size: 20px 20px;
+      background-size: 32px 32px;
+
       background-position: center;
-      width: 20px;
-      height: 20px;
+      
+      width: 32px;
+      height: 32px;
+      background-color: #ffffff; 
     }
     .icon-member{
        display: inline-block;
        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='9' r='3.5'/%3E%3Cpath d='M4 24c0-4 3.5-7 7-7s7 3 7 7'/%3E%3Crect x='18' y='7' width='10' height='10' rx='2'/%3E%3Cpath d='M21 7v-2'/%3E%3Cpath d='M25 7v-2'/%3E%3Cpath d='M21 17v2'/%3E%3Cpath d='M25 17v2'/%3E%3Cpath d='M16 12h2'/%3E%3C/svg%3E");
        background-repeat: no-repeat;
-       background-size: 20px 20px;
+       background-size: 32px 32px;
+       
        background-position: center;
-       width: 20px;
-       height: 20px;
+      
+       width: 32px;
+       height: 32px;
+       background-color: #ffffff; 
+    }
+    .progreso {
+      width: 50px;
+      height: 20px;
+      display: flex;
+      align-items: flex-end;
+      /* para que “salten” desde abajo */
+      justify-content: center;
+      gap: 2px;
+      border-radius: 8px;
+      padding: 2x 4x;
+      background: #f3f4f6;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #111827;
+      transform: translateY(0);
+      animation: salto 0.75s ease-in-out infinite;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.12s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.24s;
+    }
+
+    @keyframes salto {
+
+      0%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.6;
+      }
+
+      50% {
+        transform: translateY(-14px);
+        opacity: 1;
+      }
     }
 
     .member-logo {
       width: 40px;
       height: 40px;
-      border-radius: 12px;
-      background-color: #1d4ed8;
+      border-radius: 16px;
+      background-color: #4f46e5;
+      /* indigo-600 */
       background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='none'%3E%3Cpath%20d='M12%202.5c4.5%200%208.2%203.2%209%207.5-.8%204.3-4.5%207.5-9%207.5S3.8%2014.3%203%2010c.8-4.3%204.5-7.5%209-7.5Z'%20stroke='white'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'%20opacity='0.9'/%3E%3Cpath%20d='M12%2013.2a3.2%203.2%200%201%200%200-6.4%203.2%203.2%200%200%200%200%206.4Z'%20stroke='white'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3Cpath%20d='M20.5%2020.5%2018%2018'%20stroke='white'%20stroke-width='1.8'%20stroke-linecap='round'%20stroke-linejoin='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-position: center;
@@ -395,21 +565,77 @@
     }
 
     .icon-spin {
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 2rem;
+      height: 2rem;
       margin:0;
       padding: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'%3E%3Cpath fill='%23fff' d='M286.7 96.1C291.7 113 282.1 130.9 265.2 135.9C185.9 159.5 128.1 233 128.1 320C128.1 426 214.1 512 320.1 512C426.1 512 512.1 426 512.1 320C512.1 233.1 454.3 159.6 375 135.9C358.1 130.9 348.4 113 353.5 96.1C358.6 79.2 376.4 69.5 393.3 74.6C498.9 106.1 576 204 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320C64 204 141.1 106.1 246.9 74.6C263.8 69.6 281.7 79.2 286.7 96.1z'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640'%3E%3Cpath fill='%230057b8' d='M286.7 96.1C291.7 113 282.1 130.9 265.2 135.9C185.9 159.5 128.1 233 128.1 320C128.1 426 214.1 512 320.1 512C426.1 512 512.1 426 512.1 320C512.1 233.1 454.3 159.6 375 135.9C358.1 130.9 348.4 113 353.5 96.1C358.6 79.2 376.4 69.5 393.3 74.6C498.9 106.1 576 204 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320C64 204 141.1 106.1 246.9 74.6C263.8 69.6 281.7 79.2 286.7 96.1z'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
       background-size: contain;
       background-position: center;
+      -webkit-animation: spin .75s linear infinite; 
+      -moz-animation: spin .75s linear infinite; 
+      -ms-animation: spin .75s linear infinite; 
+      -o-animation: spin .75s linear infinite; 
       animation: spin .75s linear infinite; 
     }
-    
+    @-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); }
+    }
+    @-moz-keyframes spin { 
+        100% { -moz-transform: rotate(360deg); }
+    }
+    @-o-keyframes spin { 
+        100% { -o-transform: rotate(360deg); }
+    }
     @keyframes spin { 
         100% { transform: rotate(360deg); }
     }
-    
+    .icon-search {
+      width: 32px;
+      height: 32px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23000' d='M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+
+    .icon-close {
+      width: 32px;
+      height: 32px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 352 512'%3E%3Cpath fill='%23000' d='M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+
+    .loaderIA {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #5a3e3e;
+      box-shadow: 32px 0 #201c1c, -32px 0 #6d9b82;
+      position: relative;
+      animation: flashIA 0.5s ease-out infinite alternate;
+    }
+
+    @keyframes flashIA {
+      0% {
+        background-color: rgba(59, 38, 38, 0.133);
+        box-shadow: 32px 0 #FFF2, -32px 0 #5aa76d;
+      }
+
+      50% {
+        background-color: #e24a4a;
+        box-shadow: 32px 0 #FFF2, -32px 0 #FFF2;
+      }
+
+      100% {
+        background-color: rgba(22, 4, 4, 0.133);
+        box-shadow: 32px 0 #5a4545, -32px 0 #FFF2;
+      }
+    }
     /*#endregion*/
     .lds-ellipsis,
     .lds-ellipsis div {
@@ -429,42 +655,195 @@
       width: 9.33333px;
       height: 9.33333px;
       border-radius: 50%;
-      background: #1e40af;
+      background: #0057b8e6;
       animation-timing-function: cubic-bezier(0, 1, 1, 0);
     }
 
-    .lds-ellipsis div:nth-child(1) { left: 4px; animation: lds-ellipsis1 0.6s infinite; }
-    .lds-ellipsis div:nth-child(2) { left: 4px; animation: lds-ellipsis2 0.6s infinite; }
-    .lds-ellipsis div:nth-child(3) { left: 16px; animation: lds-ellipsis2 0.6s infinite; }
-    .lds-ellipsis div:nth-child(4) { left: 23px; animation: lds-ellipsis3 0.6s infinite; }
+    .lds-ellipsis div:nth-child(1) {
+      left: 4px;
+      animation: lds-ellipsis1 0.6s infinite;
+    }
+
+    .lds-ellipsis div:nth-child(2) {
+      left: 4px;
+      animation: lds-ellipsis2 0.6s infinite;
+    }
+
+    .lds-ellipsis div:nth-child(3) {
+      left: 16px;
+      animation: lds-ellipsis2 0.6s infinite;
+    }
+
+    .lds-ellipsis div:nth-child(4) {
+      left: 23px;
+      animation: lds-ellipsis3 0.6s infinite;
+    }
 
     @keyframes lds-ellipsis1 {
-      0% { transform: scale(0); }
-      100% { transform: scale(1); }
+      0% {
+        transform: scale(0);
+      }
+
+      100% {
+        transform: scale(1);
+      }
     }
 
     @keyframes lds-ellipsis3 {
-      0% { transform: scale(1); }
-      100% { transform: scale(0); }
+      0% {
+        transform: scale(1);
+      }
+
+      100% {
+        transform: scale(0);
+      }
     }
 
     @keyframes lds-ellipsis2 {
-      0% { transform: translate(0, 0); }
-      100% { transform: translate(12px, 0); }
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(12px, 0);
+      }
     }
 
-    /* #region VARIABLES */
+    /*********************************************************************************/
+    .form-search {
+      position: relative;
+      display: block;
+      box-sizing: border-box;
+      border-bottom: 0px solid #E8EAF6;
+      width: 65px;
+      height: 45px;
+      top: 0px;
+      left: 0px;
+      overflow: hidden;
+      padding: 0px;
+      margin: 0px;
+      z-index: 50;
+    }
+
+    .btn-progress {
+      position: absolute;
+      display: block;
+      box-sizing: border-box;
+      border-bottom: 0px solid #E8EAF6;
+      width: 65px;
+      height: 45px;
+      visibility: hidden;
+      top: 0px;
+      left: 0px;
+      overflow: hidden;
+      padding: 0px;
+      margin: 0px;
+      z-index: 50;
+    }
+
+    .btn-search {
+      display: inline-block;
+      box-sizing: border-box;
+      position: relative;
+      background: transparent;
+      cursor: pointer;
+      color: #E8EAF6;
+      border: 0px;
+      margin: 0px;
+      padding: 0px;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      transition: all 0s ease-in-out;
+    }
+
+    .btn-spin-progress {
+      display: inline-block;
+      visibility: hidden;
+      box-sizing: border-box;
+      position: relative;
+      background: transparent;
+      cursor: pointer;
+      color: #E8EAF6;
+      border: 0px;
+      margin: 0px;
+      padding: 0px;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      margin-left: -35px;
+    }
+
+    .open-progress .btn-spin-progress {
+      visibility: visible;
+    }
+
+    .input-search {
+      display: inline-block;
+      position: relative;
+      padding: 0;
+      margin: 0;
+      padding-top: 0px;
+      background-color: transparent;
+      border: none;
+      border-bottom: 0px solid #E8EAF6;
+      color: #E8EAF6;
+      width: 0px;
+      font-size: 16px;
+      right: 0px;
+      top: 0px;
+      vertical-align: top;
+      /*importante en un input */
+      height: 38px;
+      transform: translateX(150%);
+      transition: all .3s ease-in-out, width 0.2s ease-in-out;
+    }
+
+    .btn-search-close {
+      margin-left: -10px;
+      opacity: 0;
+    }
+
+    .form-search.open-search {
+      /*right:67px;*/
+      width: 100%;
+      max-width: 285px;
+    }
+
+    .open-search .input-search {
+      transform: translateX(0%);
+      width: calc(100% - 70px);
+      max-width: 135px;
+      border-bottom: 2px solid #E8EAF6;
+    }
+
+    .fa-18x {
+      font-size: 1.7em;
+    }
+
+    .open-search .btn-search {
+      left: 0px;
+    }
+
+    .open-search .btn-search-close {
+      opacity: 1;
+    }
     :root{
       --detalle_cli_resto1: 80.5px;
       --detalle_cli_resto2: 35.4px;
       --detalle_cli_resto3: 35.5px;
+      /*miembros del proyecto*/
       --miembro-pro-resto1: 41.3px;
       --miembro-pro-resto2: 64.5px;
       --miembro-pro-resto3: 34.6px;
       --miembro-pro-resto4: 33.3px;
+      /*rag tool del proyecto*/
       --ragtool_proy-resto1: 31.3px;
       --ragtool_proy_resto2: 44px;
       --ragtool-proy_resto3: 36px;
+      /*rag tool de miembro*/
       --ragtool-member-resto1: 44px;
       --ragtool-member-resto2: 40.5px;
       --ragtool-member-resto3: 0px;       
@@ -473,156 +852,179 @@
   </style>
 </head>
 
-<body class="bg-gray-50 text-slate-800 antialiased h-screen overflow-hidden selection:bg-blue-100 selection:text-blue-900">
+<body class="bg-slate-100 text-slate-900">
 
-  <div class="h-full flex flex-col">
+  <div class="min-h-screen flex flex-col">
     <!-- #region TOP NAVBAR -->
-    <header class="bg-white border-b border-gray-200 z-10">
+
+    <header class="bg-white shadow-sm border-b border-slate-200">
+
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
           <!-- Logo / Brand -->
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-lg bg-blue-900 flex items-center justify-center text-white text-sm font-bold shadow-md">
+          <div class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white text-xs font-semibold">
               MM
             </div>
             <div>
-              <div class="text-sm font-bold tracking-tight text-slate-900">MirrorMind Portal</div>
-              <div class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Panel Maestro</div>
+              <div class="text-sm font-semibold tracking-tight">MirrorMind Portal</div>
+              <div class="text-xs text-slate-500">Panel maestro</div>
             </div>
           </div>
 
           <!-- Top Menu Tabs -->
-          <nav class="flex justify-center items-center gap-2 text-sm font-medium">
+          <nav class="flex justify-center items-center gap-4 text-sm font-medium">
             <button data-view="detallecliente"
-              class="flex items-center top-tab px-4 py-2 rounded-md transition-all duration-200 text-slate-600 hover:text-blue-700 hover:bg-blue-50 border-b-2 border-transparent">
-              <span class="icon-banca mr-2 opacity-70"></span> Clientes
+              class="flex items-center top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+              <span class="icon-banca mr-1 rounded-2xl"></span> Clientes
             </button>
 
+
             <button data-view="miembros"
-              class="flex items-center top-tab px-4 py-2 rounded-md transition-all duration-200 text-slate-600 hover:text-blue-700 hover:bg-blue-50 border-b-2 border-transparent">
-              <span class="icon-project mr-2 opacity-70" ></span> Proyecto
+              class="flex items-center top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+              <span class="icon-project mr-1 rounded-2xl" ></span> Detalle del proyecto
             </button>
 
             <button data-view="detalle"
-              class="flex items-center top-tab px-4 py-2 rounded-md transition-all duration-200 text-slate-600 hover:text-blue-700 hover:bg-blue-50 border-b-2 border-transparent">
-               <span class="icon-member mr-2 opacity-70" ></span> Miembro
+              class="flex items-center top-tab px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+               <span class="icon-member mr-1 rounded-2xl" ></span>Detalle del miembro
             </button>
           </nav>
-          
-          
         </div>
       </div>
     </header>
     <!-- #endregion -->
     
     <!-- #region MAIN LAYOUT -->
-    <div class="flex flex-1 max-w-7xl mx-auto w-full px-4 py-4 gap-4 overflow-hidden">
-      
+    <div class="flex flex-1 max-w-7xl mx-auto  w-full px-2 sm:px-1 lg:px-1 py-1 gap-4">
       <!-- #region LEFT SIDEBAR: clientes -->
-      <aside class="w-72 shrink-0 bg-white rounded-xl border border-gray-200 shadow-sm flex flex-col overflow-hidden">
-        <div class="p-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
-          <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Lista de Clientes</h2>
-          <button id="btn-new-client" class="text-xs px-3 py-1.5 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm font-medium"
+      <aside class="w-64 shrink-0 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-slate-800">Clientes</h2>
+          <button id="btn-new-client" class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
             data-bind="click: btnNewClient">
             + Nuevo
           </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto custom-scrollbar p-2">
-            <div id="clients-grid" class="flex flex-col gap-2" data-bind="foreach: clients">
 
-              <div class="group client-card relative text-left p-3 rounded-lg border border-transparent hover:bg-slate-50 hover:border-slate-200 transition-all cursor-pointer"
-                data-bind="css: $root.selectedClientClass(_id), click: $root.selectClient">
-                
-                <!-- Status/Actions Row -->
-                <div class="flex items-center justify-between mb-1">
-                  <span class="text-[10px] font-bold text-blue-800 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">CLIENTE</span>
-                  <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div class="icon-edit p-1.5 rounded hover:bg-blue-100" data-bind="click: $root.editClient, clickBubble: false"></div>
-                    <div class="icon-trash p-1.5 rounded hover:bg-red-100" data-bind="click: $root.deleteClient, clickBubble: false"></div>
+        <div class="h-full">
+          <div class="relative h-full overflow-y-auto">
+            <div id="clients-grid" class="absolute  w-full top-0 left-0 grid-cols-1 gap-2 overflow-y-auto text-xs"
+              data-bind="foreach: clients">
+
+              <div
+                class="client-card text-left p-3 rounded-xl border border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 transition"
+                data-bind="css: $root.selectedClientClass(_id)">
+
+                <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                  Cliente
+                  <div class="flex items-center gap-1/2">
+                    <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                      style="scale:1.3" data-bind="click: $root.editClient">
+                    </p>
+
+                    <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                      data-bind="click: $root.deleteClient">
+                    </p>
                   </div>
                 </div>
 
-                <div class="font-semibold text-slate-800 text-sm leading-tight" data-bind="text: name"></div>
-                <div class="mt-1 text-[11px] text-slate-500 line-clamp-2" data-bind="text:description"></div>
+                <button data-bind="click: $root.selectClient" class="w-full" style="outline: none ;">
+                  <div style="text-align: left;" class="font-semibold text-slate-800 text-sm" data-bind="text: name">
+                  </div>
+
+                  <div class="mt-1 text-[11px] text-slate-500" style="text-align: left;">
+                    <span data-bind="text:description"></span>
+
+                  </div>
+                </button>
+
               </div>
             </div>
+          </div>
         </div>
       </aside>
       <!-- #endregion -->
 
       <!-- #region MAIN CONTENT -->
-      <main class="flex-1 bg-white rounded-xl border border-gray-200 shadow-sm p-6 overflow-hidden flex flex-col relative">
-        
+      <main class="flex-1 bg-white rounded-2xl border  border-slate-200 shadow-sm p-5 ">
         <!-- #region VIEW - TAB: DETALLE DEL CLIENTE -->
-        <section id="view-detalle-cliente" class="h-full view-section hidden flex flex-col">
-          <!-- Header -->
-          <div class="flex items-start justify-between mb-6 pb-4 border-b border-slate-100">
+        <section id="view-detalle-cliente" class="h-full view-section hidden">
+          <!-- #region ENCABEZADO PANEL DETALLE CLIENTE -->
+          <div class="flex items-center justify-between mb-4">
             <div>
-              <h1 class="text-xl font-bold text-slate-900">Detalle del Cliente</h1>
-              <p class="text-sm text-slate-500 mt-1">Gestión de proyectos y miembros asociados.</p>
+              <h1 class="text-lg font-semibold text-slate-900">Detalle del cliente</h1>
+              <p class="text-xs text-slate-500">
+                Proyectos y miembros asociados para el cliente seleccionado.
+              </p>
             </div>
           </div>
-          
-           <div data-bind="ifnot: selectedClient" class=" text-slate-400">
-             <div class="text-4xl mb-2 opacity-20">📂</div>
-            <p>Selecciona un cliente para ver su detalle</p>
+           <div data-bind="ifnot: selectedClient" class="text-xs text-slate-400 mt-4">
+            Selecciona un cliente en la pestaña “Clientes” para ver su detalle aquí.
           </div>
+          <!-- #endregion -->
 
-          <div data-bind="if: selectedClient" class="flex-1 flex flex-col overflow-hidden">
-            <!-- Client Summary Card -->
-            <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-center gap-4" data-bind="with: selectedClient">
-              <div class="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold bg-blue-100 text-blue-700 border-2 border-white shadow-sm"
-                data-bind="text: $root.getInitials(name)"></div>
+          <div data-bind="if: selectedClient" style="height : calc(100% - var(--detalle_cli_resto2))" class="">
+            <div class="mb-4 flex items-center gap-3" data-bind="with: selectedClient">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
+                data-bind="text: $root.getInitials(name), css: $root.avatarClass('active')"></div>
 
-              <div>
-                <div class="text-lg font-bold text-slate-900" data-bind="text: name"></div>
-                <div class="text-xs text-slate-500 flex gap-3 mt-1">
-                   <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <b data-bind="text: $root.filteredClientProjects().length"></b> proyectos</span>
-                   <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <b data-bind="text: $root.filteredClientMembers().length"></b> miembros</span>
+              <div class="w-full">
+                <div class="text-sm font-semibold text-slate-900" data-bind="text: name"></div>
+                <div class="text-[11px] text-slate-400 mt-1">
+                  <span data-bind="text: $root.filteredClientProjects().length"></span> proyectos ·
+                  <span data-bind="text: $root.filteredClientMembers().length"></span> miembros asociados al cliente
                 </div>
               </div>
             </div>
 
-            <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden">
 
-              <!-- Projects Panel -->
-              <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                  <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                    <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Proyectos Asociados</h2>
-                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+            <div id="listado-cliente" style ="height: calc(100% - var(--detalle_cli_resto1));" class="relative  grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+              <!--#region PANEL CON INFORMACION DE PROYECTOS ASOCIADOS A UN CLIENTE -->
+              <div class="relative  border border-slate-200 rounded-2xl p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Proyectos asociados al cliente</h2>
+                    <button id="btn-new-client-project"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                       data-bind="click: $root.btnNewProject">
-                      + AÑADIR
+                      + Nuevo
                     </button>
                   </div>
-                  
-                  <div class="flex-1 overflow-y-auto p-0 bg-white relative">
-                     <p class="text-xs text-slate-400 text-center mt-10"
-                        data-bind="visible: !$root.filteredClientProjects() || $root.filteredClientProjects().length === 0">
-                        No hay proyectos asociados.
-                      </p>
-                    <table class="w-full text-left text-xs" data-bind="visible: $root.filteredClientProjects().length > 0">
-                      <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200 sticky top-0">
-                        <tr>
-                          <th class="px-4 py-2">Nombre</th>
-                          <th class="px-4 py-2 text-center">Miembros</th>
-                          <th class="px-4 py-2 text-center">RAGs</th>
-                          <th class="px-4 py-2 text-center">Tools</th>
-                          <th class="px-4 py-2"></th>
+                  <p class="relative text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !$root.filteredClientProjects() || $root.filteredClientProjects().length === 0">
+                      Este cliente no tiene proyectos asociados.
+                    </p>
+                  <div style ="height: calc(100% - var(--detalle_cli_resto3));" class="relative   overflow-x-auto ">
+                    <table class="absolute   min-w-full overflow-scroll table-auto text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Miembros</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Bases RAG</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">N. Tools</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
                         </tr>
                       </thead>
 
                       <tbody class="divide-y divide-slate-100" data-bind="foreach: $root.filteredClientProjects()">
-                        <tr class="hover:bg-blue-50/50 transition group">
-                          <td class="px-4 py-3 font-medium text-blue-900 cursor-pointer hover:underline decoration-blue-300 underline-offset-2" 
-                              data-bind="click: $root.selectProject, text: name"></td>
-                          <td class="px-4 py-3 text-center text-slate-500" data-bind="text: memberCount"></td>
-                          <td class="px-4 py-3 text-center text-slate-500" data-bind="text: ragCount"></td>
-                          <td class="px-4 py-3 text-center text-slate-500" data-bind="text: toolCount"></td>
-                          <td class="px-4 py-3 text-right">
-                            <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editProject"></div>
-                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteProject"></div>
+                        <tr class="hover:bg-slate-50/60 cursor-pointer">
+                          <td data-bind="click: $root.selectProject" class="py-2 pr-3"><span
+                              data-bind="text: name"></span></td>
+                          <td class="py-2 pr-3" data-bind="text: memberCount"></td>
+                          <td class="py-2 pr-3" data-bind="text: ragCount"></td>
+                          <td class="py-2 pr-3" data-bind="text: toolCount"></td>
+                          <td class="py-2 pr-3" data-bind="text: Date.now()"></td>
+                          <td class="py-2 pr-3">
+                            <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale: 1.3" data-bind="click: $root.editProject"></p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteProject"></p>
+                              </div>
                             </div>
                           </td>
                         </tr>
@@ -630,47 +1032,50 @@
                     </table>
                   </div>
                 </div>
-
-              <!-- Members Panel -->
-                <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                  <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                    <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Miembros Asociados</h2>
-                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+                <!-- #endregion -->
+              <!--#region PANEL CON INFORMACION DE MIEMBROS ASOCIADOS A UN CLIENTE -->
+                <div class="border border-slate-200 rounded-2xl p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Miembros asociados al cliente</h2>
+                    <button id="btn-new-client-member"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                       data-bind="click: $root.btnNewClientMember">
-                      + AÑADIR
+                      + Nuevo
                     </button>
                   </div>
-                  
-                  <div class="flex-1 overflow-y-auto p-0 bg-white relative">
-                     <p class="text-xs text-slate-400 text-center mt-10"
+                    <p class="text-[11px] text-slate-400 mt-2"
                       data-bind="visible: !$root.filteredClientMembers() || $root.filteredClientMembers().length === 0">
-                      No hay miembros asociados.
+                      Este cliente no tiene miembros asociados.
                     </p>
-                    <table class="w-full text-left text-xs" data-bind="visible: $root.filteredClientMembers().length > 0">
-                      <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200 sticky top-0">
-                        <tr>
-                          <th class="px-4 py-2">Nombre / Email</th>
-                          <th class="px-4 py-2">Rol</th>
-                          <th class="px-4 py-2 text-right">Estado</th>
-                          <th class="px-4 py-2"></th>
+                  <div style ="height: calc(100% - var(--detalle_cli_resto3));" class="relative  overflow-x-auto">
+                    <table class="absolute overflow-scroll table-auto min-w-full text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Email</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Rol</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">status</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
                         </tr>
                       </thead>
 
                       <tbody class="divide-y divide-slate-100" data-bind="foreach: filteredClientMembers ">
-                        <tr class="hover:bg-blue-50/50 transition group">
-                          <td class="px-4 py-3 cursor-pointer" data-bind="click: $root.selectMember">
-                              <div class="font-medium text-slate-800" data-bind="text: name"></div>
-                              <div class="text-[10px] text-slate-400" data-bind="text: email"></div>
-                          </td>
-                          <td class="px-4 py-3 text-slate-600" data-bind="text: role"></td>
-                          <td class="px-4 py-3 text-right">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border"
+                        <tr class="hover:bg-slate-50/60 cursor-pointer">
+                          <td class="py-2 pr-3" data-bind="text: name"></td>
+                          <td class="py-2 pr-3" data-bind="text: email"></td>
+                          <td class="py-2 pr-3" data-bind="text: role"></td>
+                          <td data-bind="click: $root.selectMember" class="py-2 pl-0 text-right">
+                            <span class="inline-flex items-center px-2 py-1 rounded-full text-[10px] font-medium"
                               data-bind="text: status, css: $root.statusClass(status)"></span>
                           </td>
-                          <td class="px-4 py-3 text-right">
-                             <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editClientMember"></div>
-                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteClientMember"></div>
+                          <td class="py-2 pr-3">
+                            <div class="flex items-center justify-end text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale: 1.3" data-bind="click: $root.editClientMember"></p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteClientMember"></p>
+                              </div>
                             </div>
                           </td>
                         </tr>
@@ -678,7 +1083,7 @@
                     </table>
                   </div>
                 </div>
-
+                <!-- #endregion -->
             </div>
           </div>
           
@@ -686,295 +1091,350 @@
         <!-- #endregion -->
         
         <!-- #region VIEW - TAB: MIEMBROS -->
-        <section id="view-miembros" class="h-full view-section hidden flex flex-col">
-          <!-- Sub-Navbar -->
-          <div class="flex items-center mb-6 border-b border-slate-200 pb-2">
-            <nav class="flex gap-4 text-sm font-medium">
-              <button data-view="proyectomiembros"
-                class="top-tab-detalle-proyecto px-3 py-1.5 rounded-md transition text-slate-500 hover:text-blue-700 border-b-2 border-transparent hover:bg-slate-50">
-                Miembros
-              </button>
-              <button data-view="proyectoragtool"
-                class="top-tab-detalle-proyecto px-3 py-1.5 rounded-md transition text-slate-500 hover:text-blue-700 border-b-2 border-transparent hover:bg-slate-50">
-                RAGs y Tools
-              </button>
-            </nav>
+        <section id="view-miembros" class="view-section relative h-full">
+          <!-- #region NAVBAR MIEMBROS  -->
+          <div class="max-w-7xl mx-auto px-0  rounded-lg border border-slate-500 mb-4 sm:px-0 lg:px-0">
+            <div class="flex items-center justify-between h-10">
+              <nav class="flex items-center gap-2 text-sm font-medium">
+                <button data-view="proyectomiembros"
+                  class="top-tab-detalle-proyecto px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+                  Miembros
+                </button>
+                <div class="inline-block relative min-h-full bg-slate-500 text-slate-500">|</div>
+                <button data-view="proyectoragtool"
+                  class="top-tab-detalle-proyecto px-3 py-2 rounded-lg transition text-slate-700 hover:bg-slate-100 border border-transparent">
+                  RAGs y Tools
+                </button>
+              </nav>
+            </div>
           </div>
-
+          <!-- #endregion -->
           <!-- #region VIEW DETALLE PROYECTO MIEMBROS  -->
-          <div id="view-detalle-proyecto-miembros" class="flex-1 flex flex-col overflow-hidden relative">
-            <div class="flex items-center justify-between mb-4">
+          <div id="view-detalle-proyecto-miembros" style="height: calc(100% - var(--miembro-pro-resto1));" class="view-section relative">
+            <div class="relative flex items-center justify-between mb-4">
               <div>
-                <div class="flex items-center gap-2">
-                    <h1 class="text-lg font-bold text-slate-900">Miembros del Proyecto</h1>
-                    <span data-bind="with: selectedProject" class="px-2 py-0.5 rounded bg-blue-50 text-blue-800 text-xs border border-blue-100 font-semibold" data-bind="text: name"></span>
-                </div>
-                <p class="text-xs text-slate-500 mt-1">
-                  Gestión de miembros y sus configuraciones de IA.
+                <h1 class="text-lg font-semibold text-slate-900 inline pr-7">Miembros asociados al proyecto</h1>
+                <span class="inline-block">
+
+                </span>
+                <p class="text-xs text-slate-500">
+                  Gestión de miembros del portal y sus configuraciones de IA.
+                </p>
+                <p class="text-[11px] text-slate-400 mt-1" data-bind="with: selectedProject">
+                  Proyecto seleccionado:
+                  <span class="font-semibold" data-bind="text: name"></span>
                 </p>
               </div>
               <button id="btn-back-clients" type="button"
-                class="flex items-center gap-1 text-xs px-3 py-1.5 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
+                class="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 data-bind="click: btnVolverAtrasClientes">
-                <!-- Icon injected by JS -->
+
               </button>
             </div>
 
-            <!-- Filters -->
-            <div class="flex items-center gap-2 mb-4 p-2 bg-slate-50 rounded-lg border border-slate-100">
-              <div class="relative flex-1 max-w-xs">
-                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                     <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                   </div>
-                   <input id="txtmiembros" data-bind="textInput: filtertext" type="text" placeholder="Buscar miembro..."
-                    class="block w-full pl-10 pr-3 py-1.5 border border-slate-300 rounded-md leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-xs" />
-              </div>
-              
-              <select class="block py-1.5 pl-3 pr-8 border border-slate-300 bg-white rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs text-slate-600">
+            <!-- Filtros / búsqueda (solo UI) -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              <input id="txtmiembros" data-bind="textInput: filtertext" type="text" placeholder="Buscar miembro..."
+                class="w-full sm:w-64 px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/60" />
+              <select
+                class="px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/60">
                 <option>Todos los estados</option>
                 <option>Activo</option>
                 <option>Deshabilitado</option>
               </select>
             </div>
 
-            <!-- Table -->
-            <div class="flex-1 border border-slate-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
-              <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                <h2 class="text-xs font-bold text-slate-700 uppercase">Listado</h2>
-                <button class="text-xs px-3 py-1.5 rounded bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-sm"
+            <!-- Tabla de miembros (KO) -->
+            <div style="height: calc(100% - var(--miembro-pro-resto2) - var(--miembro-pro-resto3) - var(--miembro-pro-resto4));" class="relative  border border-slate-200 rounded-2xl p-4">
+              <div class="flex items-center justify-between mb-3">
+                <h2 class="text-sm font-semibold text-slate-800">Miembros asociados</h2>
+                <button id="btn-new-member"
+                  class="px-3 py-2 rounded-xl text-xs font-medium border border-slate-200 hover:bg-slate-50"
                   data-bind="click: btnNewMember">
-                  + Asignar Miembro
+                  + Nuevo
                 </button>
               </div>
-              
-              <div class="flex-1 overflow-auto bg-white">
-                  <table class="w-full text-left text-xs">
-                    <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200 sticky top-0 z-10">
-                      <tr>
-                        <th class="px-6 py-3">Miembro</th>
-                        <th class="px-6 py-3 text-center">RAGs</th>
-                        <th class="px-6 py-3 text-center">Herramientas</th>
-                        <th class="px-6 py-3 text-right">Acciones</th>
-                      </tr>
-                    </thead>
-                    <tbody id="members-tbody" class="divide-y divide-slate-100" data-bind="foreach: filteredMembers">
-                      <tr class="hover:bg-blue-50/50 cursor-pointer group transition" data-bind="click: $root.selectMember">
-                        <td class="px-6 py-3">
-                          <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold border"
-                              data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
-                            <div>
-                              <div class="text-sm font-medium text-slate-800" data-bind="text: name"></div>
-                              <div class="text-xs text-slate-500" data-bind="text: email"></div>
-                            </div>
-                          </div>
-                        </td>
-                        
-                        <td class="px-6 py-3 text-center">
-                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800" data-bind="text: ragDatabases ? ragDatabases.length : 0"></span>
-                        </td>
-                        <td class="px-6 py-3 text-center">
-                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800" data-bind="text: tools ? tools.length : 0"></span>
-                        </td>
-                        
-                        <td class="px-6 py-3 text-right">
-                           <div class="flex justify-end gap-3 opacity-60 group-hover:opacity-100 transition-opacity">
-                                <div class="icon-edit hover:scale-110 transition-transform" data-bind="click: $root.editMember, clickBubble: false"></div>
-                                <div class="icon-trash hover:scale-110 transition-transform" data-bind="click: $root.deleteMember, clickBubble: false"></div>
-                           </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <div style="height: calc(100% - var(--miembro-pro-resto3) - var(--miembro-pro-resto4) + 15px );" class="relative overflow-x-auto">
+              <table class="absolute  min-w-full table-auto overflow-scroll text-xs">
+                <thead>
+                  <tr class="text-left border-b border-slate-200">
+                    <th class="py-2 pr-4 font-semibold text-slate-500">Miembro</th>
+                    <!--<th class="py-2 pr-4 font-semibold text-slate-500">Rol</th>-->
+                    <th class="py-2 pr-4 font-semibold text-slate-500">Bases RAG</th>
+                    <th class="py-2 pr-4 font-semibold text-slate-500">Herramientas</th>
+                    <!--<th class="py-2 font-semibold text-slate-500 text-right">Estado</th>-->
+                    <th class="py-2 pr-4 font-semibold text-slate-500"></th>
+                  </tr>
+                </thead>
+                <tbody id="members-tbody" class="divide-y divide-slate-100" data-bind="foreach: filteredMembers">
+                  <tr class="hover:bg-slate-50/60 cursor-pointer">
+                    <td data-bind="click: $root.selectMember" class="py-2 pr-4">
+                      <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold"
+                          data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
+                        <div>
+                          <div class="text-xs font-medium text-slate-800" data-bind="text: name"></div>
+                          <div class="text-[11px] text-slate-500" data-bind="text: email"></div>
+                        </div>
+                      </div>
+                    </td>
+                    
+                    <td data-bind="click: $root.selectMember" class="py-2 pr-4">
+                      <p data-bind="text: ragDatabases ? ragDatabases.length : 0"></p>
+                    </td>
+                    <td data-bind="click: $root.selectMember" class="py-2 pr-4">
+                      <p data-bind="text: tools ? tools.length : 0"></p>
+                    </td>
+                    <td data-bind="click: $root.selectMember" class="py-2 pr-4">
+                      <p data-bind="text: Date.now()"></p>
+                    </td>
+                    
+                    <td class="py-2 pl-4">
+                      <div class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                        <div class="flex items-center gap-1/2">
+                          <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                            style="scale:1.3" data-bind="click: $root.editMember"></p>
+                          <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                            data-bind="click: $root.deleteMember">
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
               </div>
             </div>
           </div>
           <!-- #endregion -->
-          
           <!-- #region VIEW DETALLE PROYECTO RAGs TOOLS  -->
-          <div id="view-detalle-proyecto-ragtool" class="flex-1 flex flex-col overflow-hidden hidden">
+          <div id="view-detalle-proyecto-ragtool"  style="height: calc(100% - var(--miembro-pro-resto1) );" class="view-section hidden">
             <div class="flex items-center justify-between mb-4">
               <div>
-                <h1 class="text-lg font-bold text-slate-900">Configuración del Proyecto</h1>
-                <p class="text-xs text-slate-500 mt-1">
-                   Bases de conocimiento (RAG) y Herramientas globales.
+                <h1 class="text-lg font-semibold text-slate-900">Detalle del proyecto</h1>
+                <p class="text-xs text-slate-500">
+                  Bases de datos RAG asociadas y herramientas registradas para el proyecto seleccionado.
                 </p>
               </div>
 
               <button id="btn-back-project-rag" type="button"
-                class="flex items-center gap-1 text-xs px-3 py-1.5 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
+                class="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 data-bind="click: btnVolverAtrasClientesRag">
-                 <!-- Icon injected -->
+
               </button>
             </div>
 
-            <!-- Content -->
-            <div class="flex-1 flex flex-col overflow-hidden" data-bind="if: selectedProject">
-              <div class="mb-5 flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-200" data-bind="with: selectedProject">
-                <div class="w-10 h-10 rounded bg-blue-600 text-white flex items-center justify-center text-sm font-bold shadow-sm"
-                  data-bind="text: $root.getInitials(name)"></div>
+            <!-- Info del proyecto (KO) -->
+            <div class="relative" style="height: calc(100% - var(--ragtool_proy-resto1) - var(--ragtool_proy_resto2) );"  data-bind="if: selectedProject">
+              <div class="mb-4 flex items-center gap-3" data-bind="with: selectedProject">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
+                  data-bind="text: $root.getInitials(name), css: $root.avatarClass('active')"></div>
                 <div>
-                  <div class="text-base font-bold text-slate-900" data-bind="text: name"></div>
-                  <div class="text-xs text-slate-500 line-clamp-1" data-bind="text: description"></div>
+                  <div class="text-sm font-semibold text-slate-900" data-bind="text: name"></div>
+                  <div class="text-xs text-slate-500" data-bind="text: description"></div>
                 </div>
               </div>
 
-              <!-- Grid -->
-              <div id="listado-rag-project" class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden" data-bind="with: selectedProject">
-                
-                <!-- RAGs -->
-                <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                  <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                    <h2 class="text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-purple-500"></span> Bases RAG
-                    </h2>
-                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-purple-500 hover:text-purple-600 px-2 py-1 rounded transition"
+              <!-- Dos listados pegados (RAG y Herramientas) -->
+
+              <div id="listado-rag-project" style="height: calc(100% - var(--ragtool_proy-resto1) );" 
+                     class="relative grid grid-cols-1 lg:grid-cols-2 gap-4"
+                     data-bind="with: selectedProject">
+                <!-- #region RAGs asociadas -->
+                <div style="height: calc(100% - var(--ragtool_proy-resto1) + 15px );" class="relative border border-slate-200 rounded-2xl p-4">
+
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Bases de datos RAG del proyecto</h2>
+                    <button id="btn-new-project-rag"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                       data-bind="click:  $root.btnNewRagProyecto">
-                      + AÑADIR
+                      + Nuevo
                     </button>
                   </div>
-                  
-                  <div class="flex-1 overflow-auto bg-white p-0">
-                      <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !ragDatabases || ragDatabases.length === 0">Sin bases RAG definidas.</p>
-                      <table class="w-full text-left text-xs" data-bind="visible: ragDatabases && ragDatabases.length > 0">
-                       <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
-                        <tr>
-                          <th class="px-4 py-2">Nombre</th>
-                          <th class="px-4 py-2">Tipo</th>
-                          <th class="px-4 py-2 text-right"></th>
+                      <p class="text-[11px] text-slate-400 mt-2"
+                      data-bind="visible: !ragDatabases || ragDatabases.length === 0">
+                      Este proyecto no tiene RAGs asociadas.
+                  </p>
+                  <div style="height: calc(100% - var(--ragtool_proy-resto1));" class="relative overflow-x-auto">
+                    <table class="absolute table-auto overflow-y-auto min-w-full text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Tipo</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Última actualización</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
                         </tr>
                       </thead>
                       <tbody class="divide-y divide-slate-100" data-bind="foreach: ragDatabases">
-                        <tr class="hover:bg-purple-50/50 group">
-                          <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
-                          <td class="px-4 py-3 text-slate-500" data-bind="text: type"></td>
-                          <td class="px-4 py-3 text-right">
-                             <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editProjectRag"></div>
-                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteProjectRag"></div>
+                        <tr class="hover:bg-slate-50/60">
+                          <td class="py-2 pr-3" data-bind="text: name"></td>
+                          <td class="py-2 pr-3" data-bind="text: type"></td>
+                          <td class="py-2 pr-3" data-bind="text: lastUpdate"></td>
+                          <td class="py-2 pr-3">
+                            <div
+                              class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale: 1.3" data-bind="click: $root.editProjectRag">
+                                </p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteProjectRag">
+                                </p>
+                              </div>
                             </div>
                           </td>
                         </tr>
                       </tbody>
                     </table>
+                
                   </div>
                 </div>
-
-                <!-- Tools -->
-                <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                   <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                    <h2 class="text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
-                         <span class="w-2 h-2 rounded-full bg-orange-500"></span> Tools
-                    </h2>
-                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-orange-500 hover:text-orange-600 px-2 py-1 rounded transition"
+                 <!-- #endregion -->
+                <!-- #region Herramientas / tools registradas -->
+                <div style="height: calc(100% - var(--ragtool_proy-resto1) + 15px);" class="border border-slate-200 rounded-2xl p-4">
+                  <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-sm font-semibold text-slate-800">Herramientas y permisos del proyecto</h2>
+                    <button id="btn-new-project-tools"
+                      class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                       data-bind="click: $root.btnNewToolProject">
-                      + AÑADIR
+                      + Nuevo
                     </button>
                   </div>
-                   <div class="flex-1 overflow-auto bg-white p-0">
-                       <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !tools || tools.length === 0">Sin herramientas definidas.</p>
-                    <table class="w-full text-left text-xs" data-bind="visible: tools && tools.length > 0">
-                      <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
-                        <tr>
-                          <th class="px-4 py-2">Herramienta</th>
-                          <th class="px-4 py-2">Permiso</th>
-                          <th class="px-4 py-2 text-right"></th>
+                  <p class="text-[11px] text-slate-400 mt-2" data-bind="visible: !tools || tools.length === 0">
+                      Este proyecto no tiene herramientas registradas.
+                  </p>
+                  <div style="height: calc(100% - var(--ragtool_proy-resto1) );" class="relative overflow-x-auto">
+                    <table class="absolute table-auto overflow-y-auto min-w-full text-xs">
+                      <thead>
+                        <tr class="text-left border-b border-slate-200">
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Herramienta</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Tipo</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500">Permiso</th>
+                          <th class="py-2 pr-3 font-semibold text-slate-500"></th>
                         </tr>
                       </thead>
                       <tbody class="divide-y divide-slate-100" data-bind="foreach: tools">
-                        <tr class="hover:bg-orange-50/50 group">
-                          <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
-                          <td class="px-4 py-3">
-                            <span class="inline-flex px-1.5 py-0.5 rounded text-[10px] border font-medium"
+                        <tr class="hover:bg-slate-50/60">
+                          <td class="py-2 pr-3" data-bind="text: name"></td>
+                          <td class="py-2 pr-3" data-bind="text: type"></td>
+                          <td class="py-2 pr-3">
+                            <span class="inline-flex px-2 py-1 rounded-full text-[10px] border"
                               data-bind="text: permission, css: $root.permissionClass(permission)"></span>
                           </td>
-                          <td class="px-4 py-3 text-right">
-                              <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editToolProject"></div>
-                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteToolProject"></div>
+                          <td class="py-2 pr-3">
+                            <div
+                              class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                              <div class="flex items-center gap-1/2">
+                                <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  style="scale:1.3" data-bind="click: $root.editToolProject ">
+                                </p>
+                                <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                  data-bind="click: $root.deleteToolProject ">
+                                </p>
+                              </div>
                             </div>
                           </td>
                         </tr>
                       </tbody>
                     </table>
+                  
                   </div>
                 </div>
-
+                 <!-- #endregion -->
               </div>
             </div>
-            
-             <div data-bind="ifnot: selectedProject" class="text-sm text-slate-400 mt-10 text-center italic">
-              Selecciona un proyecto para configurar sus recursos.
-            </div>
 
+            <!-- Mensaje cuando no hay proyecto seleccionado -->
+            <div data-bind="ifnot: selectedProject" class="text-xs text-slate-400 mt-4">
+              Selecciona un proyecto en la pestaña “Miembros” para ver su detalle aquí.
+            </div>
           </div>
           <!-- #endregion -->
         </section>
         <!-- #endregion -->
         
         <!-- #region VIEW - TAB: DETALLE DEL MIEMBRO -->
-        <section id="view-detalle-miembro" class="h-full view-section hidden flex flex-col">
-          <!-- Header -->
-          <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+        <section id="view-detalle-miembro" class="view-section h-full hidden">
+          <!-- #region ENCABEZADO-->
+          <div class="flex items-center justify-between mb-4">
             <div>
-              <h1 class="text-xl font-bold text-slate-900">Perfil del Miembro</h1>
-              <p class="text-xs text-slate-500 mt-1">
-                Recursos específicos asignados a este usuario.
+              <h1 class="text-lg font-semibold text-slate-900">Detalle del miembro</h1>
+              <p class="text-xs text-slate-500">
+                Bases de datos RAG asociadas y herramientas registradas para el miembro seleccionado.
               </p>
             </div>
 
             <button id="btn-back-members" type="button"
-               class="flex items-center gap-1 text-xs px-3 py-1.5 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
+              class="inline-flex items-center gap-2 text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               data-bind="click: btnVolverAtrasMiembros">
+
             </button>
           </div>
+          <!-- #endregion -->
          
-          <div class="flex-1 flex flex-col overflow-hidden" data-bind="if: selectedMember">
-            
-            <div class="mb-6 bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-center gap-4" data-bind="with: selectedMember">
-              <div class="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-sm"
+          <div style="height: calc(100% - var(--ragtool-member-resto1) );"  data-bind="if: selectedMember">
+             <!-- #region Info del miembro (KO) -->
+            <div class="mb-4 flex items-center gap-3" data-bind="with: selectedMember">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold"
                 data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
               <div>
-                <div class="text-lg font-bold text-slate-900" data-bind="text: name"></div>
-                <div class="text-sm text-slate-500" data-bind="text: email"></div>
-                <div class="flex gap-3 mt-2">
-                   <span class="text-xs bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-600">Rol: <b data-bind="text: role"></b></span>
-                   <span class="text-xs bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-600">Status: <b data-bind="text: status"></b></span>
+                <div class="text-sm font-semibold text-slate-900" data-bind="text: name"></div>
+                <div class="text-xs text-slate-500" data-bind="text: email"></div>
+                <div class="text-[11px] text-slate-400 mt-1">
+                  Rol:
+                  <span data-bind="text: role"></span> · Estado:
+                  <span data-bind="text: status"></span>
                 </div>
               </div>
             </div>
+            <!-- #endregion -->
+            <!-- Dos listados pegados (RAG y Herramientas) -->
 
-            <div id="listado-rag" class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden" data-bind="with: selectedMember">
-              
-              <!-- User RAGs -->
-              <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                  <h2 class="text-xs font-bold text-slate-700 uppercase">RAGs Personales</h2>
-                  <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+            <div id="listado-rag" class="grid grid-cols-1 lg:grid-cols-2 gap-4" 
+            style="height: calc(100% - var(--ragtool-member-resto1) - var(--ragtool-member-resto2) + 15px);" 
+            data-bind="with: selectedMember">
+              <!-- #region RAGs asociadas a miembro -->
+              <div style="height: calc(100% - var(--ragtool-member-resto1) + 45px );" class="relative border border-slate-200 rounded-2xl p-2">
+
+                <div class="flex items-center justify-between mb-3">
+                  <h2 class="text-sm font-semibold text-slate-800">Bases de datos RAG</h2>
+                  <button id="btn-new-ragdb"
+                    class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                     data-bind="click:  $root.btnNewRag">
-                    + AÑADIR
+                    + Nuevo
                   </button>
                 </div>
-                
-                 <div class="flex-1 overflow-auto bg-white p-0">
-                    <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !ragDatabases || ragDatabases.length === 0">Sin RAGs asignadas.</p>
-                   <table class="w-full text-left text-xs" data-bind="visible: ragDatabases && ragDatabases.length > 0">
-                    <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
-                      <tr>
-                        <th class="px-4 py-2">Nombre</th>
-                        <th class="px-4 py-2">Tipo</th>
-                        <th class="px-4 py-2 text-right"></th>
+                <p class="text-[11px] text-slate-400 mt-2"
+                    data-bind="visible: !ragDatabases || ragDatabases.length === 0">
+                    Este miembro no tiene RAGs asociadas.
+                </p>
+                <div  style="height: calc(100% - var(--ragtool-member-resto1) - var(--ragtool-member-resto2) + 45px );" class="relative overflow-x-auto">
+                  <table class="absolute min-w-full table-auto overflow-y-auto text-xs">
+                    <thead>
+                      <tr class="text-left border-b border-slate-200">
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Nombre</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Tipo</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Última actualización</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500"></th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100" data-bind="foreach: ragDatabases">
-                      <tr class="hover:bg-blue-50/50 group">
-                        <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
-                        <td class="px-4 py-3 text-slate-500" data-bind="text: type"></td>
-                        <td class="px-4 py-3 text-right">
-                           <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editRag"></div>
-                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteRag"></div>
+                      <tr class="hover:bg-slate-50/60">
+                        <td class="py-2 pr-3" data-bind="text: name"></td>
+                        <td class="py-2 pr-3" data-bind="text: type"></td>
+                        <td class="py-2 pr-3" data-bind="text: lastUpdate"></td>
+                        <td class="py-2 pr-3">
+                          <div
+                            class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                            <div class="flex items-center gap-1/2">
+                              <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                style="scale: 1.3" data-bind="click: $root.editRag">
+                              </p>
+                              <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                data-bind="click: $root.deleteRag">
+                              </p>
                             </div>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
@@ -982,447 +1442,950 @@
                  
                 </div>
               </div>
-              
-              <!-- User Tools -->
-              <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-                <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-                  <h2 class="text-xs font-bold text-slate-700 uppercase">Tools Asignadas</h2>
-                  <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+               <!-- #endregion -->
+              <!-- #region Herramientas / tools registradas a miembro -->
+              <div style="height: calc(100% - var(--ragtool-member-resto1) + 45px );" class="relative border border-slate-200 rounded-2xl p-4">
+                <div class="flex items-center justify-between mb-3">
+                  <h2 class="text-sm font-semibold text-slate-800">Herramientas y permisos</h2>
+                  <button id="btn-new-tools"
+                    class="text-xs px-2 py-1 rounded-full border border-slate-200 hover:bg-slate-50"
                     data-bind="click: $root.btnNewTool">
-                    + AÑADIR
+                    + Nuevo
                   </button>
                 </div>
-                
-                <div class="flex-1 overflow-auto bg-white p-0">
-                   <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !tools || tools.length === 0">Sin herramientas asignadas.</p>
-                  <table class="w-full text-left text-xs" data-bind="visible: tools && tools.length > 0">
-                    <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
-                      <tr>
-                        <th class="px-4 py-2">Herramienta</th>
-                        <th class="px-4 py-2">Permiso</th>
-                        <th class="px-4 py-2 text-right"></th>
+                <p class="text-[11px] text-slate-400 mt-2" data-bind="visible: !tools || tools.length === 0">
+                    Este miembro no tiene herramientas registradas.
+                </p>
+                <div style="height: calc(100% - var(--ragtool-member-resto1) - var(--ragtool-member-resto2) + 45px );" class="relative overflow-x-auto">
+                  <table class="absolute table-auto overflow-y-auto min-w-full text-xs">
+                    <thead>
+                      <tr class="text-left border-b border-slate-200">
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Herramienta</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Tipo</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500">Permiso</th>
+                        <th class="py-2 pr-3 font-semibold text-slate-500"></th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100" data-bind="foreach: tools">
-                      <tr class="hover:bg-blue-50/50 group">
-                        <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
-                        <td class="px-4 py-3">
-                          <span class="inline-flex px-1.5 py-0.5 rounded text-[10px] font-medium border"
+                      <tr class="hover:bg-slate-50/60">
+                        <td class="py-2 pr-3" data-bind="text: name"></td>
+                        <td class="py-2 pr-3" data-bind="text: type"></td>
+                        <td class="py-2 pr-3">
+                          <span class="inline-flex px-2 py-1 rounded-full text-[10px] border"
                             data-bind="text: permission, css: $root.permissionClass(permission)"></span>
                         </td>
-                        <td class="px-4 py-3 text-right">
-                           <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editTool"></div>
-                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteTool"></div>
+                        <td class="py-2 pr-3">
+                          <div
+                            class="flex items-center justify-between text-[11px] uppercase tracking-wide text-slate-400">
+                            <div class="flex items-center gap-1/2">
+                              <p class="icon-edit p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                style="scale:1.3" data-bind="click: $root.editTool">
+                              </p>
+                              <p class="icon-trash p-1 rounded-full transition-all duration-200 hover:bg-gray-200"
+                                data-bind="click: $root.deleteTool">
+                              </p>
                             </div>
+                          </div>
                         </td>
                       </tr>
                     </tbody>
                   </table> 
                 </div>
               </div>
+               <!-- #endregion -->
             </div>
           </div>
           
-          <div data-bind="ifnot: selectedMember" class="text-sm text-slate-400 mt-10 text-center italic">
-             Selecciona un miembro para ver su perfil.
+          <!-- Mensaje cuando no hay miembro seleccionado -->
+          <div data-bind="ifnot: selectedMember" class="text-xs text-slate-400 mt-4">
+            Selecciona un miembro en la pestaña “Miembros” para ver su detalle aquí.
           </div>
         </section>
         <!-- #endregion -->
         
-        <!-- #region =============== MODALS (Unified Style) =============== -->
-        <!-- Estilo base común para modales: Rounded-2xl, Blue accents, clean typography -->
-        
-        <!-- CLIENT MODAL -->
-        <div id="modal-client" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm transition-opacity">
-          <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl scale-100 transform transition-all">
-            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
-              <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md">
-                 <span class="icon-banca scale-150"></span>
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE CLIENTE =============== -->
+        <div id="modal-client"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+            <!-- Header -->
+            <div class="relative px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG azul -->
+                  <div
+                    class="icon-project-client grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+
+                  </div>
+
+                  <div>
+                    <h2 id="modal-project-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nuevo cliente
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Crea un cliente y guarda su información principal
+                    </p>
+                  </div>
+                </div>
+
+                <button type="button" data-close-client aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
               </div>
-              <div>
-                <h2 class="text-lg font-bold text-slate-900">Cliente</h2>
-                <p class="text-xs text-slate-500">Información básica de la entidad.</p>
-              </div>
-              <button type="button" data-close-client class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
             </div>
-            
-            <div class="p-6">
-              <form id="form-client" class="space-y-4">
+
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-client" class="space-y-4 text-sm">
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE DEL CLIENTE</label>
-                  <input type="text" name="clientName" required placeholder="Ej. Banco Santander" data-bind="value: nameClient"
-                    class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" />
-                   <p id="valid-name-client" class="mt-1 text-xs text-red-600 hidden">Campo requerido.</p>
+                  <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    Nombre del cliente
+                  </label>
+                  <div class="relative">
+                    <input type="text" name="clientName" required placeholder="Introduce Cliente de banca"
+                      data-bind="value: nameClient"
+                      class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                  </div>
+                  <p class="mt-1 text-[11px] text-slate-500">
+                    Usa un nombre claro y corto (lo verás en la lista de clientes).
+                  </p>
+                   <p id="valid-name-client" class="mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                 </div>
+
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">DESCRIPCIÓN</label>
-                  <textarea name="clientDescription" rows="3" placeholder="Descripción breve..." data-bind="value: descriptionClient"
-                    class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm resize-none"></textarea>
+                  <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    Descripción breve
+                  </label>
+                  <textarea name="clientDescription" rows="3" placeholder="Resumen del Cliente..."
+                    data-bind="value: descriptionClient"
+                    class="w-full resize-none rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></textarea>
                 </div>
-                <div class="flex justify-end gap-3 pt-4">
-                  <button type="button" data-close-client class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 border border-transparent">Cancelar</button>
-                  <button type="submit" data-bind="click: $root.saveClient" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md transition flex items-center gap-2">
-                    Guardar <span id="save-client-spin" class="icon-spin hidden"></span>
+
+                <!-- Si quieres meter campos extra, aquí queda bien -->
+                <div class="grid grid-cols-2 gap-3"></div>
+
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-client
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
                   </button>
+
+                  <button type="submit" data-bind="click: $root.saveClient"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar proyecto
+                  </button>
+                  <span id="save-client-spin" class="icon-spin hidden"></span>
                 </div>
               </form>
             </div>
           </div>
         </div>
+        <!-- #endregion -->
         
-        <!-- PROJECT MODAL -->
-        <div id="modal-project" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
-           <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
-            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
-              <div class="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-md">
-                 <span class="icon-project scale-150"></span>
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE PROYECTO =============== -->
+        <div id="modal-project"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-project-title">
+            <!-- Header -->
+            <div class="relative px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG azul -->
+                  <div
+                    class="icon-project-client grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+
+                  </div>
+
+                  <div>
+                    <h2 id="modal-project-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nuevo proyecto
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Crea un proyecto y guarda su información principal
+                    </p>
+                  </div>
+                </div>
+
+                <button type="button" data-close-project aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
               </div>
-              <div>
-                <h2 class="text-lg font-bold text-slate-900">Proyecto</h2>
-                <p class="text-xs text-slate-500">Crear o editar proyecto.</p>
-              </div>
-              <button type="button" data-close-project class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
             </div>
-             <div class="p-6">
-              <form id="form-project" class="space-y-4">
+
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-project" class="space-y-4 text-sm">
                 <div>
-                  <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE DEL PROYECTO</label>
-                  <input type="text" name="projectName" required placeholder="Ej. Migración Cloud" data-bind="value: nameProject"
-                    class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 shadow-sm" />
-                   <p id="valid-name-project" class="mt-1 text-xs text-red-600 hidden">Campo requerido.</p>
+                  <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    Nombre del proyecto
+                  </label>
+                  <div class="relative">
+                    <input type="text" name="projectName" required placeholder="Ej. RAG Soporte Interno"
+                      data-bind="value: nameProject"
+                      class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                  </div>
+                  <p class="mt-1 text-[11px] text-slate-500">
+                    Usa un nombre claro y corto (lo verás en la lista de proyectos).
+                  </p>
+                  <p id="valid-name-project" class="mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                 </div>
+
                 <div>
-                   <label class="block text-xs font-bold text-slate-700 mb-1">DESCRIPCIÓN</label>
-                  <textarea name="projectDescription" rows="3" placeholder="Detalles del proyecto..." data-bind="value: descriptionProject"
-                    class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 shadow-sm resize-none"></textarea>
+                  <label class="mb-1.5 block text-xs font-semibold text-slate-700">
+                    Descripción breve
+                  </label>
+                  <textarea name="projectDescription" rows="3" placeholder="Resumen del proyecto..."
+                    data-bind="value: descriptionProject"
+                    class="w-full resize-none rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></textarea>
                 </div>
-                <div class="flex justify-end gap-3 pt-4">
-                  <button type="button" data-close-project class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
-                  <button type="submit" data-bind="click: $root.saveProject" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md transition flex items-center gap-2">
-                    Guardar <span id="save-project-spin" class="icon-spin hidden"></span>
+
+                <!-- Si quieres meter campos extra, aquí queda bien -->
+                <div class="grid grid-cols-2 gap-3"></div>
+
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-project
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
                   </button>
+
+                  <button type="submit" data-bind="click: $root.saveProject"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar proyecto
+                  </button>
+                  <span id="save-project-spin" class="icon-spin hidden"></span>
                 </div>
               </form>
             </div>
-           </div>
+          </div>
         </div>
+        <!-- #endregion -->
+        
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE MIEMBRO CLIENTE =============== -->
+        <div id="modal-member-client" class="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 hidden"
+          role="dialog" aria-modal="true" aria-labelledby="memberClientModalTitle">
+          <!-- Backdrop -->
+          <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
 
-        <!-- MEMBER CLIENT MODAL -->
-        <div id="modal-member-client" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
-           <div class="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
-             <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
-              <div class="w-10 h-10 rounded-lg bg-teal-600 flex items-center justify-center text-white shadow-md">
-                 <span class="icon-member scale-150"></span>
-              </div>
-              <div>
-                <h2 class="text-lg font-bold text-slate-900">Miembro del Cliente</h2>
-                <p class="text-xs text-slate-500">Añadir persona al equipo.</p>
-              </div>
-              <button type="button" data-close-member-client class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
-            </div>
-             <div class="p-6">
-               <form id="form-member-client" class="grid grid-cols-2 gap-4">
-                  <div class="col-span-2">
-                     <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE COMPLETO</label>
-                     <input type="text" name="memberNameClient" data-bind="value: nameMemberClient" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-teal-500 shadow-sm" />
-                      <p id="valid-name-member-client" class="mt-1 text-xs text-red-600 hidden">Requerido.</p>
+          <!-- Panel -->
+          <div class="relative w-full max-w-xl mx-4">
+            <div class="bg-white/95 rounded-3xl shadow-2xl ring-1 ring-slate-900/10 overflow-hidden">
+              <!-- Header -->
+              <div class="px-6 py-5 border-b border-slate-200/70 bg-gradient-to-b from-slate-50 to-white">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex items-center gap-3">
+                    <!-- Logo SVG -->
+                    <div
+                      class="member-logo h-10 w-10 rounded-2xl bg-indigo-600 text-white grid place-items-center shadow-sm shadow-indigo-600/30">
+
+                    </div>
+
+                    <div>
+                      <h2 id="memberClientModalTitle" class="text-base font-semibold text-slate-900">
+                        Nuevo miembro del cliente
+                      </h2>
+                      <p class="text-xs text-slate-500 mt-0.5">
+                        Completa los datos para invitar a una persona al equipo.
+                      </p>
+                    </div>
                   </div>
-                   <div class="col-span-2">
-                     <label class="block text-xs font-bold text-slate-700 mb-1">EMAIL CORPORATIVO</label>
-                     <input type="email" name="memberEmailClient" data-bind="value: emailMemberClient" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-teal-500 shadow-sm" />
-                     <p id="valid-email-member-client" class="mt-1 text-xs text-red-600 hidden">Email inválido.</p>
+
+                  <button type="button"
+                    class="h-9 w-9 rounded-xl grid place-items-center text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition"
+                    data-close-member-client aria-label="Cerrar" title="Cerrar">
+                    <span class="text-xl leading-none">×</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Body -->
+              <form id="form-member-client" class="px-6 py-5 space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="md:col-span-1">
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Nombre</label>
+                    <div class="relative">
+                      <input type="text" name="memberNameClient" required class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                              placeholder:text-slate-400
+                              focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                              transition" placeholder="Ej. Ana Pérez" data-bind="value: nameMemberClient" />
+                               <p id="valid-name-member-client" class="mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
+                    </div>
                   </div>
+
+                  <div class="md:col-span-1">
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Email</label>
+                    <input type="email" name="memberEmailClient" required class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                            placeholder:text-slate-400
+                            focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                            transition" placeholder="ana@mirrormind.ai" data-bind="value: emailMemberClient" />
+                    <p class="mt-1 text-[11px] text-slate-500">Enviaremos una invitación a este correo.</p>
+                    <p id="valid-email-member-client" class="mt-1 text-[11px] text-red-500 hidden">El correo no es correcto o esta vacio.</p>
+                  </div>
+
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">ROL</label>
-                    <select name="memberRoleClient" data-bind="value: roleMemberClient" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-teal-500 shadow-sm">
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Rol</label>
+                    <div class="relative">
+                      <select name="memberRoleClient" class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                              focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                              transition" data-bind="value: roleMemberClient">
                         <option value="Admin">Admin</option>
                         <option value="Editor">Editor</option>
                         <option value="Viewer">Viewer</option>
-                    </select>
+                      </select>
+                      <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+
+                      </span>
+                    </div>
                   </div>
+
                   <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">ESTADO</label>
-                    <select name="memberStatusClient" data-bind="value: estadoMemberClient" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-teal-500 shadow-sm">
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Estado</label>
+                    <div class="relative">
+                      <select name="memberStatusClient" class="w-full px-3 py-2.5 rounded-2xl border border-slate-200 bg-white shadow-sm
+                              focus:outline-none focus:ring-4 focus:ring-indigo-500/15 focus:border-indigo-500
+                              transition" data-bind="value: estadoMemberClient">
                         <option value="Activo">Activo</option>
                         <option value="Deshabilitado">Deshabilitado</option>
-                    </select>
-                  </div>
-                   <div class="col-span-2 flex justify-end gap-3 pt-4 border-t border-slate-100 mt-2">
-                     <button type="button" data-close-member-client class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
-                    <button type="submit" data-bind="click: saveMemberClient" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-teal-600 hover:bg-teal-700 shadow-md flex items-center gap-2">
-                      Guardar <span id="save-member-client-spin" class="icon-spin hidden"></span>
-                    </button>
-                   </div>
-               </form>
-             </div>
-           </div>
-        </div>
+                      </select>
+                      <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
 
-        <!-- MEMBER PROJECT ASSIGN MODAL -->
-        <div id="modal-member" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
-           <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
-              <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
-                <div class="w-10 h-10 rounded-lg bg-purple-600 flex items-center justify-center text-white shadow-md">
-                   <span class="icon-member scale-150"></span>
-                </div>
-                <div>
-                  <h2 class="text-lg font-bold text-slate-900">Asignar al Proyecto</h2>
-                  <p class="text-xs text-slate-500">Selecciona un miembro existente.</p>
-                </div>
-                <button type="button" data-close-member class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
-              </div>
-              <div class="p-6">
-                <form id="form-member" class="space-y-4">
-                  <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">MIEMBRO</label>
-                    <select name="memberName" data-bind="options: filteredClientMembers(), optionsText: 'name', optionsValue:'_id', value: idMember, optionsCaption: 'Seleccionar...'"
-                        class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-purple-500 focus:ring-purple-500 shadow-sm">
-                    </select>
-                     <p id="valid-name-member" class="mt-1 text-xs text-red-600 hidden">Debes seleccionar uno.</p>
-                  </div>
-                  <div class="flex justify-end gap-3 pt-4">
-                     <button type="button" data-close-member class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
-                    <button type="submit" data-bind="click: saveMember" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-md flex items-center gap-2">
-                      Asignar <span id="save-member-spin" class="icon-spin hidden"></span>
-                    </button>
-                  </div>
-                </form>
-              </div>
-           </div>
-        </div>
-        
-        <!-- GENERIC RAG MODAL (Used for both) -->
-        <div id="modal-rag" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
-           <div class="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
-              <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
-                 <div class="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center text-white shadow-md">
-                   <span class="icon-rag scale-125"></span>
-                 </div>
-                 <div>
-                    <h2 class="text-lg font-bold text-slate-900">Base RAG</h2>
-                    <p class="text-xs text-slate-500">Configuración de conocimiento.</p>
-                 </div>
-                 <button type="button" data-close-rag class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
-              </div>
-              <div class="p-6">
-                <form id="form-rag" class="space-y-4">
-                   <div>
-                      <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE DE LA BASE</label>
-                      <input type="text" name="ragName" data-bind="value: nameRag" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-orange-500 focus:ring-orange-500 shadow-sm" />
-                      <p id="valid-name-rag-miembro" class="text-xs text-red-600 mt-1 hidden">Requerido.</p>
-                   </div>
-                   <div class="grid grid-cols-2 gap-4">
-                      <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">TIPO</label>
-                        <select name="ragType" data-bind="options: ragType, value: tipoRag" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-orange-500 focus:ring-orange-500 shadow-sm"></select>
-                         <p id="valid-type-rag-miembro" class="text-xs text-red-600 mt-1 hidden">Selecciona tipo.</p>
-                      </div>
-                      <div>
-                         <label class="block text-xs font-bold text-slate-700 mb-1">ÚLTIMA ACTUALIZACIÓN</label>
-                         <input type="date" name="ragLastUpdate" data-bind="value: fechaRag" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-orange-500 focus:ring-orange-500 shadow-sm" />
-                         <p id="valid-fecha-rag-miembro" class="text-xs text-red-600 mt-1 hidden">Fecha inválida.</p>
-                      </div>
-                   </div>
-                   <div class="flex justify-end gap-3 pt-4">
-                      <button type="button" data-close-rag class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
-                      <button type="submit" data-bind="click: saveRag" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-orange-600 hover:bg-orange-700 shadow-md flex items-center gap-2">
-                        Guardar <span id="save-rag-member-spin" class="icon-spin hidden"></span>
-                      </button>
-                   </div>
-                </form>
-              </div>
-           </div>
-        </div>
-        
-        <!-- MODAL RAG PROYECTOS (Almost identical to above, kept separate as per logic) -->
-        <div id="modal-rag-proyectos" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
-            <div class="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
-               <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
-                 <div class="w-10 h-10 rounded-lg bg-pink-600 flex items-center justify-center text-white shadow-md">
-                   <span class="icon-rag scale-125"></span>
-                 </div>
-                 <div>
-                    <h2 class="text-lg font-bold text-slate-900">Base RAG (Proyecto)</h2>
-                    <p class="text-xs text-slate-500">Configuración global del proyecto.</p>
-                 </div>
-                 <button type="button" data-close-rag-proyecto class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
-              </div>
-              <div class="p-6">
-                 <form id="form-rag-proyectos" class="space-y-4">
-                    <div>
-                      <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE</label>
-                      <input type="text" name="ragNameProyecto" data-bind="value: nameRagProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-pink-500 focus:ring-pink-500 shadow-sm" />
-                       <p id="valid-name-rag-proyecto" class="text-xs text-red-600 mt-1 hidden">Requerido.</p>
+                      </span>
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                           <label class="block text-xs font-bold text-slate-700 mb-1">TIPO</label>
-                           <select name="ragTypeProyecto" data-bind="options: ragType, value: tipoRagProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-pink-500 focus:ring-pink-500 shadow-sm"></select>
-                           <p id="valid-type-rag-proyecto" class="text-xs text-red-600 mt-1 hidden">Inválido.</p>
-                        </div>
-                        <div>
-                           <label class="block text-xs font-bold text-slate-700 mb-1">FECHA</label>
-                           <input type="date" name="ragLastUpdateProyecto" data-bind="value: fechaRagProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-pink-500 focus:ring-pink-500 shadow-sm" />
-                           <p id="valid-fecha-rag-proyecto" class="text-xs text-red-600 mt-1 hidden">Inválida.</p>
-                        </div>
+                  </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+                  <p class="text-[11px] text-slate-500">
+                    Al guardar, el miembro quedará asociado al cliente.
+                  </p>
+
+                  <div class="flex justify-end gap-2">
+                    <button type="button" data-close-member-client class="px-4 py-2.5 rounded-2xl border border-slate-200 bg-white text-xs font-semibold
+                            text-slate-700 hover:bg-slate-50 active:scale-[0.99] transition">
+                      Cancelar
+                    </button>
+
+                    <button type="submit" class="px-4 py-2.5 rounded-2xl bg-indigo-600 text-white text-xs font-semibold
+                            shadow-sm shadow-indigo-600/30 hover:bg-indigo-700 active:scale-[0.99] transition"
+                      data-bind="click: saveMemberClient">
+                      Guardar
+                    </button>
+                     <span id="save-member-client-spin" class="icon-spin hidden"></span>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- #endregion -->
+        
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE MIEMBRO =============== -->
+        <div id="modal-member" class="fixed inset-0 bg-slate-900/40 flex items-center justify-center z-50 hidden"
+          role="dialog" aria-modal="true" aria-labelledby="memberModalTitle">
+          <!-- Backdrop -->
+          <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+
+          <!-- Panel -->
+          <div class="relative w-full max-w-xl mx-4">
+            <div class="bg-white/95 rounded-3xl shadow-2xl ring-1 ring-slate-900/10 overflow-hidden">
+              <!-- Header -->
+              <div class="px-6 py-5 border-b border-slate-200/70 bg-gradient-to-b from-slate-50 to-white">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex items-center gap-3">
+                    <!-- Logo SVG -->
+                    <div
+                      class="member-logo h-10 w-10 rounded-2xl bg-indigo-600 text-white grid place-items-center shadow-sm shadow-indigo-600/30">
+
+                    </div>
+
+                    <div>
+                      <h2 id="memberModalTitle" class="text-base font-semibold text-slate-900">
+                        Nuevo miembro del proyecto
+                      </h2>
+                      <p class="text-xs text-slate-500 mt-0.5">
+                        Completa los datos para asociar a una persona al Projecto.
+                      </p>
+                    </div>
+                  </div>
+
+                  <button type="button"
+                    class="h-9 w-9 rounded-xl grid place-items-center text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition"
+                    data-close-member aria-label="Cerrar" title="Cerrar">
+                    <span class="text-xl leading-none">×</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Body -->
+              <form id="form-member" class="px-6 py-5 space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block mb-1.5 text-xs font-semibold text-slate-700">Miembro asociado al
+                      proyecto</label>
+                    <div class="relative">
+                      <select name="memberName"
+                        data-bind="options: filteredClientMembers(), optionsText: 'name', optionsValue:'_id', value: idMember, optionsCaption: 'Elegir Miembro...'"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></select>
+                      <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400">
+                        
+                      </span>
+                      <p id="valid-name-member" class="mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 pt-2">
+                  <p class="text-[11px] text-slate-500">
+                    Al guardar, el miembro quedará asociado al proyecto.
+                  </p>
+
+                  <div class="flex justify-end gap-2">
+                    <button type="button" data-close-member class="px-4 py-2.5 rounded-2xl border border-slate-200 bg-white text-xs font-semibold
+                            text-slate-700 hover:bg-slate-50 active:scale-[0.99] transition">
+                      Cancelar
+                    </button>
+
+                    <button type="submit" class="px-4 py-2.5 rounded-2xl bg-indigo-600 text-white text-xs font-semibold
+                            shadow-sm shadow-indigo-600/30 hover:bg-indigo-700 active:scale-[0.99] transition"
+                      data-bind="click: saveMember">
+                      Guardar
+                    </button>
+                     <span id="save-member-spin" class="icon-spin hidden"></span>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+        <!-- #endregion -->
+         
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE BASE DATOS RAG PARA MIEBROS =============== -->
+        <div id="modal-rag"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-rag-title">
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG -->
+                  <div
+                    class="icon-rag grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+
+                  </div>
+
+                  <div>
+                    <h2 id="modal-rag-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nueva base de datos RAG
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Registra la información básica y, si aplica, los detalles de la base RAG
+                    </p>
+                  </div>
+                </div>
+
+                <button type="button" data-close-rag aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-rag" class="space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Tus inputs básicos aquí -->
+                </div>
+
+                <!-- RAG -->
+                <div class="rounded-3xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                      <h3 class="text-xs font-semibold text-slate-800">
+                        Registrar nueva base de datos RAG <span class="text-slate-400 font-medium">(opcional)</span>
+                      </h3>
+                      <p class="mt-0.5 text-[11px] text-slate-500">
+                        Completa estos campos si quieres guardar metadatos de la base RAG.
+                      </p>
+                    </div>
+                    <span
+                      class="inline-flex items-center rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-slate-200">
+                      RAG
+                    </span>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre RAG</label>
+                      <input type="text" name="ragName" required placeholder="Ej. RAG Documentación" data-bind="value: nameRag"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                     <p id="valid-name-rag-miembro" class="name-rag mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
+                    </div>
+
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
+                      <select name="ragType" data-bind="options: ragType, value: tipoRag"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></select>
+                       <p id="valid-type-rag-miembro" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">El campo no esta especif.</p>
+                    </div>
+
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Última actualización</label>
+                      <input type="date" name="ragLastUpdate" data-bind="value: fechaRag"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                      <p id="valid-fecha-rag-miembro" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">La fecha no es correcta</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-rag
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+
+                  <button type="submit" data-bind="click: saveRag"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar RAG
+                  </button>
+                   <span id="save-rag-member-spin" class="icon-spin hidden"></span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- #endregion -->
+        
+        <!-- #region =============== MODAL: INSERTAR-EDIT-UPDATE TOOLS PARA MIEMBROS =============== -->
+        <div id="modal-tool"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-tool-title">
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG -->
+                  <div
+                    class="icon-tool grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+
+                  </div>
+
+                  <div>
+                    <h2 id="modal-tool-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nueva Tool
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Registra los datos básicos y, si aplica, la configuración de la herramienta
+                    </p>
+                  </div>
+                </div>
+
+                <button type="button" data-close-tool aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-tool" class="space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Tus inputs básicos aquí -->
+                </div>
+
+                <!-- TOOL -->
+                <div class="rounded-3xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                      <h3 class="text-xs font-semibold text-slate-800">
+                        Registrar nueva tool <span class="text-slate-400 font-medium">(opcional)</span>
+                      </h3>
+                      <p class="mt-0.5 text-[11px] text-slate-500">
+                        Útil para documentar conectores, APIs, scripts o integraciones.
+                      </p>
+                    </div>
+                    <span
+                      class="inline-flex items-center rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-slate-200">
+                      TOOL
+                    </span>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre de la tool</label>
+                      <input type="text" name="toolName" required placeholder="Ej. Conector CRM" data-bind="value: nameTool"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                      <p id="valid-name-tool-miembro" class="name-tool mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
                     </div>
                     
-                    <!-- Drag Area -->
-                    <div id="drop-area" class="mt-4 border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:bg-slate-50 transition">
-                       <input type="file" id="file-input" multiple hidden />
-                       <div id="message-drag" class="text-slate-500 text-xs">
-                          <img class="mx-auto mb-2 opacity-60" id="multiplesFicheros" src="" height="40" width="40" />
-                          <p>Arrastra archivos aquí o haz clic para subir</p>
-                       </div>
-                       <div id="preview-container" class="mt-4 flex flex-wrap gap-2 justify-center"></div>
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
+                      <input type="text" name="toolType" placeholder="API / Tool / Script..."
+                        data-bind="value: tipoTool"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
                     </div>
 
-                    <div class="flex justify-end gap-3 pt-4">
-                      <button type="button" data-close-rag-proyecto class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
-                      <button type="submit" data-bind="click: saveRagProyectos" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-pink-600 hover:bg-pink-700 shadow-md flex items-center gap-2">
-                        Guardar <span id="save-rag-project-spin" class="icon-spin hidden"></span>
-                      </button>
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Permiso</label>
+                      <select name="toolPermission" data-bind="value: permisoTool"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15">
+                        <option value="">Sin especificar</option>
+                        <option value="Lectura / Escritura">Lectura / Escritura</option>
+                        <option value="Solo lectura">Solo lectura</option>
+                        <option value="Restringido">Restringido</option>
+                      </select>
                     </div>
-                 </form>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-tool
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+
+                  <button type="submit" data-bind="click: saveTool"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar tool
+                  </button>
+                  <span id="save-tool-member-spin" class="icon-spin hidden"></span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- #endregion -->
+         
+        <!-- #region =============== MODAL: NUEVO-EDIT-UPDATE BASE DATOS RAG PARA PROYECTOS =============== -->
+        <div id="modal-rag-proyectos"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-rag-proyectos-title">
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG -->
+                  <div
+                    class="icon-rag grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+
+                  </div>
+
+                  <div>
+                    <h2 id="modal-rag-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nueva base de datos RAG
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Registra la información básica y, si aplica, los detalles de la base RAG
+                    </p>
+                  </div>
+                </div>
+
+                <button type="button" data-close-rag-proyecto aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
               </div>
             </div>
-        </div>
 
-        <!-- TOOL MODAL (Generic) -->
-        <div id="modal-tool" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
-            <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
-               <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
-                 <div class="w-10 h-10 rounded-lg bg-cyan-600 flex items-center justify-center text-white shadow-md">
-                   <span class="icon-tool scale-125"></span>
-                 </div>
-                 <div>
-                    <h2 class="text-lg font-bold text-slate-900">Herramienta</h2>
-                    <p class="text-xs text-slate-500">Configuración de Tool/API.</p>
-                 </div>
-                 <button type="button" data-close-tool class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
-              </div>
-              <div class="p-6">
-                 <form id="form-tool" class="space-y-4">
+            <!-- Body -->
+            <div class="px-7 py-1">
+              <form id="form-rag-proyectos" class="space-y-1 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Tus inputs básicos aquí -->
+                </div>
+
+                <!-- RAG -->
+                <div class="rounded-3xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="flex items-start justify-between gap-3 mb-3">
                     <div>
-                       <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE DE LA TOOL</label>
-                       <input type="text" name="toolName" data-bind="value: nameTool" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-cyan-500 focus:ring-cyan-500 shadow-sm" />
-                        <p id="valid-name-tool-miembro" class="text-xs text-red-600 mt-1 hidden">Requerido.</p>
+                      <h3 class="text-xs font-semibold text-slate-800">
+                        Registrar nueva base de datos RAG <span class="text-slate-400 font-medium">(opcional)</span>
+                      </h3>
+                      <p class="mt-0.5 text-[11px] text-slate-500">
+                        Completa estos campos si quieres guardar metadatos de la base RAG.
+                      </p>
                     </div>
+                    <span
+                      class="inline-flex items-center rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-slate-200">
+                      RAG
+                    </span>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div>
-                       <label class="block text-xs font-bold text-slate-700 mb-1">TIPO</label>
-                       <input type="text" name="toolType" data-bind="value: tipoTool" placeholder="API / Script..." class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-cyan-500 focus:ring-cyan-500 shadow-sm" />
-                    </div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre RAG</label>
+                      <input type="text" required name="ragNameProyecto" placeholder="Ej. RAG Documentación"
+                        data-bind="value: nameRagProyecto"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                         <p id="valid-name-rag-proyecto" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
+                      </div>
+
                     <div>
-                       <label class="block text-xs font-bold text-slate-700 mb-1">PERMISO</label>
-                       <select name="toolPermission" data-bind="value: permisoTool" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-cyan-500 focus:ring-cyan-500 shadow-sm">
-                          <option value="">Sin especificar</option>
-                          <option value="Lectura / Escritura">Lectura / Escritura</option>
-                          <option value="Solo lectura">Solo lectura</option>
-                          <option value="Restringido">Restringido</option>
-                       </select>
-                    </div>
-                    <div class="flex justify-end gap-3 pt-4">
-                       <button type="button" data-close-tool class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
-                      <button type="submit" data-bind="click: saveTool" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-cyan-600 hover:bg-cyan-700 shadow-md flex items-center gap-2">
-                        Guardar <span id="save-tool-member-spin" class="icon-spin hidden"></span>
-                      </button>
-                    </div>
-                 </form>
-              </div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
+                      <select name="ragTypeProyecto" data-bind="options: ragType, value: tipoRagProyecto"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15"></select>
+                        <p id="valid-type-rag-proyecto" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">El campo no esta especif.</p>
+                      </div>
+
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Última actualización</label>
+                      <input type="date" name="ragLastUpdateProyecto" data-bind="value: fechaRagProyecto"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                        <p id="valid-fecha-rag-proyecto" class="name-rag-proyecto mt-1 text-[11px] text-red-500 hidden">La fecha no es correcta</p>
+                      </div>
+                    
+                  </div>
+                  <div id="form1">
+                      <div id="drop-area" class="mt-4">
+                        Suelta aqui para adjuntar archivo
+                      </div>
+                      <input type="file" id="file-input" multiple hidden />
+                      <div id="preview-container"></div>
+                      <div id="message-drag" class="">
+                        <img class="mx-auto" id="multiplesFicheros" src="" height="50" width="50" />
+                        <div>
+                          <h2 class="text-xs font-semibold text-slate-800">Añade archivos para añadir a BD RAG</h2>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-rag-proyecto
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+                  <button type="submit" data-bind="click: saveRagProyectos"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar RAG
+                  </button>
+                  <span id="save-rag-project-spin" class="icon-spin hidden"></span>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
-
-        <!-- TOOL PROYECTO MODAL -->
-        <div id="modal-tool-proyecto" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
-            <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
-               <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
-                 <div class="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white shadow-md">
-                   <span class="icon-tool scale-125"></span>
-                 </div>
-                 <div>
-                    <h2 class="text-lg font-bold text-slate-900">Herramienta (Proyecto)</h2>
-                    <p class="text-xs text-slate-500">Configuración global.</p>
-                 </div>
-                 <button type="button" data-close-tool-proyecto class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
-              </div>
-              <div class="p-6">
-                 <form id="form-tool-proyecto" class="space-y-4">
-                    <div>
-                       <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE</label>
-                       <input type="text" name="toolNameProyecto" data-bind="value: nameToolProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-emerald-500 shadow-sm" />
-                       <p id="valid-name-tool-proyecto" class="text-xs text-red-600 mt-1 hidden">Requerido.</p>
-                    </div>
-                    <div>
-                       <label class="block text-xs font-bold text-slate-700 mb-1">TIPO</label>
-                       <input type="text" name="toolTypeProyecto" data-bind="value: tipoToolProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-emerald-500 shadow-sm" />
-                    </div>
-                    <div>
-                       <label class="block text-xs font-bold text-slate-700 mb-1">PERMISO</label>
-                       <select name="toolPermissionProyecto" data-bind="value: permisoToolProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-emerald-500 shadow-sm">
-                          <option value="">Sin especificar</option>
-                          <option value="Lectura / Escritura">Lectura / Escritura</option>
-                          <option value="Solo lectura">Solo lectura</option>
-                          <option value="Restringido">Restringido</option>
-                       </select>
-                    </div>
-                     <div class="flex justify-end gap-3 pt-4">
-                       <button type="button" data-close-tool-proyecto class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
-                      <button type="submit" data-bind="click: saveToolProject" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md flex items-center gap-2">
-                        Guardar <span id="save-tool-project-spin" class="icon-spin hidden"></span>
-                      </button>
-                    </div>
-                 </form>
-              </div>
-            </div>
-        </div>
-
-        <!-- DELETE MODAL -->
-        <div id="modal-borrar" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
-           <div class="w-full max-w-sm overflow-hidden rounded-2xl bg-white shadow-2xl p-6 text-center">
-              <div class="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-4">
-                 <span class="icon-borrar scale-110"></span>
-              </div>
-              <h2 class="text-lg font-bold text-slate-900 mb-2">¿Eliminar registro?</h2>
-              <p class="text-sm text-slate-500 mb-6">Esta acción no se puede deshacer y borrará permanentemente los datos asociados.</p>
-              
-              <div class="flex justify-center gap-3">
-                 <button type="button" data-close-borrar class="px-5 py-2.5 rounded-lg border border-slate-200 text-slate-600 font-medium hover:bg-slate-50">Cancelar</button>
-                 <button type="button" data-bind="click: btnDelete" class="px-5 py-2.5 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 shadow-md flex items-center gap-2">
-                   Eliminar <span id="borrar-spin" class="icon-spin hidden"></span>
-                 </button>
-              </div>
-           </div>
-        </div>
+        <!-- #endregion -->
         
+        <!-- #region =============== MODAL: INSERTAR-EDIT-UPDATE TOOLS PARA PROYECTOS =============== -->
+        <div id="modal-tool-proyecto"
+          class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+          <div class="w-full max-w-xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10"
+            role="dialog" aria-modal="true" aria-labelledby="modal-tool-title">
+            <!-- Header -->
+            <div class="px-6 pt-6 pb-4 bg-white border-b border-slate-200">
+              <div class="flex items-start justify-between gap-4">
+                <div class="flex items-center gap-3">
+                  <!-- Logo SVG -->
+                  <div
+                    class="icon-tool grid h-10 w-10 place-items-center rounded-2xl bg-indigo-600 ring-1 ring-indigo-100">
+
+                  </div>
+
+                  <div>
+                    <h2 id="modal-tool-title" class="text-base font-semibold text-slate-900 leading-tight">
+                      Nueva Tool
+                    </h2>
+                    <p class="mt-0.5 text-xs text-slate-500">
+                      Registra los datos básicos y, si aplica, la configuración de la herramienta
+                    </p>
+                  </div>
+                </div>
+
+                <button type="button" data-close-tool-proyecto aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-xl leading-none">×</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="px-6 py-5">
+              <form id="form-tool-proyecto" class="space-y-4 text-sm">
+                <!-- Datos básicos -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <!-- Tus inputs básicos aquí -->
+                </div>
+
+                <!-- TOOL -->
+                <div class="rounded-3xl border border-slate-200 bg-slate-50/60 p-4">
+                  <div class="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                      <h3 class="text-xs font-semibold text-slate-800">
+                        Registrar nueva tool <span class="text-slate-400 font-medium">(opcional)</span>
+                      </h3>
+                      <p class="mt-0.5 text-[11px] text-slate-500">
+                        Útil para documentar conectores, APIs, scripts o integraciones.
+                      </p>
+                    </div>
+                    <span
+                      class="inline-flex items-center rounded-full bg-white px-2 py-1 text-[11px] font-semibold text-slate-600 ring-1 ring-slate-200">
+                      TOOL
+                    </span>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Nombre de la tool</label>
+                      <input type="text" required name="toolNameProyecto" placeholder="Ej. Conector CRM"
+                        data-bind="value: nameToolProyecto"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                       <p id="valid-name-tool-proyecto" class="name-tool-proyecto mt-1 text-[11px] text-red-500 hidden">El campo esta vacio.</p>
+                      </div>
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Tipo</label>
+                      <input type="text" name="toolTypeProyecto" placeholder="API / Tool / Script..."
+                        data-bind="value: tipoToolProyecto"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15" />
+                    </div>
+
+                    <div>
+                      <label class="block mb-1 text-[11px] font-semibold text-slate-600">Permiso</label>
+                      <select name="toolPermissionProyecto" data-bind="value: permisoToolProyecto"
+                        class="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2.5 text-slate-900 shadow-sm transition focus:border-indigo-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/15">
+                        <option value="">Sin especificar</option>
+                        <option value="Lectura / Escritura">Lectura / Escritura</option>
+                        <option value="Solo lectura">Solo lectura</option>
+                        <option value="Restringido">Restringido</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center justify-end gap-2 pt-2">
+                  <button type="button" data-close-tool-proyecto
+                    class="rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-slate-200/60">
+                    Cancelar
+                  </button>
+
+                  <button type="submit" data-bind="click: saveToolProject"
+                    class="rounded-2xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/30">
+                    Guardar
+                  </button>
+                  <span id="save-tool-project-spin" class="icon-spin hidden"></span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- #endregion -->
+        
+        <!-- #region =============== MODAL: CUADRO DE DIALOGO BORRAR =============== -->
+        <div id="modal-borrar"
+          class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+          <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-sm font-semibold text-slate-900">
+                Eliminar Registro
+              </h2>
+              <button type="button" class="text-slate-400 hover:text-slate-600 text-xl leading-none" data-close-borrar>
+                ×
+              </button>
+            </div>
+
+            <!-- Icono -->
+            <div class="flex justify-center mb-4">
+              <div class="icon-borrar flex items-center justify-center w-14 h-14 rounded-full bg-red-100">
+
+              </div>
+            </div>
+
+            <!-- Contenido -->
+            <form id="form-borrar" class="space-y-4 text-xs text-center">
+
+              <div class="border border-red-200 bg-red-50 rounded-2xl p-4">
+                <h3 class="text-sm font-semibold text-red-700 mb-1">
+                  ¿Deseas borrar este registro?
+                </h3>
+                <p class="text-red-600 text-[11px]">
+                  Esta acción no se puede deshacer.
+                </p>
+              </div>
+
+              <!-- Botones -->
+              <div class="flex justify-center gap-3 pt-2">
+                <button type="button" data-close-borrar
+                  class="px-4 py-2 rounded-xl border border-slate-200 text-xs hover:bg-slate-50">
+                  Cancelar
+                </button>
+
+                <button type="submit"
+                  class="px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-medium hover:bg-red-700"
+                  data-bind="click: btnDelete">
+                  Sí, eliminar
+                </button>
+                <span id="borrar-spin" class="icon-spin hidden"></span>
+              </div>
+            </form>
+          </div>
+        </div>
         <!-- #endregion -->
         
         <!-- #region MODAL: CUADRO DE DIÁLOGO CHAT -->
         <div id="chat-box" class="chat-box">
 
           <div id="chat-container">
-            <div class="chat-box-header">
-              <span>Axet Flow – Assistant</span>
-              <button type="button" data-close-chat class="text-white/80 hover:text-white text-xl leading-none">&times;</button>
-            </div>
-            
-            <div class="chat-box-body">
-              <div id="messages" class="text-xs" databind="with: selectedProject">
-                  <!-- Messages will appear here -->
-                  <div class="text-center text-slate-400 mt-4 text-xs">Historial del chat</div>
-              </div>
-            </div>
-            
-             <div class="chat-box-footer">
-                <button type="button" id="btn-borrar-mensajes" class="p-2 text-slate-400 hover:text-red-500 transition" title="Borrar historial">
-                   <span class="icon-trash"></span>
+            <div class="chat-box-header flex justify-between items-center  gap-4">
+
+              <span>Axet Flow – Chat</span>
+              <span class="flex items-center gap-2">
+                <button type="button" id="btn-borrar-mensajes" aria-label="borrar mensajes"
+                  class="inline-flex h-9 w-9 items-center bg-slate-100 justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200  transition hover:bg-slate-300 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="icon-trash leading-none"></span>
                 </button>
-                <form id="form" class="flex-1 flex gap-2">
-                   <input id="question" type="text" placeholder="Escribe tu mensaje..." class="chat-input" />
-                   <button id="send-btn" type="submit"></button>
-                </form>
-             </div>
-             <div id="error" class="px-3 pb-2 bg-white text-center"></div>
+                <button type="button" data-close-chat aria-label="Cerrar"
+                  class="inline-flex h-9 w-9 items-center bg-slate-100 justify-center rounded-2xl text-slate-400 ring-1 ring-slate-200 transition hover:bg-slate-300 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/40">
+                  <span class="text-sm leading-none">×</span>
+                </button>
+              </span>
+            </div>
+            <div class="chat-box-body">
+
+
+              <div id="messages" class="flex-1 space-y-3 overflow-y-auto mb-3 text-xs" databind="with: selectedProject">
+
+              </div>
+
+
+              <form id="form">
+               
+                <!--
+                <textarea id="question" placeholder="Escribe tu pregunta aquí..."></textarea>
+                <button type="submit" id="send-btn">Enviar</button>
+                
+                -->
+                <div class="pl-1 flex items-center gap-3">
+
+                  <input id="question" type="text" placeholder="Escribe un mensaje o una pregunta a la IA..."
+                    class="flex-1 px-3 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 bg-white" />
+                  <button id="send-btn"
+                    class="px-3 py-2 rounded-xl text-xs font-medium bg-indigo-600 text-white hover:bg-indigo-700">
+
+                  </button>
+                </div>
+                <div class="relative block" id="error"></div>
+              </form>
+            </div>
           </div>
 
         </div>
@@ -1443,7 +2406,6 @@
       </main>
     </div>
   </div>
-
 
   <!-- JS: Tabs + Knockout + datos mock -->
   <script>
@@ -1480,9 +2442,9 @@
       const url = 'localhost';
       const port = '8000';
       const urlProject = (url && port) ? `http://${url}:${port}/api/projects` : `/api/projects`;
-      const urlMember = (url && port) ? `http://${url}:${port}/api/members-project` : `/api/members-project`;
+      const urlMember = (url && port) ? `http://${url}:${port}/api/members` : `/api/members`;
       const urlClient = (url && port) ? `http://${url}:${port}/api/clients` : `/api/clients`;
-      const urlMemberClient = (url && port) ? `http://${url}:${port}/api/members-client` : `/api/members-client`;
+      const urlMemberClient = (url && port) ? `http://${url}:${port}/api/client/project` : `/api/client/project`;
       const urlRag = (url && port) ? `http://${url}:${port}/api/rag-databases` : `/api/rag-databases`;
       const urlTool = (url && port) ? `http://${url}:${port}/api/tools` : `/api/tools`;
       const tipoDB = "SQL"; //SQL - NoSQL
@@ -1743,7 +2705,7 @@
        async function addClientApi(client) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlClient + '/', {
+            const response = await fetch(urlClient + '/insert', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -1782,20 +2744,14 @@
 
           }
         } else if (entorno === 'local') {
-          return client;
+          return project;
         }
       }  
       async function updateClientApi(client) {
         if (entorno !== 'local') {
           try {
-            let id;
-            if (tipoDB === 'SQL') {
-              id = client.id;
-            }else if (tipoDB === 'NoSQL') {
-              id=client._id;
-            }
-            const response = await fetch(urlClient + '/' + id, {
-              method: 'PATCH',
+            const response = await fetch(urlClient + '/update', {
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -1833,13 +2789,7 @@
       async function deleteClientApi(client) {
         if (entorno !== 'local') {
           try {
-            let id;
-            if (tipoDB === 'SQL') {
-              id = client.id;
-            }else if (tipoDB === 'NoSQL') {
-              id=client._id;
-            }
-            const response = await fetch(urlClient + '/' + id, {
+            const response = await fetch(urlClient + '/' + client._id, {
               method: 'DELETE',
               headers: {
                 'Content-Type': 'application/json'
@@ -1880,7 +2830,7 @@
         async function queryClientApi(setClients) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlClient + '/', {
+            const response = await fetch(urlClient + '/all', {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -1934,7 +2884,7 @@
       async function addMembersClientApi(member) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlMemberClient + '/', {
+            const response = await fetch(urlMemberClient + '/insert', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -1977,8 +2927,8 @@
       async function updateMembersClientApi(member) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlMemberClient + '/' + member.id, {
-              method: 'PATCH',
+            const response = await fetch(urlMemberClient + '/update', {
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -2064,7 +3014,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlClient + '/'  + id + '/members', {
+            const response = await fetch(urlMemberClient + '/list/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -2117,7 +3067,7 @@
       async function AddProjectApi(project) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlProject + '/', {
+            const response = await fetch(urlProject + '/insert', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -2161,10 +3111,9 @@
       }
       async function UpdateProjectApi(project) {
         if (entorno !== 'local') {
-          console.log(project);
           try {
-            const response = await fetch(urlProject + '/' + project.id, {
-              method: 'PATCH',
+            const response = await fetch(urlProject + '/update', {
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
                  'Access-Control-Allow-Origin': '*'
@@ -2292,7 +3241,7 @@
         console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlClient + '/'  + id + '/projects', {
+            const response = await fetch(urlProject + '/list/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json',
@@ -2393,7 +3342,7 @@
        async function addMembersApi(member) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlMember + '/', {
+            const response = await fetch(urlMember + '/insert', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -2438,8 +3387,8 @@
       async function updateMembersApi(member) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlMember + '/', {
-              method: 'PATCH',
+            const response = await fetch(urlMember + '/update', {
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -2517,7 +3466,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlProject + '/' + id + '/members-project', {
+            const response = await fetch(urlProject + '/members/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -2599,7 +3548,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlProject + '/' + id + '/members-client/', {
+            const response = await fetch(urlProject + '/members/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -2646,7 +3595,7 @@
       async function addRagsApi(rag) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlRag + '/', {
+            const response = await fetch(urlRag + '/insert', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -2690,8 +3639,8 @@
       async function updateRagApi(rag) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlRag + '/', {
-              method: 'PATCH',
+            const response = await fetch(urlRag + '/update', {
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -2775,7 +3724,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlMember + '/' + id + '/rag-databases', {
+            const response = await fetch(urlRag + '/member/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -2824,7 +3773,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlMember + '/' + id + '/rag-databases', {
+            const response = await fetch(urlRag + '/member/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -2922,7 +3871,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlProject + '/' + id + '/rag-databases/', {
+            const response = await fetch(urlRag + '/project/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -2969,7 +3918,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlProject + '/' + id + '/rag-databases/', {
+            const response = await fetch(urlRag + '/member/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -3015,7 +3964,7 @@
         async function addToolsApi(tool) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlTool + '/', {
+            const response = await fetch(urlTool + '/insert', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
@@ -3056,8 +4005,8 @@
       async function updateToolApi(tool) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlTool + '/', {
-              method: 'PATCH',
+            const response = await fetch(urlTool + '/update', {
+              method: 'POST',
               headers: {
                 'Content-Type': 'application/json'
               },
@@ -3139,7 +4088,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlMember + '/' + id + '/tools', {
+            const response = await fetch(urlTool + '/member/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -3188,7 +4137,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlMember + '/' + id + '/tools', {
+            const response = await fetch(urlTool + '/member/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -3238,7 +4187,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlProject + '/' + id + '/tools', {
+            const response = await fetch(urlTool + '/project/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -3286,7 +4235,7 @@
         //console.log(id);
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlProject + '/' + id + '/tools' , {
+            const response = await fetch(urlTool + '/project/' + id, {
               method: 'GET',
               headers: {
                 'Content-Type': 'application/json'
@@ -3402,20 +4351,10 @@
       function setActiveTab(view) {
         tabs.forEach((tab) => {
           const isActive = tab.dataset.view === view;
-           // Corporate Blue Style Active State
-          tab.classList.toggle('bg-blue-50', isActive);
-          tab.classList.toggle('text-blue-700', isActive);
-          tab.classList.toggle('border-blue-700', isActive);
-          // Inactive state
-          tab.classList.toggle('border-transparent', !isActive);
-          tab.classList.toggle('text-slate-600', !isActive);
-          
-          
-          
-          //tab.classList.toggle('bg-slate-900', isActive);
-          //tab.classList.toggle('text-white', isActive);
-          //tab.classList.toggle('border-slate-900', isActive);
-          //tab.classList.toggle('hover:bg-slate-100', !isActive);
+          tab.classList.toggle('bg-slate-900', isActive);
+          tab.classList.toggle('text-white', isActive);
+          tab.classList.toggle('border-slate-900', isActive);
+          tab.classList.toggle('hover:bg-slate-100', !isActive);
         });
 
         Object.entries(sections).forEach(([key, section]) => {
@@ -3446,19 +4385,10 @@
       function setActiveDetalleProyectoTab(view) {
         tabsProyectos.forEach((tab) => {
           const isActive = tab.dataset.view === view;
-            // Sub-tab Active State
-          tab.classList.toggle('bg-blue-50', isActive);
-          tab.classList.toggle('text-blue-700', isActive);
-          tab.classList.toggle('border-blue-700', isActive);
-          // Sub-tab Inactive
-          tab.classList.toggle('border-transparent', !isActive);
-          tab.classList.toggle('text-slate-500', !isActive);
-          
-          
-          //tab.classList.toggle('bg-slate-600', isActive);
-          //tab.classList.toggle('text-white', isActive);
-          //tab.classList.toggle('border-slate-900', isActive);
-          //tab.classList.toggle('hover:bg-slate-100', !isActive);
+          tab.classList.toggle('bg-slate-600', isActive);
+          tab.classList.toggle('text-white', isActive);
+          tab.classList.toggle('border-slate-900', isActive);
+          tab.classList.toggle('hover:bg-slate-100', !isActive);
         });
 
         Object.entries(sectionsProyectos).forEach(([key, section]) => {
