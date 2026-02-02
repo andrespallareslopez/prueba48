@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <title>MirrorMind Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
+   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2689,8 +2689,9 @@
       }
       async function updateRagApi(rag) {
         if (entorno !== 'local') {
+          
           try {
-            const response = await fetch(urlRag + '/', {
+            const response = await fetch(urlRag + '/' + rag.id, {
               method: 'PATCH',
               headers: {
                 'Content-Type': 'application/json'
@@ -3056,7 +3057,7 @@
       async function updateToolApi(tool) {
         if (entorno !== 'local') {
           try {
-            const response = await fetch(urlTool + '/', {
+            const response = await fetch(urlTool + '/' + tool.id, {
               method: 'PATCH',
               headers: {
                 'Content-Type': 'application/json'
@@ -6198,7 +6199,7 @@
   
   </script>
   <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+ 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.7/uuid.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
