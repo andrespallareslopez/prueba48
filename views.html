@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- #region FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- #endregion -->
+
+    <title>Views</title>
+
+    <!-- #region STYLES -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root{
+          --detalle_cli_resto1: 80.5px;
+          --detalle_cli_resto2: 35.4px;
+          --detalle_cli_resto3: 35.5px;
+          --miembro-pro-resto1: 41.3px;
+          --miembro-pro-resto2: 64.5px;
+          --miembro-pro-resto3: 34.6px;
+          --miembro-pro-resto4: 33.3px;
+          --ragtool_proy-resto1: 31.3px;
+          --ragtool_proy_resto2: 44px;
+          --ragtool-proy_resto3: 36px;
+          --ragtool-member-resto1: 44px;
+          --ragtool-member-resto2: 40.5px;
+          --ragtool-member-resto3: 0px;       
+        }
+
+        .sidebar-section-content {
+          overflow: hidden;
+          transition: max-height 0.25s ease, opacity 0.25s ease, margin-top 0.25s ease;
+          max-height: 500px;
+          opacity: 1;
+        }
+
+        .sidebar-section-content.is-collapsed {
+          max-height: 0;
+          opacity: 0;
+          margin-top: 0 !important;
+        }
+
+        .sidebar-chevron.is-collapsed {
+          transform: rotate(-90deg);
+        }
+    </style>
+    <!-- #endregion -->
+</head>
+
+<body class="bg-gray-50 text-slate-800 antialiased h-screen overflow-hidden selection:bg-blue-100 selection:text-blue-900">
+
+  <div class="h-full flex flex-col">
+
+    <!-- #region NAVBAR -->
+    <header class="bg-white border-b border-gray-200 z-20 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+
+          <!-- HAMBURGER LEFT (mobile) -->
+          <div class="md:hidden">
+            <button id="mobile-sidebar-button" class="p-2 rounded-md text-slate-600 hover:bg-gray-100" aria-label="Abrir sidebar">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- LOGO (desktop) -->
+          <div class="hidden md:flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-blue-900 flex items-center justify-center text-white text-sm font-bold shadow-md">
+              MM
+            </div>
+            <div>
+              <div class="text-sm font-bold tracking-tight text-slate-900">MirrorMind Portal</div>
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Panel Maestro</div>
+            </div>
+          </div>
+
+          <!-- MENU DESKTOP -->
+          <nav class="hidden md:flex gap-2 text-sm font-medium">
+            <button data-view="view-detalle-cliente" class="menu-btn px-4 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 1</button>
+            <button data-view="view-miembros" class="menu-btn px-4 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 2</button>
+            <button data-view="view-detalle-miembro" class="menu-btn px-4 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 3</button>
+          </nav>
+
+          <!-- MENU MOBILE RIGHT -->
+          <div class="relative md:hidden flex items-center gap-2">
+<!-- DROPDOWN PRINCIPAL -->
+            <div class="relative">
+              <button id="mobile-menu-button" class="inline-flex items-center gap-2 px-3 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50 border border-gray-200 text-sm font-medium" aria-label="Abrir menú desplegable">
+                <span>Menu 1</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <div id="mobile-dropdown-menu" class="hidden absolute right-0 top-full mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                <button class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-blue-700 hover:bg-blue-50 border-b border-gray-100">Menu 2</button>
+                <button class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 3</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- #endregion -->
+
+        <!-- #region OVERLAY MOBILE -->
+    <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-black/40 z-30 hidden md:hidden"></div>
+    <!-- #endregion -->
+
+    <!-- #region SIDEBAR MOBILE -->
+    <aside id="mobile-sidebar" class="fixed top-0 left-0 z-40 h-full w-72 bg-white border-r border-gray-200 shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col overflow-hidden">
+      <div class="p-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+        <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Lista de Clientes</h2>
+        <button id="mobile-sidebar-close" class="p-2 rounded-md text-slate-500 hover:bg-gray-100" aria-label="Cerrar sidebar">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div id="mobile-sidebar-content" class="flex-1 flex flex-col overflow-hidden"></div>
+    </aside>
+    <!-- #endregion -->
+
+    <!-- #region TEMPLATE SIDEBAR -->
+    <template id="sidebar-content-template">
+      <!-- Header -->
+      <div class="p-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+        <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Navegación</h2>
+        <button class="text-xs px-3 py-1.5 rounded-md bg-blue-600 text-white hover:bg-blue-700">+ Nuevo</button>
+      </div>
+
+      <!-- Sección Principal -->
+      <div class="p-2 border-b border-gray-100">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="true">
+          <span>General</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Dashboard</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Menú</button>
+        </div>
+      </div>
+
+      <!-- Sección Clientes -->
+      <div class="p-2 border-b border-gray-100">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="false">
+          <span>Clientes</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200 is-collapsed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1 is-collapsed">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Lista de Clientes</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Nuevo Cliente</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Segmentación</button>
+        </div>
+      </div>
+
+      <!-- Sección Proyectos -->
+      <div class="p-2 border-b border-gray-100">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="false">
+          <span>Proyectos</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200 is-collapsed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1 is-collapsed">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Listado de Proyectos</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Nuevo Proyecto</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">RAG Tool</button>
+        </div>
+      </div>
+
+      <!-- Sección Equipo -->
+      <div class="p-2 border-b border-gray-100">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="false">
+          <span>Equipo</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200 is-collapsed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1 is-collapsed">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Miembros</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Roles y permisos</button>
+        </div>
+      </div>
+
+      <!-- Sección Configuración -->
+      <div class="p-2">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="false">
+          <span>Configuración</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200 is-collapsed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1 is-collapsed">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Ajustes</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Integraciones</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Logs</button>
+        </div>
+      </div>
+    </template>
+    <!-- #endregion -->
+
+        <!-- #region LAYOUT -->
+    <div class="flex flex-1 max-w-7xl mx-auto w-full px-1 py-1 gap-1 overflow-hidden">
+
+      <!-- SIDEBAR DESKTOP -->
+      <aside class="hidden md:flex w-72 bg-white border rounded-xl">
+        <div id="desktop-sidebar-content" class="flex-1"></div>
+      </aside>
+
+      <!-- MAIN -->
+      <main class="flex-1 bg-white rounded-xl border p-6">
+        <!-- #region VIEW - TAB: Menu 1 -->
+        <section id="view-detalle-cliente" class="h-full view-section hidden flex flex-col">
+          <!-- Header -->
+          <div class="flex items-start justify-between mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <h1 class="text-xl font-bold text-slate-900">Detalle del Cliente</h1>
+              <p class="text-sm text-slate-500 mt-1">Gestión de proyectos y miembros asociados.</p>
+            </div>
+          </div>
+          
+           <div data-bind="ifnot: selectedClient" class=" text-slate-400">
+             <div class="text-4xl mb-2 opacity-20">📂</div>
+            <p>Selecciona un cliente para ver su detalle</p>
+          </div>
+
+          <div data-bind="if: selectedClient" class="flex-1 flex flex-col overflow-hidden">
+            <!-- Client Summary Card -->
+            <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-center gap-4" data-bind="with: selectedClient">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold bg-blue-100 text-blue-700 border-2 border-white shadow-sm"
+                data-bind="text: $root.getInitials(name)"></div>
+
+              <div>
+                <div class="text-lg font-bold text-slate-900" data-bind="text: name"></div>
+                <div class="text-xs text-slate-500 flex gap-3 mt-1">
+                   <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <b data-bind="text: $root.filteredClientProjects().length"></b> proyectos</span>
+                   <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <b data-bind="text: $root.filteredClientMembers().length"></b> miembros</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden">
+
+              <!-- Projects Panel -->
+              <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                  <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Proyectos Asociados</h2>
+                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+                      data-bind="click: $root.btnNewProject">
+                      + AÑADIR
+                    </button>
+                  </div>
+                  
+                  <div class="flex-1 overflow-y-auto p-0 bg-white relative">
+                     <p class="text-xs text-slate-400 text-center mt-10"
+                        data-bind="visible: !$root.filteredClientProjects() || $root.filteredClientProjects().length === 0">
+                        No hay proyectos asociados.
+                      </p>
+                    <table class="w-full text-left text-xs" data-bind="visible: $root.filteredClientProjects().length > 0">
+                      <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200 sticky top-0">
+                        <tr>
+                          <th class="px-4 py-2">Nombre</th>
+                          <th class="px-4 py-2 text-center">Miembros</th>
+                          <th class="px-4 py-2 text-center">RAGs</th>
+                          <th class="px-4 py-2 text-center">Tools</th>
+                          <th class="px-4 py-2"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: $root.filteredClientProjects()">
+                        <tr class="hover:bg-blue-50/50 transition group">
+                          <td class="px-4 py-3 font-medium text-blue-900 cursor-pointer hover:underline decoration-blue-300 underline-offset-2" 
+                              data-bind="click: $root.selectProject, text: name"></td>
+                          <td class="px-4 py-3 text-center text-slate-500" data-bind="text: memberCount"></td>
+                          <td class="px-4 py-3 text-center text-slate-500" data-bind="text: ragCount"></td>
+                          <td class="px-4 py-3 text-center text-slate-500" data-bind="text: toolCount"></td>
+                          <td class="px-4 py-3 text-right">
+                            <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editProject"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteProject"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              <!-- Members Panel -->
+                <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                  <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Miembros Asociados</h2>
+                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+                      data-bind="click: $root.btnNewClientMember">
+                      + AÑADIR
+                    </button>
+                  </div>
+                  
+                  <div class="flex-1 overflow-y-auto p-0 bg-white relative">
+                     <p class="text-xs text-slate-400 text-center mt-10"
+                      data-bind="visible: !$root.filteredClientMembers() || $root.filteredClientMembers().length === 0">
+                      No hay miembros asociados.
+                    </p>
+                    <table class="w-full text-left text-xs" data-bind="visible: $root.filteredClientMembers().length > 0">
+                      <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200 sticky top-0">
+                        <tr>
+                          <th class="px-4 py-2">Nombre / Email</th>
+                          <th class="px-4 py-2">Rol</th>
+                          <th class="px-4 py-2 text-right">Estado</th>
+                          <th class="px-4 py-2"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: filteredClientMembers ">
+                        <tr class="hover:bg-blue-50/50 transition group">
+                          <td class="px-4 py-3 cursor-pointer" data-bind="click: $root.selectMember">
+                              <div class="font-medium text-slate-800" data-bind="text: name"></div>
+                              <div class="text-[10px] text-slate-400" data-bind="text: email"></div>
+                          </td>
+                          <td class="px-4 py-3 text-slate-600" data-bind="text: role"></td>
+                          <td class="px-4 py-3 text-right">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border"
+                              data-bind="text: status, css: $root.statusClass(status)"></span>
+                          </td>
+                          <td class="px-4 py-3 text-right">
+                             <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editClientMember"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteClientMember"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+            </div>
+          </div>
+          
+        </section>
+        <!-- #endregion -->
+        
+        <!-- #region VIEW - TAB: Menu 2 -->
+        <section id="view-miembros" class="h-full view-section hidden flex flex-col">
+          <!-- Sub-Navbar -->
+          <div class="flex items-center mb-6 border-b border-slate-200 pb-2">
+            <nav class="flex gap-4 text-sm font-medium">
+              <button data-view="proyectomiembros"
+                class="top-tab-detalle-proyecto px-3 py-1.5 rounded-md transition text-slate-500 hover:text-blue-700 border-b-2 border-transparent hover:bg-slate-50">
+                Miembros
+              </button>
+              <button data-view="proyectoragtool"
+                class="top-tab-detalle-proyecto px-3 py-1.5 rounded-md transition text-slate-500 hover:text-blue-700 border-b-2 border-transparent hover:bg-slate-50">
+                RAGs y Tools
+              </button>
+            </nav>
+          </div>
+
+          <!-- #region VIEW DETALLE PROYECTO MIEMBROS  -->
+          <div id="view-detalle-proyecto-miembros" class="flex-1 flex flex-col overflow-hidden relative">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-lg font-bold text-slate-900">Miembros del Proyecto</h1>
+                    <span data-bind="with: selectedProject" class="px-2 py-0.5 rounded bg-blue-50 text-blue-800 text-xs border border-blue-100 font-semibold" data-bind="text: name"></span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">
+                  Gestión de miembros y sus configuraciones de IA.
+                </p>
+              </div>
+              <button id="btn-back-clients" type="button"
+                class="flex items-center gap-1 text-xs px-3 py-1.5 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
+                data-bind="click: btnVolverAtrasClientes">
+                <!-- Icon injected by JS -->
+              </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex items-center gap-2 mb-4 p-2 bg-slate-50 rounded-lg border border-slate-100">
+              <div class="relative flex-1 max-w-xs">
+                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                     <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                   </div>
+                   <input id="txtmiembros" data-bind="textInput: filtertext" type="text" placeholder="Buscar miembro..."
+                    class="block w-full pl-10 pr-3 py-1.5 border border-slate-300 rounded-md leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-xs" />
+              </div>
+              
+              <select class="block py-1.5 pl-3 pr-8 border border-slate-300 bg-white rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs text-slate-600">
+                <option>Todos los estados</option>
+                <option>Activo</option>
+                <option>Deshabilitado</option>
+              </select>
+            </div>
+
+            <!-- Table -->
+            <div class="flex-1 border border-slate-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
+              <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                <h2 class="text-xs font-bold text-slate-700 uppercase">Listado</h2>
+                <button class="text-xs px-3 py-1.5 rounded bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-sm"
+                  data-bind="click: btnNewMember">
+                  + Asignar Miembro
+                </button>
+              </div>
+              
+              <div class="flex-1 overflow-auto bg-white">
+                  <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200 sticky top-0 z-10">
+                      <tr>
+                        <th class="px-6 py-3">Miembro</th>
+                        <th class="px-6 py-3 text-center">RAGs</th>
+                        <th class="px-6 py-3 text-center">Herramientas</th>
+                        <th class="px-6 py-3 text-right">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="members-tbody" class="divide-y divide-slate-100" data-bind="foreach: filteredMembers">
+                      <tr class="hover:bg-blue-50/50 cursor-pointer group transition" data-bind="click: $root.selectMember">
+                        <td class="px-6 py-3">
+                          <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold border"
+                              data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
+                            <div>
+                              <div class="text-sm font-medium text-slate-800" data-bind="text: name"></div>
+                              <div class="text-xs text-slate-500" data-bind="text: email"></div>
+                            </div>
+                          </div>
+                        </td>
+                        
+                        <td class="px-6 py-3 text-center">
+                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800" data-bind="text: ragDatabases ? ragDatabases.length : 0"></span>
+                        </td>
+                        <td class="px-6 py-3 text-center">
+                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800" data-bind="text: tools ? tools.length : 0"></span>
+                        </td>
+                        
+                        <td class="px-6 py-3 text-right">
+                           <div class="flex justify-end gap-3 opacity-60 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit hover:scale-110 transition-transform" data-bind="click: $root.editMember, clickBubble: false"></div>
+                                <div class="icon-trash hover:scale-110 transition-transform" data-bind="click: $root.deleteMember, clickBubble: false"></div>
+                           </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+          <!-- #endregion -->
+          
+          <!-- #region VIEW DETALLE PROYECTO RAGs TOOLS  -->
+          <div id="view-detalle-proyecto-ragtool" class="flex-1 flex flex-col overflow-hidden hidden">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h1 class="text-lg font-bold text-slate-900">Configuración del Proyecto</h1>
+                <p class="text-xs text-slate-500 mt-1">
+                   Bases de conocimiento (RAG) y Herramientas globales.
+                </p>
+              </div>
+
+              <button id="btn-back-project-rag" type="button"
+                class="flex items-center gap-1 text-xs px-3 py-1.5 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
+                data-bind="click: btnVolverAtrasClientesRag">
+                 <!-- Icon injected -->
+              </button>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 flex flex-col overflow-hidden" data-bind="if: selectedProject">
+              <div class="mb-5 flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-200" data-bind="with: selectedProject">
+                <div class="w-10 h-10 rounded bg-blue-600 text-white flex items-center justify-center text-sm font-bold shadow-sm"
+                  data-bind="text: $root.getInitials(name)"></div>
+                <div>
+                  <div class="text-base font-bold text-slate-900" data-bind="text: name"></div>
+                  <div class="text-xs text-slate-500 line-clamp-1" data-bind="text: description"></div>
+                </div>
+              </div>
+
+              <!-- Grid -->
+              <div id="listado-rag-project" class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden" data-bind="with: selectedProject">
+                
+                <!-- RAGs -->
+                <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                  <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-purple-500"></span> Bases RAG
+                    </h2>
+                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-purple-500 hover:text-purple-600 px-2 py-1 rounded transition"
+                      data-bind="click:  $root.btnNewRagProyecto">
+                      + AÑADIR
+                    </button>
+                  </div>
+                  
+                  <div class="flex-1 overflow-auto bg-white p-0">
+                      <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !ragDatabases || ragDatabases.length === 0">Sin bases RAG definidas.</p>
+                      <table class="w-full text-left text-xs" data-bind="visible: ragDatabases && ragDatabases.length > 0">
+                       <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
+                        <tr>
+                          <th class="px-4 py-2">Nombre</th>
+                          <th class="px-4 py-2">Tipo</th>
+                          <th class="px-4 py-2 text-right"></th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: ragDatabases">
+                        <tr class="hover:bg-purple-50/50 group">
+                          <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
+                          <td class="px-4 py-3 text-slate-500" data-bind="text: type"></td>
+                          <td class="px-4 py-3 text-right">
+                             <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editProjectRag"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteProjectRag"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                   <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
+                         <span class="w-2 h-2 rounded-full bg-orange-500"></span> Tools
+                    </h2>
+                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-orange-500 hover:text-orange-600 px-2 py-1 rounded transition"
+                      data-bind="click: $root.btnNewToolProject">
+                      + AÑADIR
+                    </button>
+                  </div>
+                   <div class="flex-1 overflow-auto bg-white p-0">
+                       <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !tools || tools.length === 0">Sin herramientas definidas.</p>
+                    <table class="w-full text-left text-xs" data-bind="visible: tools && tools.length > 0">
+                      <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
+                        <tr>
+                          <th class="px-4 py-2">Herramienta</th>
+                          <th class="px-4 py-2">Permiso</th>
+                          <th class="px-4 py-2 text-right"></th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: tools">
+                        <tr class="hover:bg-orange-50/50 group">
+                          <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
+                          <td class="px-4 py-3">
+                            <span class="inline-flex px-1.5 py-0.5 rounded text-[10px] border font-medium"
+                              data-bind="text: permission, css: $root.permissionClass(permission)"></span>
+                          </td>
+                          <td class="px-4 py-3 text-right">
+                              <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editToolProject"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteToolProject"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            
+             <div data-bind="ifnot: selectedProject" class="text-sm text-slate-400 mt-10 text-center italic">
+              Selecciona un proyecto para configurar sus recursos.
+            </div>
+
+          </div>
+          <!-- #endregion -->
+        </section>
+        <!-- #endregion -->
+        
+        <!-- #region VIEW - TAB: Menu 3 -->
+        <section id="view-detalle-miembro" class="h-full view-section hidden flex flex-col">
+          <!-- Header -->
+          <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+            <div>
+              <h1 class="text-xl font-bold text-slate-900">Perfil del Miembro</h1>
+              <p class="text-xs text-slate-500 mt-1">
+                Recursos específicos asignados a este usuario.
+              </p>
+            </div>
+
+            <button id="btn-back-members" type="button"
+               class="flex items-center gap-1 text-xs px-3 py-1.5 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
+              data-bind="click: btnVolverAtrasMiembros">
+            </button>
+          </div>
+         
+          <div class="flex-1 flex flex-col overflow-hidden" data-bind="if: selectedMember">
+            
+            <div class="mb-6 bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-center gap-4" data-bind="with: selectedMember">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-sm"
+                data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
+              <div>
+                <div class="text-lg font-bold text-slate-900" data-bind="text: name"></div>
+                <div class="text-sm text-slate-500" data-bind="text: email"></div>
+                <div class="flex gap-3 mt-2">
+                   <span class="text-xs bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-600">Rol: <b data-bind="text: role"></b></span>
+                   <span class="text-xs bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-600">Status: <b data-bind="text: status"></b></span>
+                </div>
+              </div>
+            </div>
+
+            <div id="listado-rag" class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden" data-bind="with: selectedMember">
+              
+              <!-- User RAGs -->
+              <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                  <h2 class="text-xs font-bold text-slate-700 uppercase">RAGs Personales</h2>
+                  <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+                    data-bind="click:  $root.btnNewRag">
+                    + AÑADIR
+                  </button>
+                </div>
+                
+                 <div class="flex-1 overflow-auto bg-white p-0">
+                    <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !ragDatabases || ragDatabases.length === 0">Sin RAGs asignadas.</p>
+                   <table class="w-full text-left text-xs" data-bind="visible: ragDatabases && ragDatabases.length > 0">
+                    <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
+                      <tr>
+                        <th class="px-4 py-2">Nombre</th>
+                        <th class="px-4 py-2">Tipo</th>
+                        <th class="px-4 py-2 text-right"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100" data-bind="foreach: ragDatabases">
+                      <tr class="hover:bg-blue-50/50 group">
+                        <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
+                        <td class="px-4 py-3 text-slate-500" data-bind="text: type"></td>
+                        <td class="px-4 py-3 text-right">
+                           <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editRag"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteRag"></div>
+                            </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                 
+                </div>
+              </div>
+              
+              <!-- User Tools -->
+              <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                  <h2 class="text-xs font-bold text-slate-700 uppercase">Tools Asignadas</h2>
+                  <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+                    data-bind="click: $root.btnNewTool">
+                    + AÑADIR
+                  </button>
+                </div>
+                
+                <div class="flex-1 overflow-auto bg-white p-0">
+                   <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !tools || tools.length === 0">Sin herramientas asignadas.</p>
+                  <table class="w-full text-left text-xs" data-bind="visible: tools && tools.length > 0">
+                    <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
+                      <tr>
+                        <th class="px-4 py-2">Herramienta</th>
+                        <th class="px-4 py-2">Permiso</th>
+                        <th class="px-4 py-2 text-right"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100" data-bind="foreach: tools">
+                      <tr class="hover:bg-blue-50/50 group">
+                        <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
+                        <td class="px-4 py-3">
+                          <span class="inline-flex px-1.5 py-0.5 rounded text-[10px] font-medium border"
+                            data-bind="text: permission, css: $root.permissionClass(permission)"></span>
+                        </td>
+                        <td class="px-4 py-3 text-right">
+                           <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editTool"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteTool"></div>
+                            </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> 
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div data-bind="ifnot: selectedMember" class="text-sm text-slate-400 mt-10 text-center italic">
+             Selecciona un miembro para ver su perfil.
+          </div>
+        </section>
+        <!-- #endregion -->
+        
+      </main>
+
+    </div>
+    <!-- #endregion -->
+
+  </div>
+
+  <!-- #region SCRIPT -->
+  <script>
+    //#region CONTROL DE SIDEBAR MÓVIL
+    const mobileSidebarButton = document.getElementById('mobile-sidebar-button');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    const mobileSidebarOverlay = document.getElementById('mobile-sidebar-overlay');
+    const mobileSidebarClose = document.getElementById('mobile-sidebar-close');
+    const mobileSidebarContent = document.getElementById('mobile-sidebar-content');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileDropdownMenu = document.getElementById('mobile-dropdown-menu');
+    const sidebarTemplate = document.getElementById('sidebar-content-template');
+    const desktopSidebarContent = document.getElementById('desktop-sidebar-content');
+
+    function renderSharedSidebarContent() {
+      desktopSidebarContent.innerHTML = '';
+      mobileSidebarContent.innerHTML = '';
+      desktopSidebarContent.appendChild(sidebarTemplate.content.cloneNode(true));
+      mobileSidebarContent.appendChild(sidebarTemplate.content.cloneNode(true));
+    }
+
+    function openMobileSidebar() {
+      mobileSidebar.classList.remove('-translate-x-full');
+      mobileSidebarOverlay.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeMobileSidebar() {
+      mobileSidebar.classList.add('-translate-x-full');
+      mobileSidebarOverlay.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    function toggleMobileDropdownMenu() {
+      mobileDropdownMenu.classList.toggle('hidden');
+    }
+
+    function closeMobileDropdownMenu() {
+      mobileDropdownMenu.classList.add('hidden');
+    }
+
+    renderSharedSidebarContent();
+
+    function initSidebarCollapsibles(container) {
+      const toggles = container.querySelectorAll('.sidebar-section-toggle');
+
+      toggles.forEach((toggle) => {
+        const content = toggle.nextElementSibling;
+        const chevron = toggle.querySelector('.sidebar-chevron');
+
+        toggle.addEventListener('click', () => {
+          const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!isExpanded));
+          content.classList.toggle('is-collapsed');
+          chevron.classList.toggle('is-collapsed');
+        });
+      });
+    }
+
+    initSidebarCollapsibles(desktopSidebarContent);
+    initSidebarCollapsibles(mobileSidebarContent);
+
+    mobileSidebarButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      openMobileSidebar();
+    });
+
+    mobileSidebarClose.addEventListener('click', closeMobileSidebar);
+    mobileSidebarOverlay.addEventListener('click', closeMobileSidebar);
+
+    mobileMenuButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      toggleMobileDropdownMenu();
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!mobileDropdownMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+        closeMobileDropdownMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) {
+        closeMobileDropdownMenu();
+        closeMobileSidebar();
+      }
+    });
+    // #endregion
+    
+    // #region INICIALIZACIÓN DE VISTAS Y EVENTOS para Menu Navegación
+    // ===============================
+    // CONTROL DE VISTAS (TABS)
+    // ===============================
+    const menuButtons = document.querySelectorAll('.menu-btn');
+    const views = document.querySelectorAll('.view-section');
+    //console.log(views);
+    
+    function showView(viewId) {
+      // Ocultar todas
+      views.forEach(view => {
+        view.classList.add('hidden');
+      });
+
+      // Mostrar la seleccionada
+      const activeView = document.getElementById(viewId);
+      if (activeView) {
+        activeView.classList.remove('hidden');
+      }
+    }
+      
+    // Eventos click en menú
+    menuButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        //console.log('Menu button clicked:', button);
+        const viewId = button.getAttribute('data-view');
+        showView(viewId);
+      });
+    });
+
+    // Vista inicial (opcional)
+    showView('view-detalle-cliente');
+    // #endregion
+
+
+  </script>
+  <!-- #endregion -->
+
+</body>
+</html>

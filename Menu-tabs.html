@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- #region FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- #endregion -->
+
+    <title>Menu-tabs</title>
+
+    <!-- #region STYLES -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root{
+          --detalle_cli_resto1: 80.5px;
+          --detalle_cli_resto2: 35.4px;
+          --detalle_cli_resto3: 35.5px;
+          --miembro-pro-resto1: 41.3px;
+          --miembro-pro-resto2: 64.5px;
+          --miembro-pro-resto3: 34.6px;
+          --miembro-pro-resto4: 33.3px;
+          --ragtool_proy-resto1: 31.3px;
+          --ragtool_proy_resto2: 44px;
+          --ragtool-proy_resto3: 36px;
+          --ragtool-member-resto1: 44px;
+          --ragtool-member-resto2: 40.5px;
+          --ragtool-member-resto3: 0px;       
+        }
+
+        .sidebar-section-content {
+          overflow: hidden;
+          transition: max-height 0.25s ease, opacity 0.25s ease, margin-top 0.25s ease;
+          max-height: 500px;
+          opacity: 1;
+        }
+
+        .sidebar-section-content.is-collapsed {
+          max-height: 0;
+          opacity: 0;
+          margin-top: 0 !important;
+        }
+
+        .sidebar-chevron.is-collapsed {
+          transform: rotate(-90deg);
+        }
+    </style>
+    <!-- #endregion -->
+</head>
+
+<body class="bg-gray-50 text-slate-800 antialiased h-screen overflow-hidden selection:bg-blue-100 selection:text-blue-900">
+
+  <div class="h-full flex flex-col">
+
+    <!-- #region NAVBAR -->
+    <header class="bg-white border-b border-gray-200 z-20 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+
+          <!-- HAMBURGER LEFT (mobile) -->
+          <div class="md:hidden">
+            <button id="mobile-sidebar-button" class="p-2 rounded-md text-slate-600 hover:bg-gray-100" aria-label="Abrir sidebar">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- LOGO (desktop) -->
+          <div class="hidden md:flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-blue-900 flex items-center justify-center text-white text-sm font-bold shadow-md">
+              MM
+            </div>
+            <div>
+              <div class="text-sm font-bold tracking-tight text-slate-900">MirrorMind Portal</div>
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Panel Maestro</div>
+            </div>
+          </div>
+
+          <!-- MENU DESKTOP -->
+          <nav class="hidden md:flex gap-2 text-sm font-medium">
+            <button data-view="view-detalle-cliente" class="menu-btn px-4 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 1</button>
+            <button data-view="view-miembros" class="menu-btn px-4 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 2</button>
+            <button data-view="view-detalle-miembro" class="menu-btn px-4 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 3</button>
+          </nav>
+
+          <!-- MENU MOBILE RIGHT -->
+          <div class="relative md:hidden flex items-center gap-2">
+          <!-- DROPDOWN PRINCIPAL -->
+            <div class="relative">
+              <button id="mobile-menu-button" class="inline-flex items-center gap-2 px-3 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50 border border-gray-200 text-sm font-medium" aria-label="Abrir menú desplegable">
+                <span>Menu 1</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <div id="mobile-dropdown-menu" class="hidden absolute right-0 top-full mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                <button class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-blue-700 hover:bg-blue-50 border-b border-gray-100">Menu 2</button>
+                <button class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 3</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- #endregion -->
+
+    <!-- #region LAYOUT -->
+    <div class="flex flex-1 max-w-7xl mx-auto w-full px-1 py-1 gap-1 overflow-hidden">
+
+
+      <!-- MAIN -->
+      <main class="flex-1 bg-white rounded-xl border p-6">
+        
+        <!-- #region VIEW - TAB: Menu 1 -->
+        <section id="view-detalle-cliente" class="h-full view-section hidden flex flex-col">
+          <!-- Header Section -->
+          <div class="flex items-start justify-between mb-6 pb-4 border-b border-slate-100">
+            <div>
+              <h1 class="text-xl font-bold text-slate-900">Detalle del Cliente</h1>
+              <p class="text-sm text-slate-500 mt-1">Gestión de proyectos y miembros asociados.</p>
+            </div>
+          </div>
+
+          <div data-bind="if: selectedClient" class="flex-1 flex flex-col overflow-hidden">
+            <!-- Client Summary Card -->
+            <div class="mb-6 bg-slate-50 p-4 rounded-xl border border-slate-200 flex items-center gap-4" data-bind="with: selectedClient">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold bg-blue-100 text-blue-700 border-2 border-white shadow-sm"
+                data-bind="text: $root.getInitials(name)"></div>
+
+              <div>
+                <div class="text-lg font-bold text-slate-900" data-bind="text: name"></div>
+                <div class="text-xs text-slate-500 flex gap-3 mt-1">
+                   <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span> <b data-bind="text: $root.filteredClientProjects().length"></b> proyectos</span>
+                   <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> <b data-bind="text: $root.filteredClientMembers().length"></b> miembros</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden">
+
+              <!-- Projects Panel -->
+              <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                  <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Proyectos Asociados</h2>
+                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+                      data-bind="click: $root.btnNewProject">
+                      + AÑADIR
+                    </button>
+                  </div>
+                  <!-- Table Proyectos -->
+                  <div class="flex-1 overflow-y-auto p-0 bg-white relative">
+                     <p class="text-xs text-slate-400 text-center mt-10"
+                        data-bind="visible: !$root.filteredClientProjects() || $root.filteredClientProjects().length === 0">
+                        No hay proyectos asociados.
+                      </p>
+                    <table class="w-full text-left text-xs" data-bind="visible: $root.filteredClientProjects().length > 0">
+                      <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200 sticky top-0">
+                        <tr>
+                          <th class="px-4 py-2">Nombre</th>
+                          <th class="px-4 py-2 text-center">Miembros</th>
+                          <th class="px-4 py-2 text-center">RAGs</th>
+                          <th class="px-4 py-2 text-center">Tools</th>
+                          <th class="px-4 py-2"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: $root.filteredClientProjects()">
+                        <tr class="hover:bg-blue-50/50 transition group">
+                          <td class="px-4 py-3 font-medium text-blue-900 cursor-pointer hover:underline decoration-blue-300 underline-offset-2" 
+                              data-bind="click: $root.selectProject, text: name"></td>
+                          <td class="px-4 py-3 text-center text-slate-500" data-bind="text: memberCount"></td>
+                          <td class="px-4 py-3 text-center text-slate-500" data-bind="text: ragCount"></td>
+                          <td class="px-4 py-3 text-center text-slate-500" data-bind="text: toolCount"></td>
+                          <td class="px-4 py-3 text-right">
+                            <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editProject"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteProject"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              <!-- Members Panel -->
+                <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                  <div class="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="text-xs font-bold text-slate-700 uppercase tracking-wide">Miembros Asociados</h2>
+                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+                      data-bind="click: $root.btnNewClientMember">
+                      + AÑADIR
+                    </button>
+                  </div>
+                  <!-- Table Miembros -->
+                  <div class="flex-1 overflow-y-auto p-0 bg-white relative">
+                     <p class="text-xs text-slate-400 text-center mt-10"
+                      data-bind="visible: !$root.filteredClientMembers() || $root.filteredClientMembers().length === 0">
+                      No hay miembros asociados.
+                    </p>
+                    <table class="w-full text-left text-xs" data-bind="visible: $root.filteredClientMembers().length > 0">
+                      <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200 sticky top-0">
+                        <tr>
+                          <th class="px-4 py-2">Nombre / Email</th>
+                          <th class="px-4 py-2">Rol</th>
+                          <th class="px-4 py-2 text-right">Estado</th>
+                          <th class="px-4 py-2"></th>
+                        </tr>
+                      </thead>
+
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: filteredClientMembers ">
+                        <tr class="hover:bg-blue-50/50 transition group">
+                          <td class="px-4 py-3 cursor-pointer" data-bind="click: $root.selectMember">
+                              <div class="font-medium text-slate-800" data-bind="text: name"></div>
+                              <div class="text-[10px] text-slate-400" data-bind="text: email"></div>
+                          </td>
+                          <td class="px-4 py-3 text-slate-600" data-bind="text: role"></td>
+                          <td class="px-4 py-3 text-right">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide border"
+                              data-bind="text: status, css: $root.statusClass(status)"></span>
+                          </td>
+                          <td class="px-4 py-3 text-right">
+                             <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editClientMember"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteClientMember"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+            </div>
+          </div>
+          
+        </section>
+        <!-- #endregion -->
+        
+        <!-- #region VIEW - TAB: Menu 2 -->
+        <section id="view-miembros" class="h-full view-section hidden flex flex-col">
+          <!-- Sub-Navbar -->
+          <div class="flex items-center mb-6 border-b border-slate-200 pb-2">
+            <nav class="flex gap-4 text-sm font-medium">
+              <button data-view="proyectomiembros"
+                class="top-tab-detalle-proyecto px-3 py-1.5 rounded-md transition text-slate-500 hover:text-blue-700 border-b-2 border-transparent hover:bg-slate-50">
+                Miembros
+              </button>
+              <button data-view="proyectoragtool"
+                class="top-tab-detalle-proyecto px-3 py-1.5 rounded-md transition text-slate-500 hover:text-blue-700 border-b-2 border-transparent hover:bg-slate-50">
+                RAGs y Tools
+              </button>
+            </nav>
+          </div>
+
+          <!-- #region VIEW DETALLE PROYECTO MIEMBROS  -->
+          <div id="view-detalle-proyecto-miembros" class="flex-1 flex flex-col overflow-hidden relative">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="text-lg font-bold text-slate-900">Miembros del Proyecto</h1>
+                    <span data-bind="with: selectedProject" class="px-2 py-0.5 rounded bg-blue-50 text-blue-800 text-xs border border-blue-100 font-semibold" data-bind="text: name"></span>
+                </div>
+                <p class="text-xs text-slate-500 mt-1">
+                  Gestión de miembros y sus configuraciones de IA.
+                </p>
+              </div>
+              <button id="btn-back-clients" type="button"
+                class="flex items-center gap-1 text-xs px-3 py-1.5 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
+                data-bind="click: btnVolverAtrasClientes">
+                <!-- Icon injected by JS -->
+              </button>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex items-center gap-2 mb-4 p-2 bg-slate-50 rounded-lg border border-slate-100">
+              <div class="relative flex-1 max-w-xs">
+                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                     <svg class="h-4 w-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                   </div>
+                   <input id="txtmiembros" data-bind="textInput: filtertext" type="text" placeholder="Buscar miembro..."
+                    class="block w-full pl-10 pr-3 py-1.5 border border-slate-300 rounded-md leading-5 bg-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-xs" />
+              </div>
+              
+              <select class="block py-1.5 pl-3 pr-8 border border-slate-300 bg-white rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-xs text-slate-600">
+                <option>Todos los estados</option>
+                <option>Activo</option>
+                <option>Deshabilitado</option>
+              </select>
+            </div>
+
+            <!-- Table Section -->  
+            <div class="flex-1 border border-slate-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
+              <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                <h2 class="text-xs font-bold text-slate-700 uppercase">Listado</h2>
+                <button class="text-xs px-3 py-1.5 rounded bg-blue-600 text-white font-medium hover:bg-blue-700 transition shadow-sm"
+                  data-bind="click: btnNewMember">
+                  + Asignar Miembro
+                </button>
+              </div>
+                <!-- Table -->
+              <div class="flex-1 overflow-auto bg-white">
+                  <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-200 sticky top-0 z-10">
+                      <tr>
+                        <th class="px-6 py-3">Miembro</th>
+                        <th class="px-6 py-3 text-center">RAGs</th>
+                        <th class="px-6 py-3 text-center">Herramientas</th>
+                        <th class="px-6 py-3 text-right">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody id="members-tbody" class="divide-y divide-slate-100" data-bind="foreach: filteredMembers">
+                      <tr class="hover:bg-blue-50/50 cursor-pointer group transition" data-bind="click: $root.selectMember">
+                        <td class="px-6 py-3">
+                          <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-[10px] font-bold border"
+                              data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
+                            <div>
+                              <div class="text-sm font-medium text-slate-800" data-bind="text: name"></div>
+                              <div class="text-xs text-slate-500" data-bind="text: email"></div>
+                            </div>
+                          </div>
+                        </td>
+                        
+                        <td class="px-6 py-3 text-center">
+                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800" data-bind="text: ragDatabases ? ragDatabases.length : 0"></span>
+                        </td>
+                        <td class="px-6 py-3 text-center">
+                          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800" data-bind="text: tools ? tools.length : 0"></span>
+                        </td>
+                        
+                        <td class="px-6 py-3 text-right">
+                           <div class="flex justify-end gap-3 opacity-60 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit hover:scale-110 transition-transform" data-bind="click: $root.editMember, clickBubble: false"></div>
+                                <div class="icon-trash hover:scale-110 transition-transform" data-bind="click: $root.deleteMember, clickBubble: false"></div>
+                           </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+          <!-- #endregion -->
+          
+          <!-- #region VIEW DETALLE PROYECTO RAGs TOOLS  -->
+          <div id="view-detalle-proyecto-ragtool" class="flex-1 flex flex-col overflow-hidden hidden">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h1 class="text-lg font-bold text-slate-900">Configuración del Proyecto</h1>
+                <p class="text-xs text-slate-500 mt-1">
+                   Bases de conocimiento (RAG) y Herramientas globales.
+                </p>
+              </div>
+
+              <button id="btn-back-project-rag" type="button"
+                class="flex items-center gap-1 text-xs px-3 py-1.5 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
+                data-bind="click: btnVolverAtrasClientesRag">
+                 <!-- Icon injected -->
+              </button>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 flex flex-col overflow-hidden" data-bind="if: selectedProject">
+              <div class="mb-5 flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-200" data-bind="with: selectedProject">
+                <div class="w-10 h-10 rounded bg-blue-600 text-white flex items-center justify-center text-sm font-bold shadow-sm"
+                  data-bind="text: $root.getInitials(name)"></div>
+                <div>
+                  <div class="text-base font-bold text-slate-900" data-bind="text: name"></div>
+                  <div class="text-xs text-slate-500 line-clamp-1" data-bind="text: description"></div>
+                </div>
+              </div>
+
+              
+              <div id="listado-rag-project" class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden" data-bind="with: selectedProject">
+                
+                 <!-- Table Section RAGs -->  
+                <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                  <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-purple-500"></span> Bases RAG
+                    </h2>
+                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-purple-500 hover:text-purple-600 px-2 py-1 rounded transition"
+                      data-bind="click:  $root.btnNewRagProyecto">
+                      + AÑADIR
+                    </button>
+                  </div>
+                  
+                  <div class="flex-1 overflow-auto bg-white p-0">
+                      <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !ragDatabases || ragDatabases.length === 0">Sin bases RAG definidas.</p>
+                      <table class="w-full text-left text-xs" data-bind="visible: ragDatabases && ragDatabases.length > 0">
+                       <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
+                        <tr>
+                          <th class="px-4 py-2">Nombre</th>
+                          <th class="px-4 py-2">Tipo</th>
+                          <th class="px-4 py-2 text-right"></th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: ragDatabases">
+                        <tr class="hover:bg-purple-50/50 group">
+                          <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
+                          <td class="px-4 py-3 text-slate-500" data-bind="text: type"></td>
+                          <td class="px-4 py-3 text-right">
+                             <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editProjectRag"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteProjectRag"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                 <!-- Table Section Tools -->  
+                <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                   <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                    <h2 class="text-xs font-bold text-slate-700 uppercase flex items-center gap-2">
+                         <span class="w-2 h-2 rounded-full bg-orange-500"></span> Tools
+                    </h2>
+                    <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-orange-500 hover:text-orange-600 px-2 py-1 rounded transition"
+                      data-bind="click: $root.btnNewToolProject">
+                      + AÑADIR
+                    </button>
+                  </div>
+                   <div class="flex-1 overflow-auto bg-white p-0">
+                       <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !tools || tools.length === 0">Sin herramientas definidas.</p>
+                    <table class="w-full text-left text-xs" data-bind="visible: tools && tools.length > 0">
+                      <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
+                        <tr>
+                          <th class="px-4 py-2">Herramienta</th>
+                          <th class="px-4 py-2">Permiso</th>
+                          <th class="px-4 py-2 text-right"></th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-100" data-bind="foreach: tools">
+                        <tr class="hover:bg-orange-50/50 group">
+                          <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
+                          <td class="px-4 py-3">
+                            <span class="inline-flex px-1.5 py-0.5 rounded text-[10px] border font-medium"
+                              data-bind="text: permission, css: $root.permissionClass(permission)"></span>
+                          </td>
+                          <td class="px-4 py-3 text-right">
+                              <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editToolProject"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteToolProject"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            
+             <div data-bind="ifnot: selectedProject" class="text-sm text-slate-400 mt-10 text-center italic">
+              Selecciona un proyecto para configurar sus recursos.
+            </div>
+
+          </div>
+          <!-- #endregion -->
+        </section>
+        <!-- #endregion -->
+        
+        <!-- #region VIEW - TAB: Menu 3 -->
+        <section id="view-detalle-miembro" class="h-full view-section hidden flex flex-col">
+          <!-- Header Section -->
+          <div class="flex items-center justify-between mb-6 border-b border-slate-100 pb-4">
+            <div>
+              <h1 class="text-xl font-bold text-slate-900">Perfil del Miembro</h1>
+              <p class="text-xs text-slate-500 mt-1">
+                Recursos específicos asignados a este usuario.
+              </p>
+            </div>
+
+            <button id="btn-back-members" type="button"
+               class="flex items-center gap-1 text-xs px-3 py-1.5 rounded-md border border-slate-300 text-slate-600 hover:bg-slate-50 transition"
+              data-bind="click: btnVolverAtrasMiembros">
+            </button>
+          </div>
+         
+          <div class="flex-1 flex flex-col overflow-hidden" data-bind="if: selectedMember">
+            
+            <div class="mb-6 bg-slate-50 rounded-xl p-4 border border-slate-200 flex items-center gap-4" data-bind="with: selectedMember">
+              <div class="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-sm"
+                data-bind="text: $root.getInitials(name), css: $root.avatarClass(status)"></div>
+              <div>
+                <div class="text-lg font-bold text-slate-900" data-bind="text: name"></div>
+                <div class="text-sm text-slate-500" data-bind="text: email"></div>
+                <div class="flex gap-3 mt-2">
+                   <span class="text-xs bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-600">Rol: <b data-bind="text: role"></b></span>
+                   <span class="text-xs bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-600">Status: <b data-bind="text: status"></b></span>
+                </div>
+              </div>
+            </div>
+
+            <div id="listado-rag-tools" class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 overflow-hidden" data-bind="with: selectedMember">
+              
+               <!-- Table Section RAGs -->  
+              <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                 <!-- Titulo de la tabla y boton añadir -->
+                <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                  <h2 class="text-xs font-bold text-slate-700 uppercase">RAGs Personales</h2>
+                  <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+                    data-bind="click: $root.btnNewRag">
+                    + AÑADIR
+                  </button>
+                </div>
+                 <!-- tabla de RAGs -->
+                 <div class="flex-1 overflow-auto bg-white p-0">
+                    <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !ragDatabases || ragDatabases.length === 0">Sin RAGs asignadas.</p>
+                   <table class="w-full text-left text-xs" data-bind="visible: ragDatabases && ragDatabases.length > 0">
+                    <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
+                      <tr>
+                        <th class="px-4 py-2">Nombre</th>
+                        <th class="px-4 py-2">Tipo</th>
+                        <th class="px-4 py-2 text-right"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100" data-bind="foreach: ragDatabases">
+                      <tr class="hover:bg-blue-50/50 group">
+                        <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
+                        <td class="px-4 py-3 text-slate-500" data-bind="text: type"></td>
+                        <td class="px-4 py-3 text-right">
+                           <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editRag"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteRag"></div>
+                            </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                 
+                </div>
+              </div>
+              
+               <!-- Table Section TOOLs -->  
+              <div class="flex flex-col border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+                <!-- Titulo de la tabla y boton añadir -->
+                <div class="bg-white px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                  <h2 class="text-xs font-bold text-slate-700 uppercase">Tools Asignadas</h2>
+                  <button class="text-[10px] font-semibold bg-white border border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 px-2 py-1 rounded transition"
+                    data-bind="click: $root.btnNewTool">
+                    + AÑADIR
+                  </button>
+                </div>
+                <!-- tabla de Tools -->
+                <div class="flex-1 overflow-auto bg-white p-0">
+                   <p class="text-xs text-slate-400 text-center mt-10" data-bind="visible: !tools || tools.length === 0">Sin herramientas asignadas.</p>
+                  <table class="w-full text-left text-xs" data-bind="visible: tools && tools.length > 0">
+                    <thead class="bg-slate-50 text-slate-500 font-medium border-b border-slate-100">
+                      <tr>
+                        <th class="px-4 py-2">Herramienta</th>
+                        <th class="px-4 py-2">Permiso</th>
+                        <th class="px-4 py-2 text-right"></th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100" data-bind="foreach: tools">
+                      <tr class="hover:bg-blue-50/50 group">
+                        <td class="px-4 py-3 font-medium text-slate-700" data-bind="text: name"></td>
+                        <td class="px-4 py-3">
+                          <span class="inline-flex px-1.5 py-0.5 rounded text-[10px] font-medium border"
+                            data-bind="text: permission, css: $root.permissionClass(permission)"></span>
+                        </td>
+                        <td class="px-4 py-3 text-right">
+                           <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div class="icon-edit opacity-60 hover:opacity-100" data-bind="click: $root.editTool"></div>
+                                <div class="icon-trash opacity-60 hover:opacity-100" data-bind="click: $root.deleteTool"></div>
+                            </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> 
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div data-bind="ifnot: selectedMember" class="text-sm text-slate-400 mt-10 text-center italic">
+             Selecciona un miembro para ver su perfil.
+          </div>
+        </section>
+        <!-- #endregion -->
+        
+        
+                
+        <!-- #region =============== MODALS (Unified Style) =============== -->
+        <!-- Estilo base común para modales: Rounded-2xl, Blue accents, clean typography -->
+        
+        <!-- CLIENT MODAL -->
+        <div id="modal-client" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm transition-opacity">
+          <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl scale-100 transform transition-all">
+            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
+              <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-md">
+                 <span class="icon-banca scale-150"></span>
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-slate-900">Cliente</h2>
+                <p class="text-xs text-slate-500">Información básica de la entidad.</p>
+              </div>
+              <button type="button" data-close-client class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+            </div>
+            
+            <div class="p-6">
+              <form id="form-client" class="space-y-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE DEL CLIENTE</label>
+                  <input type="text" name="clientName" required placeholder="Ej. Banco Santander" data-bind="value: nameClient"
+                    class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm" />
+                   <p id="valid-name-client" class="mt-1 text-xs text-red-600 hidden">Campo requerido.</p>
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">DESCRIPCIÓN</label>
+                  <textarea name="clientDescription" rows="3" placeholder="Descripción breve..." data-bind="value: descriptionClient"
+                    class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-blue-500 shadow-sm resize-none"></textarea>
+                </div>
+                <div class="flex justify-end gap-3 pt-4">
+                  <button type="button" data-close-client class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100 border border-transparent">Cancelar</button>
+                  <button type="submit" data-bind="click: $root.saveClient" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 shadow-md transition flex items-center gap-2">
+                    Guardar <span id="save-client-spin" class="icon-spin hidden"></span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        
+        <!-- PROJECT MODAL -->
+        <div id="modal-project" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+           <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+            <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
+              <div class="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-md">
+                 <span class="icon-project scale-150"></span>
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-slate-900">Proyecto</h2>
+                <p class="text-xs text-slate-500">Crear o editar proyecto.</p>
+              </div>
+              <button type="button" data-close-project class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+            </div>
+             <div class="p-6">
+              <form id="form-project" class="space-y-4">
+                <div>
+                  <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE DEL PROYECTO</label>
+                  <input type="text" name="projectName" required placeholder="Ej. Migración Cloud" data-bind="value: nameProject"
+                    class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 shadow-sm" />
+                   <p id="valid-name-project" class="mt-1 text-xs text-red-600 hidden">Campo requerido.</p>
+                </div>
+                <div>
+                   <label class="block text-xs font-bold text-slate-700 mb-1">DESCRIPCIÓN</label>
+                  <textarea name="projectDescription" rows="3" placeholder="Detalles del proyecto..." data-bind="value: descriptionProject"
+                    class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500 shadow-sm resize-none"></textarea>
+                </div>
+                <div class="flex justify-end gap-3 pt-4">
+                  <button type="button" data-close-project class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
+                  <button type="submit" data-bind="click: $root.saveProject" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md transition flex items-center gap-2">
+                    Guardar <span id="save-project-spin" class="icon-spin hidden"></span>
+                  </button>
+                </div>
+              </form>
+            </div>
+           </div>
+        </div>
+
+        <!-- MEMBER CLIENT MODAL -->
+        <div id="modal-member-client" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+           <div class="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
+             <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
+              <div class="w-10 h-10 rounded-lg bg-teal-600 flex items-center justify-center text-white shadow-md">
+                 <span class="icon-member scale-150"></span>
+              </div>
+              <div>
+                <h2 class="text-lg font-bold text-slate-900">Miembro del Cliente</h2>
+                <p class="text-xs text-slate-500">Añadir persona al equipo.</p>
+              </div>
+              <button type="button" data-close-member-client class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+            </div>
+             <div class="p-6">
+               <form id="form-member-client" class="grid grid-cols-2 gap-4">
+                  <div class="col-span-2">
+                     <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE COMPLETO</label>
+                     <input type="text" name="memberNameClient" data-bind="value: nameMemberClient" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-teal-500 shadow-sm" />
+                      <p id="valid-name-member-client" class="mt-1 text-xs text-red-600 hidden">Requerido.</p>
+                  </div>
+                   <div class="col-span-2">
+                     <label class="block text-xs font-bold text-slate-700 mb-1">EMAIL CORPORATIVO</label>
+                     <input type="email" name="memberEmailClient" data-bind="value: emailMemberClient" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-teal-500 shadow-sm" />
+                     <p id="valid-email-member-client" class="mt-1 text-xs text-red-600 hidden">Email inválido.</p>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">ROL</label>
+                    <select name="memberRoleClient" data-bind="value: roleMemberClient" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-teal-500 shadow-sm">
+                        <option value="Admin">Admin</option>
+                        <option value="Editor">Editor</option>
+                        <option value="Viewer">Viewer</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">ESTADO</label>
+                    <select name="memberStatusClient" data-bind="value: estadoMemberClient" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-teal-500 focus:ring-teal-500 shadow-sm">
+                        <option value="Activo">Activo</option>
+                        <option value="Deshabilitado">Deshabilitado</option>
+                    </select>
+                  </div>
+                   <div class="col-span-2 flex justify-end gap-3 pt-4 border-t border-slate-100 mt-2">
+                     <button type="button" data-close-member-client class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
+                    <button type="submit" data-bind="click: saveMemberClient" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-teal-600 hover:bg-teal-700 shadow-md flex items-center gap-2">
+                      Guardar <span id="save-member-client-spin" class="icon-spin hidden"></span>
+                    </button>
+                   </div>
+               </form>
+             </div>
+           </div>
+        </div>
+
+        <!-- MEMBER PROJECT ASSIGN MODAL -->
+        <div id="modal-member" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+           <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+              <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
+                <div class="w-10 h-10 rounded-lg bg-purple-600 flex items-center justify-center text-white shadow-md">
+                   <span class="icon-member scale-150"></span>
+                </div>
+                <div>
+                  <h2 class="text-lg font-bold text-slate-900">Asignar al Proyecto</h2>
+                  <p class="text-xs text-slate-500">Selecciona un miembro existente.</p>
+                </div>
+                <button type="button" data-close-member class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+              </div>
+              <div class="p-6">
+                <form id="form-member" class="space-y-4">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">MIEMBRO</label>
+                    <select name="memberName" data-bind="options: filteredClientMembers(), optionsText: 'name', optionsValue:'_id', value: idMember, optionsCaption: 'Seleccionar...'"
+                        class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-purple-500 focus:ring-purple-500 shadow-sm">
+                    </select>
+                     <p id="valid-name-member" class="mt-1 text-xs text-red-600 hidden">Debes seleccionar uno.</p>
+                  </div>
+                  <div class="flex justify-end gap-3 pt-4">
+                     <button type="button" data-close-member class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
+                    <button type="submit" data-bind="click: saveMember" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-md flex items-center gap-2">
+                      Asignar <span id="save-member-spin" class="icon-spin hidden"></span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+           </div>
+        </div>
+        
+        <!-- GENERIC RAG MODAL (Used for both) -->
+        <div id="modal-rag" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+           <div class="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
+              <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
+                 <div class="w-10 h-10 rounded-lg bg-orange-600 flex items-center justify-center text-white shadow-md">
+                   <span class="icon-rag scale-125"></span>
+                 </div>
+                 <div>
+                    <h2 class="text-lg font-bold text-slate-900">Base RAG</h2>
+                    <p class="text-xs text-slate-500">Configuración de conocimiento.</p>
+                 </div>
+                 <button type="button" data-close-rag class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+              </div>
+              <div class="p-6">
+                <form id="form-rag" class="space-y-4">
+                   <div>
+                      <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE DE LA BASE</label>
+                      <input type="text" name="ragName" data-bind="value: nameRag" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-orange-500 focus:ring-orange-500 shadow-sm" />
+                      <p id="valid-name-rag-miembro" class="text-xs text-red-600 mt-1 hidden">Requerido.</p>
+                   </div>
+                   <div class="grid grid-cols-2 gap-4">
+                      <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">TIPO</label>
+                        <select name="ragType" data-bind="options: ragType, value: tipoRag" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-orange-500 focus:ring-orange-500 shadow-sm"></select>
+                         <p id="valid-type-rag-miembro" class="text-xs text-red-600 mt-1 hidden">Selecciona tipo.</p>
+                      </div>
+                      <div>
+                         <label class="block text-xs font-bold text-slate-700 mb-1">ÚLTIMA ACTUALIZACIÓN</label>
+                         <input type="date" name="ragLastUpdate" data-bind="value: fechaRag" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-orange-500 focus:ring-orange-500 shadow-sm" />
+                         <p id="valid-fecha-rag-miembro" class="text-xs text-red-600 mt-1 hidden">Fecha inválida.</p>
+                      </div>
+                   </div>
+                   <div class="flex justify-end gap-3 pt-4">
+                      <button type="button" data-close-rag class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
+                      <button type="submit" data-bind="click: saveRag" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-orange-600 hover:bg-orange-700 shadow-md flex items-center gap-2">
+                        Guardar <span id="save-rag-member-spin" class="icon-spin hidden"></span>
+                      </button>
+                   </div>
+                </form>
+              </div>
+           </div>
+        </div>
+        
+        <!-- MODAL RAG PROYECTOS (Almost identical to above, kept separate as per logic) -->
+        <div id="modal-rag-proyectos" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+            <div class="w-full max-w-lg overflow-hidden rounded-2xl bg-white shadow-2xl">
+               <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
+                 <div class="w-10 h-10 rounded-lg bg-pink-600 flex items-center justify-center text-white shadow-md">
+                   <span class="icon-rag scale-125"></span>
+                 </div>
+                 <div>
+                    <h2 class="text-lg font-bold text-slate-900">Base RAG (Proyecto)</h2>
+                    <p class="text-xs text-slate-500">Configuración global del proyecto.</p>
+                 </div>
+                 <button type="button" data-close-rag-proyecto class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+              </div>
+              <div class="p-6">
+                 <form id="form-rag-proyectos" class="space-y-4">
+                    <div>
+                      <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE</label>
+                      <input type="text" name="ragNameProyecto" data-bind="value: nameRagProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-pink-500 focus:ring-pink-500 shadow-sm" />
+                       <p id="valid-name-rag-proyecto" class="text-xs text-red-600 mt-1 hidden">Requerido.</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                           <label class="block text-xs font-bold text-slate-700 mb-1">TIPO</label>
+                           <select name="ragTypeProyecto" data-bind="options: ragType, value: tipoRagProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-pink-500 focus:ring-pink-500 shadow-sm"></select>
+                           <p id="valid-type-rag-proyecto" class="text-xs text-red-600 mt-1 hidden">Inválido.</p>
+                        </div>
+                        <div>
+                           <label class="block text-xs font-bold text-slate-700 mb-1">FECHA</label>
+                           <input type="date" name="ragLastUpdateProyecto" data-bind="value: fechaRagProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-pink-500 focus:ring-pink-500 shadow-sm" />
+                           <p id="valid-fecha-rag-proyecto" class="text-xs text-red-600 mt-1 hidden">Inválida.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Drag Area -->
+                    <div id="drop-area" class="mt-4 border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:bg-slate-50 transition">
+                       <input type="file" id="file-input" multiple hidden />
+                       <div id="message-drag" class="text-slate-500 text-xs">
+                          <img class="mx-auto mb-2 opacity-60" id="multiplesFicheros" src="" height="40" width="40" />
+                          <p>Arrastra archivos aquí o haz clic para subir</p>
+                       </div>
+                       <div id="preview-container" class="mt-4 flex flex-wrap gap-2 justify-center"></div>
+                    </div>
+
+                    <div class="flex justify-end gap-3 pt-4">
+                      <button type="button" data-close-rag-proyecto class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
+                      <button type="submit" data-bind="click: saveRagProyectos" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-pink-600 hover:bg-pink-700 shadow-md flex items-center gap-2">
+                        Guardar <span id="save-rag-project-spin" class="icon-spin hidden"></span>
+                      </button>
+                    </div>
+                 </form>
+              </div>
+            </div>
+        </div>
+
+        <!-- TOOL MODAL (Generic) -->
+        <div id="modal-tool" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+            <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+               <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
+                 <div class="w-10 h-10 rounded-lg bg-cyan-600 flex items-center justify-center text-white shadow-md">
+                   <span class="icon-tool scale-125"></span>
+                 </div>
+                 <div>
+                    <h2 class="text-lg font-bold text-slate-900">Herramienta</h2>
+                    <p class="text-xs text-slate-500">Configuración de Tool/API.</p>
+                 </div>
+                 <button type="button" data-close-tool class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+              </div>
+              <div class="p-6">
+                 <form id="form-tool" class="space-y-4">
+                    <div>
+                       <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE DE LA TOOL</label>
+                       <input type="text" name="toolName" data-bind="value: nameTool" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-cyan-500 focus:ring-cyan-500 shadow-sm" />
+                        <p id="valid-name-tool-miembro" class="text-xs text-red-600 mt-1 hidden">Requerido.</p>
+                    </div>
+                    <div>
+                       <label class="block text-xs font-bold text-slate-700 mb-1">TIPO</label>
+                       <input type="text" name="toolType" data-bind="value: tipoTool" placeholder="API / Script..." class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-cyan-500 focus:ring-cyan-500 shadow-sm" />
+                    </div>
+                    <div>
+                       <label class="block text-xs font-bold text-slate-700 mb-1">PERMISO</label>
+                       <select name="toolPermission" data-bind="value: permisoTool" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-cyan-500 focus:ring-cyan-500 shadow-sm">
+                          <option value="">Sin especificar</option>
+                          <option value="Lectura / Escritura">Lectura / Escritura</option>
+                          <option value="Solo lectura">Solo lectura</option>
+                          <option value="Restringido">Restringido</option>
+                       </select>
+                    </div>
+                    <div class="flex justify-end gap-3 pt-4">
+                       <button type="button" data-close-tool class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
+                      <button type="submit" data-bind="click: saveTool" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-cyan-600 hover:bg-cyan-700 shadow-md flex items-center gap-2">
+                        Guardar <span id="save-tool-member-spin" class="icon-spin hidden"></span>
+                      </button>
+                    </div>
+                 </form>
+              </div>
+            </div>
+        </div>
+
+        <!-- TOOL PROYECTO MODAL -->
+        <div id="modal-tool-proyecto" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+            <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+               <div class="px-6 py-5 border-b border-slate-100 bg-slate-50 flex items-center gap-4">
+                 <div class="w-10 h-10 rounded-lg bg-emerald-600 flex items-center justify-center text-white shadow-md">
+                   <span class="icon-tool scale-125"></span>
+                 </div>
+                 <div>
+                    <h2 class="text-lg font-bold text-slate-900">Herramienta (Proyecto)</h2>
+                    <p class="text-xs text-slate-500">Configuración global.</p>
+                 </div>
+                 <button type="button" data-close-tool-proyecto class="ml-auto text-slate-400 hover:text-slate-600 text-2xl leading-none">&times;</button>
+              </div>
+              <div class="p-6">
+                 <form id="form-tool-proyecto" class="space-y-4">
+                    <div>
+                       <label class="block text-xs font-bold text-slate-700 mb-1">NOMBRE</label>
+                       <input type="text" name="toolNameProyecto" data-bind="value: nameToolProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-emerald-500 shadow-sm" />
+                       <p id="valid-name-tool-proyecto" class="text-xs text-red-600 mt-1 hidden">Requerido.</p>
+                    </div>
+                    <div>
+                       <label class="block text-xs font-bold text-slate-700 mb-1">TIPO</label>
+                       <input type="text" name="toolTypeProyecto" data-bind="value: tipoToolProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-emerald-500 shadow-sm" />
+                    </div>
+                    <div>
+                       <label class="block text-xs font-bold text-slate-700 mb-1">PERMISO</label>
+                       <select name="toolPermissionProyecto" data-bind="value: permisoToolProyecto" class="w-full rounded-lg border-slate-300 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-emerald-500 shadow-sm">
+                          <option value="">Sin especificar</option>
+                          <option value="Lectura / Escritura">Lectura / Escritura</option>
+                          <option value="Solo lectura">Solo lectura</option>
+                          <option value="Restringido">Restringido</option>
+                       </select>
+                    </div>
+                     <div class="flex justify-end gap-3 pt-4">
+                       <button type="button" data-close-tool-proyecto class="px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-100">Cancelar</button>
+                      <button type="submit" data-bind="click: saveToolProject" class="px-4 py-2 rounded-lg text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 shadow-md flex items-center gap-2">
+                        Guardar <span id="save-tool-project-spin" class="icon-spin hidden"></span>
+                      </button>
+                    </div>
+                 </form>
+              </div>
+            </div>
+        </div>
+
+        <!-- DELETE MODAL -->
+        <div id="modal-borrar" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
+           <div class="w-full max-w-sm overflow-hidden rounded-2xl bg-white shadow-2xl p-6 text-center">
+              <div class="w-16 h-16 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-4">
+                 <span class="icon-borrar scale-110"></span>
+              </div>
+              <h2 class="text-lg font-bold text-slate-900 mb-2">¿Eliminar registro?</h2>
+              <p class="text-sm text-slate-500 mb-6">Esta acción no se puede deshacer y borrará permanentemente los datos asociados.</p>
+              
+              <div class="flex justify-center gap-3">
+                 <button type="button" data-close-borrar class="px-5 py-2.5 rounded-lg border border-slate-200 text-slate-600 font-medium hover:bg-slate-50">Cancelar</button>
+                 <button type="button" data-bind="click: btnDelete" class="px-5 py-2.5 rounded-lg bg-red-600 text-white font-bold hover:bg-red-700 shadow-md flex items-center gap-2">
+                   Eliminar <span id="borrar-spin" class="icon-spin hidden"></span>
+                 </button>
+              </div>
+           </div>
+        </div>
+        
+        <!-- #endregion -->
+          
+      </main>
+
+    </div>
+    <!-- #endregion -->
+
+  </div>
+
+  <!-- #region SCRIPT -->
+  <script>
+    //#region BOTON VOLVER ATRAS MIEMBRO
+    const iconSVGBack = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M15 18l-6-6 6-6" />
+    </svg> <span>Volver Atrás</span>`.trim();
+    
+    const btnBackMembers = document.getElementById('btn-back-members');
+    if (btnBackMembers) btnBackMembers.innerHTML = iconSVGBack;
+    
+    const btnBackClients = document.getElementById('btn-back-clients');
+    if (btnBackClients) btnBackClients.innerHTML = iconSVGBack;
+    
+    const btnBackProjectRag = document.getElementById('btn-back-project-rag');
+    if (btnBackProjectRag) btnBackProjectRag.innerHTML = iconSVGBack;
+    
+    // ===============================
+    // BOTONES "VOLVER ATRÁS" EVENTOS CLICK
+    // ===============================
+
+    // IDs de los botones que vuelven al menú 1
+    const backButtonsIds = [
+      'btn-back-members',
+      'btn-back-clients',
+      'btn-back-project-rag'
+    ];
+
+    // Asignar evento a todos
+    backButtonsIds.forEach(id => {
+      const btn = document.getElementById(id);
+
+      if (btn) {
+        btn.addEventListener('click', () => {
+          mainTabs.showView('view-detalle-cliente'); // volver al primer menú
+        });
+      }
+    });
+    
+    //#endregion
+
+
+    //#region ROUTER GENÉRICO DE TABS
+    function setupTabs(config) {
+      const buttons = document.querySelectorAll(config.buttonSelector);
+
+      function hideAllViews() {
+        if (config.viewsMap) {
+          Object.values(config.viewsMap).forEach(view => {
+            if (view) view.classList.add('hidden');
+          });
+        } else if (config.viewSelector) {
+          document.querySelectorAll(config.viewSelector).forEach(view => {
+            view.classList.add('hidden');
+          });
+        }
+      }
+
+      function resetButtons() {
+        if (!config.activeClasses?.length) return;
+
+        buttons.forEach(btn => {
+          btn.classList.remove(...config.activeClasses);
+        });
+      }
+
+      function showView(viewKey) {
+        hideAllViews();
+
+        let targetView = null;
+
+        if (config.viewsMap) {
+          targetView = config.viewsMap[viewKey];
+        } else {
+          targetView = document.getElementById(viewKey);
+        }
+
+        if (targetView) {
+          targetView.classList.remove('hidden');
+        }
+
+        resetButtons();
+
+        const activeButton = [...buttons].find(
+          btn => btn.getAttribute('data-view') === viewKey
+        );
+
+        if (activeButton && config.activeClasses?.length) {
+          activeButton.classList.add(...config.activeClasses);
+        }
+      }
+
+      buttons.forEach(button => {
+        button.addEventListener('click', () => {
+          const viewKey = button.getAttribute('data-view');
+          showView(viewKey);
+        });
+      });
+
+      if (config.initialView) {
+        showView(config.initialView);
+      }
+
+      return { showView };
+    }
+    //#endregion
+
+
+
+
+    //#region MENU PRINCIPAL
+    const mainTabs = setupTabs({
+      buttonSelector: '.menu-btn',
+      viewSelector: '.view-section',
+      initialView: 'view-detalle-cliente',
+      activeClasses: ['text-blue-700', 'bg-blue-50']
+    });
+    //#endregion
+    
+    //#region SUB-TABS MENU 1 eventos botones AÑADIR
+    // ===============================
+      // CONTROL GENÉRICO DE MODALES
+      // ===============================
+      function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.remove('hidden');
+      }
+
+      function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) modal.classList.add('hidden');
+      }
+
+
+      // ===============================
+      // BOTONES "+ AÑADIR" (Menu 1)
+      // ===============================
+
+      // Botón añadir PROYECTO
+      document.querySelectorAll('[data-bind="click: $root.btnNewProject"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          openModal('modal-project');
+        });
+      });
+
+      // Botón añadir MIEMBRO CLIENTE
+      document.querySelectorAll('[data-bind="click: $root.btnNewClientMember"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          openModal('modal-member-client');
+        });
+      });
+
+
+      // ===============================
+      // BOTONES CERRAR (X o Cancelar)
+      // ===============================
+
+      // Modal PROJECT
+      document.querySelectorAll('[data-close-project]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          closeModal('modal-project');
+        });
+      });
+
+      // Modal MEMBER CLIENT
+      document.querySelectorAll('[data-close-member-client]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          closeModal('modal-member-client');
+        });
+      });
+
+
+      // ===============================
+      // CERRAR AL HACER CLICK FUERA (opcional pero recomendado)
+      // ===============================
+      ['modal-project', 'modal-member-client'].forEach(modalId => {
+        const modal = document.getElementById(modalId);
+
+        if (modal) {
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+              closeModal(modalId);
+            }
+          });
+        }
+      });
+
+
+
+    //#endregion
+
+    //#region SUB-TABS MENU 2
+    const projectDetailTabs = setupTabs({
+      buttonSelector: '.top-tab-detalle-proyecto',
+      initialView: 'proyectomiembros',
+      viewsMap: {
+        proyectomiembros: document.getElementById('view-detalle-proyecto-miembros'),
+        proyectoragtool: document.getElementById('view-detalle-proyecto-ragtool')
+      },
+      activeClasses: ['text-blue-700', 'border-blue-500']
+    });
+
+    // ===============================
+    // MODAL: ASIGNAR MIEMBRO (Menu 2)
+    // ===============================
+    
+    // Abrir modal
+    const btnAsignarMiembro = document.querySelector('[data-bind="click: btnNewMember"]');
+    const modalMember = document.getElementById('modal-member');
+    
+    if (btnAsignarMiembro && modalMember) {
+      btnAsignarMiembro.addEventListener('click', () => {
+        modalMember.classList.remove('hidden');
+      });
+    }
+    
+    // Cerrar modal (botones dentro del modal)
+    const closeButtons = document.querySelectorAll('#modal-member [data-close-member]');
+    
+    closeButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        modalMember.classList.add('hidden');
+      });
+    });
+
+    // Cerrar al hacer click fuera del contenido (overlay)
+    if (modalMember) {
+      modalMember.addEventListener('click', (e) => {
+        if (e.target === modalMember) {
+          modalMember.classList.add('hidden');
+        }
+      });
+    }
+    
+    
+    //#endregion
+
+    
+    //#region SUB-TABS MENU 3 (si hubiera más niveles, se seguiría el mismo patrón)
+    // ===============================
+      // MODALES MENU 3 (RAG + TOOL)
+      // ===============================
+
+      const modalRag = document.getElementById('modal-rag');
+      const modalTool = document.getElementById('modal-tool');
+
+      // BOTONES "+ AÑADIR"
+      // (usamos data-bind porque es lo que tienes en el HTML)
+
+      document.querySelectorAll('[data-bind="click: $root.btnNewRag"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (modalRag) modalRag.classList.remove('hidden');
+        });
+      });
+
+      document.querySelectorAll('[data-bind="click: $root.btnNewTool"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (modalTool) modalTool.classList.remove('hidden');
+        });
+      });
+
+
+      // ===============================
+      // CERRAR MODAL RAG
+      // ===============================
+      document.querySelectorAll('#modal-rag [data-close-rag]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (modalRag) modalRag.classList.add('hidden');
+        });
+      });
+
+      // Click fuera
+      if (modalRag) {
+        modalRag.addEventListener('click', (e) => {
+          if (e.target === modalRag) {
+            modalRag.classList.add('hidden');
+          }
+        });
+      }
+
+
+      // ===============================
+      // CERRAR MODAL TOOL
+      // ===============================
+      document.querySelectorAll('#modal-tool [data-close-tool]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (modalTool) modalTool.classList.add('hidden');
+        });
+      });
+
+      // Click fuera
+      if (modalTool) {
+        modalTool.addEventListener('click', (e) => {
+          if (e.target === modalTool) {
+            modalTool.classList.add('hidden');
+          }
+        });
+      }
+
+    //#endregion
+
+    //#region EJEMPLOS DE USO DESDE OTRO CÓDIGO
+    // mainTabs.showView('view-miembros');
+    // projectDetailTabs.showView('proyectoragtool');
+    //#endregion
+  </script>
+  <!-- #endregion -->
+
+</body>
+</html>

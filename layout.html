@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- #region FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- #endregion -->
+
+    <title>Layout</title>
+
+    <!-- #region STYLES -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        :root{
+          --detalle_cli_resto1: 80.5px;
+          --detalle_cli_resto2: 35.4px;
+          --detalle_cli_resto3: 35.5px;
+          --miembro-pro-resto1: 41.3px;
+          --miembro-pro-resto2: 64.5px;
+          --miembro-pro-resto3: 34.6px;
+          --miembro-pro-resto4: 33.3px;
+          --ragtool_proy-resto1: 31.3px;
+          --ragtool_proy_resto2: 44px;
+          --ragtool-proy_resto3: 36px;
+          --ragtool-member-resto1: 44px;
+          --ragtool-member-resto2: 40.5px;
+          --ragtool-member-resto3: 0px;       
+        }
+
+        .sidebar-section-content {
+          overflow: hidden;
+          transition: max-height 0.25s ease, opacity 0.25s ease, margin-top 0.25s ease;
+          max-height: 500px;
+          opacity: 1;
+        }
+
+        .sidebar-section-content.is-collapsed {
+          max-height: 0;
+          opacity: 0;
+          margin-top: 0 !important;
+        }
+
+        .sidebar-chevron.is-collapsed {
+          transform: rotate(-90deg);
+        }
+    </style>
+    <!-- #endregion -->
+</head>
+
+<body class="bg-gray-50 text-slate-800 antialiased h-screen overflow-hidden selection:bg-blue-100 selection:text-blue-900">
+
+  <div class="h-full flex flex-col">
+
+    <!-- #region NAVBAR -->
+    <header class="bg-white border-b border-gray-200 z-20 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+
+          <!-- HAMBURGER LEFT (mobile) -->
+          <div class="md:hidden">
+            <button id="mobile-sidebar-button" class="p-2 rounded-md text-slate-600 hover:bg-gray-100" aria-label="Abrir sidebar">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- LOGO (desktop) -->
+          <div class="hidden md:flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-blue-900 flex items-center justify-center text-white text-sm font-bold shadow-md">
+              MM
+            </div>
+            <div>
+              <div class="text-sm font-bold tracking-tight text-slate-900">MirrorMind Portal</div>
+              <div class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Panel Maestro</div>
+            </div>
+          </div>
+
+          <!-- MENU DESKTOP -->
+          <nav class="hidden md:flex gap-2 text-sm font-medium">
+            <button class="px-4 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 1</button>
+            <button class="px-4 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 2</button>
+            <button class="px-4 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 3</button>
+          </nav>
+
+          <!-- MENU MOBILE RIGHT -->
+          <div class="relative md:hidden flex items-center gap-2">
+            <!-- DROPDOWN PRINCIPAL -->
+            <div class="relative">
+              <button id="mobile-menu-button" class="inline-flex items-center gap-2 px-3 py-2 rounded-md text-slate-600 hover:text-blue-700 hover:bg-blue-50 border border-gray-200 text-sm font-medium" aria-label="Abrir menú desplegable">
+                <span>Menu 1</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <div id="mobile-dropdown-menu" class="hidden absolute right-0 top-full mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
+                <button class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-blue-700 hover:bg-blue-50 border-b border-gray-100">Menu 2</button>
+                <button class="block w-full text-left px-4 py-3 text-sm text-slate-600 hover:text-blue-700 hover:bg-blue-50">Menu 3</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- #endregion -->
+
+    <!-- #region OVERLAY MOBILE -->
+    <div id="mobile-sidebar-overlay" class="fixed inset-0 bg-black/40 z-30 hidden md:hidden"></div>
+    <!-- #endregion -->
+
+    <!-- #region SIDEBAR MOBILE -->
+    <aside id="mobile-sidebar" class="fixed top-0 left-0 z-40 h-full w-72 bg-white border-r border-gray-200 shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden flex flex-col overflow-hidden">
+      <div class="p-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+        <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Lista de Clientes</h2>
+        <button id="mobile-sidebar-close" class="p-2 rounded-md text-slate-500 hover:bg-gray-100" aria-label="Cerrar sidebar">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div id="mobile-sidebar-content" class="flex-1 flex flex-col overflow-hidden"></div>
+    </aside>
+    <!-- #endregion -->
+
+    <!-- #region TEMPLATE SIDEBAR -->
+    <template id="sidebar-content-template">
+      <!-- Header -->
+      <div class="p-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
+        <h2 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Navegación</h2>
+        <button class="text-xs px-3 py-1.5 rounded-md bg-blue-600 text-white hover:bg-blue-700">+ Nuevo</button>
+      </div>
+
+      <!-- Sección Principal -->
+      <div class="p-2 border-b border-gray-100">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="true">
+          <span>General</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Dashboard</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Menú</button>
+        </div>
+      </div>
+
+      <!-- Sección Clientes -->
+      <div class="p-2 border-b border-gray-100">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="false">
+          <span>Clientes</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200 is-collapsed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1 is-collapsed">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Lista de Clientes</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Nuevo Cliente</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Segmentación</button>
+        </div>
+      </div>
+
+      <!-- Sección Proyectos -->
+      <div class="p-2 border-b border-gray-100">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="false">
+          <span>Proyectos</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200 is-collapsed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1 is-collapsed">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Listado de Proyectos</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Nuevo Proyecto</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">RAG Tool</button>
+        </div>
+      </div>
+
+      <!-- Sección Equipo -->
+      <div class="p-2 border-b border-gray-100">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="false">
+          <span>Equipo</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200 is-collapsed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1 is-collapsed">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Miembros</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Roles y permisos</button>
+        </div>
+      </div>
+
+      <!-- Sección Configuración -->
+      <div class="p-2">
+        <button type="button" class="sidebar-section-toggle w-full flex items-center justify-between text-sm font-bold text-slate-500 uppercase px-2 py-2 rounded-md hover:bg-slate-50" aria-expanded="false">
+          <span>Configuración</span>
+          <svg class="sidebar-chevron h-4 w-4 transition-transform duration-200 is-collapsed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="sidebar-section-content mt-1 space-y-1 is-collapsed">
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Ajustes</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Integraciones</button>
+          <button class="w-full text-left text-sm p-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200">Logs</button>
+        </div>
+      </div>
+    </template>
+    <!-- #endregion -->
+
+    <!-- #region LAYOUT -->
+    <div class="flex flex-1 max-w-7xl mx-auto w-full px-1 py-1 gap-1 overflow-hidden">
+
+      <!-- SIDEBAR DESKTOP -->
+      <aside class="hidden md:flex w-72 bg-white border rounded-xl">
+        <div id="desktop-sidebar-content" class="flex-1"></div>
+      </aside>
+       
+      <!-- MAIN -->
+      <main class="flex-1 bg-white rounded-xl border p-6">
+        
+      </main>
+
+    </div>
+    <!-- #endregion -->
+
+  </div>
+
+  <!-- #region SCRIPT -->
+  <script>
+    const mobileSidebarButton = document.getElementById('mobile-sidebar-button');
+    const mobileSidebar = document.getElementById('mobile-sidebar');
+    const mobileSidebarOverlay = document.getElementById('mobile-sidebar-overlay');
+    const mobileSidebarClose = document.getElementById('mobile-sidebar-close');
+    const mobileSidebarContent = document.getElementById('mobile-sidebar-content');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileDropdownMenu = document.getElementById('mobile-dropdown-menu');
+    const sidebarTemplate = document.getElementById('sidebar-content-template');
+    const desktopSidebarContent = document.getElementById('desktop-sidebar-content');
+
+    function renderSharedSidebarContent() {
+      desktopSidebarContent.innerHTML = '';
+      mobileSidebarContent.innerHTML = '';
+      desktopSidebarContent.appendChild(sidebarTemplate.content.cloneNode(true));
+      mobileSidebarContent.appendChild(sidebarTemplate.content.cloneNode(true));
+    }
+
+    function openMobileSidebar() {
+      mobileSidebar.classList.remove('-translate-x-full');
+      mobileSidebarOverlay.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+    }
+    
+    function closeMobileSidebar() {
+      mobileSidebar.classList.add('-translate-x-full');
+      mobileSidebarOverlay.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+    }
+     
+    function toggleMobileDropdownMenu() {
+      mobileDropdownMenu.classList.toggle('hidden');
+    }
+
+    function closeMobileDropdownMenu() {
+      mobileDropdownMenu.classList.add('hidden');
+    }
+
+    renderSharedSidebarContent();
+
+    function initSidebarCollapsibles(container) {
+      const toggles = container.querySelectorAll('.sidebar-section-toggle');
+
+      toggles.forEach((toggle) => {
+        const content = toggle.nextElementSibling;
+        const chevron = toggle.querySelector('.sidebar-chevron');
+
+        toggle.addEventListener('click', () => {
+          const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!isExpanded));
+          content.classList.toggle('is-collapsed');
+          chevron.classList.toggle('is-collapsed');
+        });
+      });
+    }
+
+    initSidebarCollapsibles(desktopSidebarContent);
+    initSidebarCollapsibles(mobileSidebarContent);
+
+    mobileSidebarButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      openMobileSidebar();
+    });
+
+    mobileSidebarClose.addEventListener('click', closeMobileSidebar);
+    mobileSidebarOverlay.addEventListener('click', closeMobileSidebar);
+
+    mobileMenuButton.addEventListener('click', (event) => {
+      event.stopPropagation();
+      toggleMobileDropdownMenu();
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!mobileDropdownMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+        closeMobileDropdownMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) {
+        closeMobileDropdownMenu();
+        closeMobileSidebar();
+      }
+    });
+  </script>
+  <!-- #endregion -->
+
+</body>
+</html>
